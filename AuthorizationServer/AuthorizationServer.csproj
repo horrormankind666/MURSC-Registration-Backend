@@ -167,9 +167,21 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\label.png" />
+    <Content Include="Content\Style\Font.css">
+      <DependentUpon>Font.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Style\Font.min.css">
+      <DependentUpon>Font.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Style\Site.css">
+      <DependentUpon>Site.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Style\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Fonts\pridi-bold.ttf" />
     <Content Include="Fonts\pridi-extralight.ttf" />
     <Content Include="Fonts\pridi-light.ttf" />
@@ -195,6 +207,12 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Style\Font.scss" />
+    <Content Include="Content\Style\Site.scss" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

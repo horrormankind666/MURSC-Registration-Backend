@@ -1,14 +1,11 @@
 ﻿@if (Request.IsAuthenticated)
 {
-    <ul>
-        <li class="navbar-text">Hello, @ViewBag.Message</li>
-        <li>@Html.ActionLink("Sign out", "SignOut", "Authen")</li>
-    </ul>
-}
-else
-{
-    <ul>
-        <li class="navbar-text">Hello, @ViewBag.Message</li>
-        <li>@Html.ActionLink("Sign in", "SignIn", "Authen", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <form id="continue_frm" action="http://localhost:4200/silent-renew.html" method="post">
+        <a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.getElementById['continue_frm'].submit()"><div>Continue as @User.Identity.Name</div></a>
+        <input type="hidden" name="id_token" value="@ViewBag.IdToken" />
+    </form>        
+    /*
+    @ViewBag.Message
+    @Html.ActionLink("Sign out", "SignOut", "Authen")
+    */
 }
