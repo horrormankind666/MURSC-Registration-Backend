@@ -2,7 +2,7 @@
 {
     <form id="continue_frm" action="http://localhost:4200/silent-renew.html" method="post">
         <a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.getElementById['continue_frm'].submit()"><div>Continue as @User.Identity.Name</div></a>
-        <input type="hidden" name="id_token" value="@ViewBag.IdToken" />
+        <input type="hidden" name="token" value="@ViewBag.Token" />
     </form>        
     /*
     @ViewBag.Message

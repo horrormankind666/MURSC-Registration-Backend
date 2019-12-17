@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๒/๑๒/๒๕๖๒>
-Modify date : <๑๖/๑๒/๒๕๖๒>
+Modify date : <๑๗/๑๒/๒๕๖๒>
 Description : <>
 =============================================
 */
@@ -17,7 +17,7 @@ namespace AuthorizationServer.Controllers
     {       
         public ActionResult Index()
         {
-            string idToken = String.Empty;
+            string token = String.Empty;
 
             if (!Request.IsAuthenticated)
                 Response.Redirect(Url.Action("SignIn", "Authen"));
@@ -26,19 +26,19 @@ namespace AuthorizationServer.Controllers
                 Claims c = new Claims();
                 dynamic u = c.UserInfo();
 
-                idToken = u.openID.id_token;
+                token = u.openID.id_token;
 
-                char[] idTokenArray = idToken.ToCharArray();
-                Array.Reverse(idTokenArray);
-                idToken = new string(idTokenArray);
+                char[] tokenArray = token.ToCharArray();
+                Array.Reverse(tokenArray);
+                token = new string(tokenArray);
 
-                byte[] encDataByte = new byte[idToken.Length];
-                encDataByte = Encoding.UTF8.GetBytes(idToken);
-                idToken = Convert.ToBase64String(encDataByte);
+                byte[] encDataByte = new byte[token.Length];
+                encDataByte = Encoding.UTF8.GetBytes(token);
+                token = Convert.ToBase64String(encDataByte);
             }
 
             ViewBag.Title = "Mahidol University Authorization Server";
-            ViewBag.IdToken = idToken;
+            ViewBag.Token = token;
 
             return View();
         }
