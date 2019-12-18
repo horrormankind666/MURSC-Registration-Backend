@@ -1,0 +1,14 @@
+D:\Programming\MURSC\OAuth\ResourceServer\bin\Debug\netcoreapp2.2\ResourceServer.deps.json
+D:\Programming\MURSC\OAuth\ResourceServer\bin\Debug\netcoreapp2.2\ResourceServer.runtimeconfig.json
+D:\Programming\MURSC\OAuth\ResourceServer\bin\Debug\netcoreapp2.2\ResourceServer.runtimeconfig.dev.json
+D:\Programming\MURSC\OAuth\ResourceServer\bin\Debug\netcoreapp2.2\ResourceServer.dll
+D:\Programming\MURSC\OAuth\ResourceServer\bin\Debug\netcoreapp2.2\ResourceServer.pdb
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.csprojAssemblyReference.cache
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.csproj.CoreCompileInputs.cache
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.RazorAssemblyInfo.cache
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.RazorAssemblyInfo.cs
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.AssemblyInfoInputs.cache
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.AssemblyInfo.cs
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.RazorTargetAssemblyInfo.cache
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.dll
+D:\Programming\MURSC\OAuth\ResourceServer\obj\Debug\netcoreapp2.2\ResourceServer.pdb

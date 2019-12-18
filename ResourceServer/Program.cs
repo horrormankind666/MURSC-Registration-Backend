@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*
+=============================================
+Author      : <ยุทธภูมิ ตวันนา>
+Create date : <๑๘/๑๒/๒๕๖๒>
+Modify date : <๑๘/๑๒/๒๕๖๒>
+Description : <>
+=============================================
+*/
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ResourceServer
 {
@@ -18,7 +20,6 @@ namespace ResourceServer
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
     }
 }
