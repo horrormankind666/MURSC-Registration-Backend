@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๑๘/๑๒/๒๕๖๒>
+Modify date : <๒๐/๑๒/๒๕๖๒>
 Description : <>
 =============================================
 */
@@ -94,6 +94,13 @@ namespace ResourceServer
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder =>
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+            );
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
