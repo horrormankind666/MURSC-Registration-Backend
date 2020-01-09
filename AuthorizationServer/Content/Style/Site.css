@@ -238,7 +238,6 @@ html, body {
 
 a,
 a:link,
-a:visited,
 a:active,
 a:hover,
 a:focus {
@@ -246,8 +245,7 @@ a:focus {
   outline: none; }
 
 a:link.link,
-a:focus.link,
-a:visited.link {
+a:focus.link {
   color: #000000;
   text-decoration: underline; }
 
