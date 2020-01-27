@@ -3,7 +3,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๒/๑๒/๒๕๖๒>
-Modify date : <๑๖/๑๒/๒๕๖๒>
+Modify date : <๒๑/๐๑/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -268,7 +268,7 @@ a:hover.link {
 
 .btn {
   display: block;
-  border-radius: 50px; }
+  border-radius: 5rem; }
 
 .btn-primary {
   border-color: none;
@@ -302,7 +302,8 @@ main footer .container {
 
 main header .container {
   height: inherit;
-  padding: 0px 10px 0px 10px; }
+  padding-left: 1rem;
+  padding-right: 1rem; }
 
 main header .container .navbar-header {
   width: inherit;
@@ -332,7 +333,7 @@ main footer .container {
   margin-right: auto; }
 
 main section .container {
-  padding: 20px 10px 20px 10px; }
+  padding: 1rem; }
 
 main section .container a.btn {
   display: table;
@@ -343,12 +344,18 @@ main section .container a.btn {
 main section .container a.btn div {
   display: table-cell;
   vertical-align: middle;
-  padding: 10px 20px 10px 20px;
+  padding-top: 10px;
+  padding-right: 1rem;
+  padding-bottom: 10px;
+  padding-left: 1rem;
   line-height: 24px; }
 
 main footer {
   border-top: 1px solid lightgrey; }
 
 main footer .container {
-  padding: 10px 10px 10px 10px; }
+  padding-top: 10px;
+  padding-right: 1rem;
+  padding-bottom: 10px;
+  padding-left: 1rem; }
 
