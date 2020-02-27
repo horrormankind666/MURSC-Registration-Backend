@@ -329,6 +329,7 @@ main header .navbar-header .panel-table .panel-col.systeminfo {
 main section .container,
 main footer .container {
   max-width: 450px;
+  min-width: 239px;
   margin-left: auto;
   margin-right: auto; }
 
