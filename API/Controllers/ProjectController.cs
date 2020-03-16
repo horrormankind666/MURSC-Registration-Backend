@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๐๒/๐๓/๒๕๖๓>
+Modify date : <๑๖/๐๓/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -47,14 +47,21 @@ namespace API.Controllers
                 list1.Add(new
                 {
                     transProjectID = dr["transProjectID"],
+                    logo = dr["logo"],
                     projectNameTH = dr["projectNameTH"],
                     projectNameEN = dr["projectNameEN"],
+                    detail = dr["detail"],
                     examDate = dr["examDate"],
+                    examDates = dr["examDates"],
                     regisStartDate = dr["regisStartDate"],
+                    regisStartDates = dr["regisStartDates"],
                     regisEndDate = dr["regisEndDate"],
+                    regisEndDates = dr["regisEndDates"],
                     lastPaymentDate = dr["lastPaymentDate"],
+                    lastPaymentDates = dr["lastPaymentDates"],
                     maximumSeat = dr["maximumSeat"],
-                    location = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null)
+                    registrationStatus = dr["registrationStatus"],
+                    location = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null)                    
                 });
             }
 
