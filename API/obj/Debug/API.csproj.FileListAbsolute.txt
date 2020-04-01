@@ -63,8 +63,8 @@ D:\Programming\MURSC\Server\API\bin\System.Net.Http.Formatting.xml
 D:\Programming\MURSC\Server\API\bin\System.Web.Http.xml
 D:\Programming\MURSC\Server\API\bin\System.Web.Http.Cors.xml
 D:\Programming\MURSC\Server\API\bin\System.Web.Http.WebHost.xml
-D:\Programming\MURSC\Server\API\obj\Debug\API.csprojAssemblyReference.cache
 D:\Programming\MURSC\Server\API\obj\Debug\API.csproj.CoreCompileInputs.cache
 D:\Programming\MURSC\Server\API\obj\Debug\API.csproj.CopyComplete
 D:\Programming\MURSC\Server\API\obj\Debug\API.dll
 D:\Programming\MURSC\Server\API\obj\Debug\API.pdb
+D:\Programming\MURSC\Server\API\obj\Debug\API.csprojAssemblyReference.cache

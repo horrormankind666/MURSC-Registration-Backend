@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๑๖/๐๓/๒๕๖๓>
+Modify date : <๒๖/๐๓/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -60,6 +60,10 @@ namespace API.Controllers
                     lastPaymentDate = dr["lastPaymentDate"],
                     lastPaymentDates = dr["lastPaymentDates"],
                     maximumSeat = dr["maximumSeat"],
+                    contactNameTH = dr["contactNameTH"],
+                    contactNameEN = dr["contactNameEN"],
+                    contactEmail = dr["contactEmail"],
+                    contactPhone = dr["contactPhone"],
                     registrationStatus = dr["registrationStatus"],
                     location = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null)                    
                 });
@@ -67,6 +71,5 @@ namespace API.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list1.Union(list2).ToList()));
         }
-
     }
 }
