@@ -1,0 +1,11 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <form id="continue_frm" name="continue_frm" action="http://localhost:4200/silent-refresh.html" method="get">
+        <a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['continue_frm'].submit()"><div>Continue as @User.Identity.Name</div></a>
+        <input type="hidden" name="token" value="@ViewBag.Token" />
+    </form>        
+    /*
+    @ViewBag.Message
+    @Html.ActionLink("Sign out", "SignOut", "Authen")
+    */
+}
