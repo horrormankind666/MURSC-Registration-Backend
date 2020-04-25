@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๒๖/๐๓/๒๕๖๓>
+Modify date : <๒๑/๐๔/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -60,6 +60,7 @@ namespace API.Controllers
                     lastPaymentDate = dr["lastPaymentDate"],
                     lastPaymentDates = dr["lastPaymentDates"],
                     maximumSeat = dr["maximumSeat"],
+                    minimumFee = dr["minimumFee"],
                     contactNameTH = dr["contactNameTH"],
                     contactNameEN = dr["contactNameEN"],
                     contactEmail = dr["contactEmail"],

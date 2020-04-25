@@ -15,6 +15,7 @@ using System.Web.Mvc;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.Owin.Security.WsFederation;
 
 namespace AuthorizationServer.Controllers
 {
@@ -243,7 +244,7 @@ namespace AuthorizationServer.Controllers
             return userInfoResult;
         }
     }
-
+    
     public class AuthenController : Controller
     {
         [Route("UserInfo")]

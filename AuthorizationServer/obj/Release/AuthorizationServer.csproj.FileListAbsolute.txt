@@ -106,3 +106,14 @@ D:\Programming\MURSC\Server\AuthorizationServer\obj\Release\AuthorizationServer.
 D:\Programming\MURSC\Server\AuthorizationServer\obj\Release\AuthorizationServer.csproj.CopyComplete
 D:\Programming\MURSC\Server\AuthorizationServer\obj\Release\AuthorizationServer.dll
 D:\Programming\MURSC\Server\AuthorizationServer\obj\Release\AuthorizationServer.pdb
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Protocols.WsFederation.dll
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Tokens.Saml.dll
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Xml.dll
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.Owin.Security.WsFederation.dll
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Protocols.WsFederation.pdb
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Protocols.WsFederation.xml
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Tokens.Saml.pdb
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Tokens.Saml.xml
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Xml.pdb
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.IdentityModel.Xml.xml
+D:\Programming\MURSC\Server\AuthorizationServer\bin\Microsoft.Owin.Security.WsFederation.xml

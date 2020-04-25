@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๒๐/๑๒/๒๕๖๒>
+Modify date : <๒๒/๑๒/๒๕๖๒>
 Description : <>
 =============================================
 */
@@ -39,6 +39,9 @@ namespace ResourceServer
                 {
                     options.Authority = "https://devadfs.mahidol.ac.th/adfs";
                     options.Audience = "e43a62d7-381a-453d-841c-2ec769f9cc8e";
+                    //options.Authority = "https://idp.mahidol.ac.th/adfs";
+                    //options.Audience = "ea4f5ba7-b59b-4673-84e5-429670b09081";
+
                     options.RequireHttpsMetadata = false;
                     options.Events = new JwtBearerEvents
                     {

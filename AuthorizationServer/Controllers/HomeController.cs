@@ -22,7 +22,8 @@ namespace AuthorizationServer.Controllers
             if (!Request.IsAuthenticated)
                 Response.Redirect(Url.Action("SignIn", "Authen"));
             else
-            {
+            {           
+            
                 Claims c = new Claims();
                 dynamic u = c.UserInfo();
 
@@ -34,7 +35,7 @@ namespace AuthorizationServer.Controllers
 
                 byte[] encDataByte = new byte[token.Length];
                 encDataByte = Encoding.UTF8.GetBytes(token);
-                token = Convert.ToBase64String(encDataByte);
+                token = Convert.ToBase64String(encDataByte);            
             }
 
             ViewBag.Title = "Mahidol University Authorization Server";
