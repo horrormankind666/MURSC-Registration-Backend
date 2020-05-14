@@ -91,7 +91,7 @@
   <ItemGroup>
     <Compile Include="App_Code\Util.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\TransProjectController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
