@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๐๒/๐๓/๒๕๖๓>
+Modify date : <๑๔/๐๕/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -55,6 +55,7 @@ namespace API
         }
 
         public static string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        public static string infinityConnectionString = ConfigurationManager.ConnectionStrings["infinityConnectionString"].ConnectionString;
 
         public static SqlConnection ConnectDB(string connString)
         {

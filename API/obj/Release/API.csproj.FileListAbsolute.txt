@@ -68,3 +68,5 @@ D:\Programming\MURSC\Server\API\obj\Release\API.csproj.CoreCompileInputs.cache
 D:\Programming\MURSC\Server\API\obj\Release\API.csproj.CopyComplete
 D:\Programming\MURSC\Server\API\obj\Release\API.dll
 D:\Programming\MURSC\Server\API\obj\Release\API.pdb
+D:\Programming\MURSC\Server\API\bin\API.XmlSerializers.dll
+D:\Programming\MURSC\Server\API\obj\Release\API.XmlSerializers.dll
