@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๔/๐๕/๒๕๖๓>
-Modify date : <๑๕/๐๕/๒๕๖๓>
+Modify date : <๐๑/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -36,12 +36,13 @@ namespace API.Controllers
 
         [Route("Get")]
         [HttpGet]
-        public HttpResponseMessage Get(string country = "", string province = "", string district = "")
+        public HttpResponseMessage Get(
+            string country = "",
+            string province = "",
+            string district = ""
+        )
         {
-            DataTable dt = District.GetList("", country, province, "", "", "").Tables[0];
-            DataRow[] dr = dt.Select("(plcCountryId = '" + country + "') and (plcProvinceId = '" + province + "') and (id = '" + district + "')");
-
-            dt = (dr.Length > 0 ? dr.CopyToDataTable() : dt.Clone());
+            DataTable dt = District.Get(country, province, district);
 
             return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
         }

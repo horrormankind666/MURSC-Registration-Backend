@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๐๕/๐๕/๒๕๖๓>
+Modify date : <๐๑/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -37,6 +37,7 @@ namespace API.Controllers
             DataTable dt1 = ds.Tables[0];
             DataTable dt2 = ds.Tables[1];
             DataTable dt3 = ds.Tables[2];
+            DataTable dt4 = ds.Tables[3];
 
             List<object> list1 = new List<object>();
             List<object> list2 = new List<object>();
@@ -63,6 +64,7 @@ namespace API.Controllers
                     lastPaymentDate = dr["lastPaymentDate"],
                     lastPaymentDates = dr["lastPaymentDates"],
                     maximumSeat = dr["maximumSeat"],
+                    seatAvailable = (dt3.Rows.Count > 0 ? (!string.IsNullOrEmpty(dt3.Rows[0]["seatAvailable"].ToString()) ? dt3.Rows[0]["seatAvailable"] : dr["maximumSeat"]) : dr["maximumSeat"]),
                     minimumFee = dr["minimumFee"],
                     contactNameTH = dr["contactNameTH"],
                     contactNameEN = dr["contactNameEN"],
@@ -70,7 +72,7 @@ namespace API.Controllers
                     contactPhone = dr["contactPhone"],
                     registrationStatus = dr["registrationStatus"],
                     location = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
-                    feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null)
+                    feeType = (dt4.Rows.Count > 0 ? dt4.Rows[0].Table : null)
                 });
             }
 

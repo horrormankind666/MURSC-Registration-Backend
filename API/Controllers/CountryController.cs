@@ -36,10 +36,7 @@ namespace API.Controllers
         [HttpGet]
         public HttpResponseMessage Get(string country = "")
         {
-            DataTable dt = Country.GetList("", "", "", "").Tables[0];
-            DataRow[] dr = dt.Select("id = '" + country + "'");
-
-            dt = (dr.Length > 0 ? dr.CopyToDataTable() : dt.Clone());
+            DataTable dt = Country.Get(country);
 
             return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
         }
