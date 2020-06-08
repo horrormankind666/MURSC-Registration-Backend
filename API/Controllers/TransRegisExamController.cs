@@ -3,7 +3,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๐๑/๐๖/๒๕๖๓>
+Modify date : <๐๘/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -89,9 +89,9 @@ namespace API.Controllers
                     paidAmount = dr["paidAmount"],
                     paidBy = dr["paidBy"],
                     paidDate = dr["paidDate"],
-                    paidStatus = dr["paidStatus"],
-                    totalFeeAmount = dr["totalFeeAmount"],
-                    fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null)
+                    paidStatus = dr["paidStatus"],                    
+                    fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
+                    totalFeeAmount = dr["totalFeeAmount"]
                 });
             }
 
