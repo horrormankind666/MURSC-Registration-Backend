@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๑๒/๐๕/๒๕๖๓>
+Modify date : <๐๘/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -14,9 +14,10 @@ namespace API.Models
 {
     public class TransProject
     {
-        public static DataSet GetList()
+        public static DataSet GetList(string projectCategory)
         {
-            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetListTransProject", null);
+            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetListTransProject",
+                new SqlParameter("@projectCategory", projectCategory));
 
             return ds;
         }

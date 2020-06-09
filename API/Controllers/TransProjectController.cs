@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๐๑/๐๖/๒๕๖๓>
+Modify date : <๐๘/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -22,9 +22,9 @@ namespace API.Controllers
     {
         [Route("GetList")]
         [HttpGet]
-        public HttpResponseMessage GetList()
+        public HttpResponseMessage GetList(string projectCategory = null)
         {
-            DataTable dt = TransProject.GetList().Tables[0];
+            DataTable dt = TransProject.GetList(projectCategory).Tables[0];
 
             return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
         }
