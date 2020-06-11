@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๐๑/๐๖/๒๕๖๓>
+Modify date : <๐๙/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -12,16 +12,16 @@ using System.Data.SqlClient;
 
 namespace API.Models
 {
-    public class TransRegisExam
+    public class TransRegistered
     {
         public static DataSet Get(
-            string transRegisExamID,
+            string transRegisteredID,
 	        string personID,
             string transProjectID
         )
         {
-            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetTransRegisExam",
-                new SqlParameter("@transRegisExamID",   transRegisExamID),
+            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetTransRegistered",
+                new SqlParameter("@transRegisteredID",  transRegisteredID),
                 new SqlParameter("@personID",           personID),
                 new SqlParameter("@transProjectID",     transProjectID));
 
@@ -33,7 +33,7 @@ namespace API.Models
             string jsonData
         )
         {
-            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetTransRegisExam",
+            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetTransRegistered",
                 new SqlParameter("@method",     method),
                 new SqlParameter("@jsonData",   jsonData));
 

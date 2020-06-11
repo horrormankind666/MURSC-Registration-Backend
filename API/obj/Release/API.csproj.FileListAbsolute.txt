@@ -70,3 +70,11 @@ D:\Programming\MURSC\Server\API\obj\Release\API.dll
 D:\Programming\MURSC\Server\API\obj\Release\API.pdb
 D:\Programming\MURSC\Server\API\bin\API.XmlSerializers.dll
 D:\Programming\MURSC\Server\API\obj\Release\API.XmlSerializers.dll
+D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.Logging.dll
+D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.Tokens.dll
+D:\Programming\MURSC\Server\API\bin\System.IdentityModel.Tokens.Jwt.dll
+D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.Logging.xml
+D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.Tokens.xml
+D:\Programming\MURSC\Server\API\bin\System.IdentityModel.Tokens.Jwt.xml

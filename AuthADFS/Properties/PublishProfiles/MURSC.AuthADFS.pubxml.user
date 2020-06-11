@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/AuthorizationServer.dll">
-      <publishTime>05/01/2020 21:50:15</publishTime>
+      <publishTime>06/11/2020 14:31:02</publishTime>
     </File>
     <File Include="bin/AuthorizationServer.pdb">
-      <publishTime>05/01/2020 21:50:15</publishTime>
+      <publishTime>06/11/2020 14:31:02</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/05/2018 16:10:50</publishTime>

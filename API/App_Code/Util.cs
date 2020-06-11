@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๑๔/๐๕/๒๕๖๓>
+Modify date : <๑๑/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -11,7 +11,10 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
+using System.Net;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace API
 {
@@ -109,6 +112,54 @@ namespace API
             HttpCookie cookieObj = GetCookie(cookieName);
 
             return (cookieObj == null ? false : true);
+        }
+
+        private static object GetUserInfoByAuthenADFS()
+        {
+            object userInfoResult = null;
+
+            try
+            {
+                string authorization = HttpContext.Current.Request.Headers["Authorization"];
+                string token = String.Empty;                
+
+                if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                {
+                    token = authorization.Substring("Bearer ".Length).Trim();
+                }
+
+                var httpWebRequest = ((HttpWebRequest)WebRequest.Create("https://mursc.mahidol.ac.th/ResourceADFS/API/AuthenResource/UserInfo"));
+
+                httpWebRequest.Headers.Add("Authorization", "Bearer " + token);
+
+                var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
+                {
+                    var result = sr.ReadToEnd();
+
+                    dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    userInfoResult = jsonObject["data"];
+                };
+            }
+            catch
+            {
+
+            }
+
+            return userInfoResult;
+        }
+
+        public static bool GetIsAuthenticated()
+        {
+            dynamic userInfoResult = GetUserInfoByAuthenADFS();
+            bool isAuthenticated = false;
+
+            if (userInfoResult != null)
+                isAuthenticated = userInfoResult[0]["isAuthenticated"];
+
+            return isAuthenticated;
         }
     }
 }
