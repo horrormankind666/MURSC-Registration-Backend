@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๐๘/๐๖/๒๕๖๓>
+Modify date : <๑๗/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -50,11 +50,15 @@ namespace API.Controllers
                 list1.Add(new
                 {
                     transProjectID = dr["transProjectID"],
+                    projectCategoryID = dr["projectCategoryID"],
+                    projectCategoryNameTH = dr["projectCategoryNameTH"],
+                    projectCategoryNameEN = dr["projectCategoryNameEN"],
+                    projectCategoryInitial = dr["projectCategoryInitial"],
                     projectID = dr["projectID"],
                     logo = dr["logo"],
                     projectNameTH = dr["projectNameTH"],
                     projectNameEN = dr["projectNameEN"],
-                    detail = dr["detail"],
+                    about = dr["about"],
                     examDate = dr["examDate"],
                     examDates = dr["examDates"],
                     regisStartDate = dr["regisStartDate"],

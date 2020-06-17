@@ -3,24 +3,18 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๑๑/๐๖/๒๕๖๓>
+Modify date : <๑๗/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
 
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Data;
 using System.Linq;
-using System.IO;
 using System.Net;
-using System.Security.Claims;
 using System.Net.Http;
-using System.Text;
-using System.Web;
 using System.Web.Http;
-using Newtonsoft.Json;
 using API.Models;
 
 namespace API.Controllers
@@ -54,12 +48,18 @@ namespace API.Controllers
                     list.Add(new
                     {
                         transRegisteredID = dr["transRegisteredID"],
+                        registeredDate = dr["registeredDate"],
+                        registeredDates = dr["registeredDates"],
                         transProjectID = dr["transProjectID"],
+                        projectCategoryID = dr["projectCategoryID"],
+                        projectCategoryNameTH = dr["projectCategoryNameTH"],
+                        projectCategoryNameEN = dr["projectCategoryNameEN"],
+                        projectCategoryInitial = dr["projectCategoryInitial"],
                         projectID = dr["projectID"],
                         logo = dr["logo"],
                         projectNameTH = dr["projectNameTH"],
                         projectNameEN = dr["projectNameEN"],
-                        detail = dr["detail"],
+                        about = dr["about"],
                         examDate = dr["examDate"],
                         examDates = dr["examDates"],
                         lastPaymentDate = dr["lastPaymentDate"],
@@ -96,6 +96,7 @@ namespace API.Controllers
                         paidAmount = dr["paidAmount"],
                         paidBy = dr["paidBy"],
                         paidDate = dr["paidDate"],
+                        paidDates = dr["paidDates"],
                         paidStatus = dr["paidStatus"],
                         fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
                         totalFeeAmount = dr["totalFeeAmount"]
