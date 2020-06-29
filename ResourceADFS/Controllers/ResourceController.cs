@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๐๑/๐๕/๒๕๖๓>
+Modify date : <๒๖/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ResourceServer.Controllers
 {
@@ -23,16 +24,33 @@ namespace ResourceServer.Controllers
     [ApiController]
     public class ResourceController : ControllerBase
     {
+        [Route("IsAuthenticated")]
+        [HttpGet]
+        public ActionResult<dynamic> IsAuthenticated()
+        {
+            string authorization = Request.Headers["Authorization"];
+            bool isAuthenticated = false;
+            List<object> userInfoList = new List<object>();
+
+            if (String.IsNullOrEmpty(authorization))
+                isAuthenticated = false;
+            else
+                isAuthenticated = User.Identity.IsAuthenticated;
+
+            return isAuthenticated;
+        }
+
         [Route("UserInfo")]
         [HttpGet]
         public ActionResult<dynamic> UserInfo()
         {
             string authorization = Request.Headers["Authorization"];
             string token = String.Empty;
+            string ppid = String.Empty;
             StringBuilder jwtHeader = new StringBuilder();
             StringBuilder jwtPayload = new StringBuilder();
             List<object> userInfoList = new List<object>();
-
+            
             if (String.IsNullOrEmpty(authorization))
             {
                 userInfoList = null;
@@ -61,7 +79,7 @@ namespace ResourceServer.Controllers
                         token = new string(tokenArray);
                 
                         var handler = new JwtSecurityTokenHandler();
-                        var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+                        var tokenS = handler.ReadToken(token) as JwtSecurityToken;                        
 
                         jwtHeader.Append("{");
                         foreach (var h in tokenS.Header)
@@ -74,12 +92,16 @@ namespace ResourceServer.Controllers
                         foreach (Claim c in tokenS.Claims)
                         {
                             jwtPayload.AppendFormat("'{0}': '{1}',", c.Type, c.Value);
+
+                            if (c.Type.Equals("ppid"))
+                                ppid = c.Value;
                         }
                         jwtPayload.Append("}");
 
                         userInfoList.Add(new {
                             header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
-                            payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString())
+                            payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
+                            personal = GetHRi(ppid)
                         });
                     }
                     catch
@@ -87,7 +109,7 @@ namespace ResourceServer.Controllers
                     }
                 }
             }
-
+            
             object userInfoResult = new { data = userInfoList };
 
             return userInfoResult;
@@ -119,6 +141,58 @@ namespace ResourceServer.Controllers
 
                 return jsonObject["access_token"];
             };
+        }
+
+        private object GetHRi(string personalId)
+        {
+            object personalInfoResult = null;
+            dynamic personalInfo = null;
+            JObject profileObj = new JObject();
+
+            try
+            {
+            var httpWebRequest = ((HttpWebRequest)WebRequest.Create("https://smartedu.mahidol.ac.th/Infinity/AUNQA/API/HRi/GetData"));
+
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string postData = ("{\"personalId\": \"" + personalId + "\"}");
+
+                    streamWriter.Write(postData);
+                }
+
+                var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
+                {
+                    var result = sr.ReadToEnd();
+
+                    dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    personalInfo = (jsonObject.SelectToken("data.content") != null ? jsonObject.SelectToken("data.content.personal") : null);
+                };
+                
+                if (personalInfo != null)
+                {
+                    profileObj.Add("type",          "personnel");
+                    profileObj.Add("personalID",    personalInfo["personalId"]);
+                    profileObj.Add("title",         personalInfo["title"]);
+                    profileObj.Add("firstNameTH",   personalInfo["firstName"]);
+                    profileObj.Add("middleNameTH",  personalInfo["middleName"]);
+                    profileObj.Add("lastNameTH",    personalInfo["lastName"]);
+                    profileObj.Add("firstNameEN",   personalInfo["firstNameEn"]);
+                    profileObj.Add("middleNameEN",  personalInfo["middleNameEn"]);
+                    profileObj.Add("lastNameEN",    personalInfo["lastNameEn"]);
+
+                    personalInfoResult = profileObj;
+                }
+            }
+            catch
+            {
+            }
+
+            return personalInfoResult;
         }
     }
 }

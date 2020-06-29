@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๑๑/๐๖/๒๕๖๓>
+Modify date : <๒๖/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -145,19 +145,41 @@ namespace API
             }
             catch
             {
-
             }
 
             return userInfoResult;
         }
 
-        public static bool GetIsAuthenticated()
+        public static bool GetIsAuthenticatedByAuthenADFS()
         {
-            dynamic userInfoResult = GetUserInfoByAuthenADFS();
             bool isAuthenticated = false;
 
-            if (userInfoResult != null)
-                isAuthenticated = userInfoResult[0]["isAuthenticated"];
+            try
+            {
+                string authorization = HttpContext.Current.Request.Headers["Authorization"];
+                string token = String.Empty;
+
+                if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                {
+                    token = authorization.Substring("Bearer ".Length).Trim();
+                }
+
+                var httpWebRequest = ((HttpWebRequest)WebRequest.Create("https://mursc.mahidol.ac.th/ResourceADFS/API/AuthenResource/IsAuthenticated"));
+
+                httpWebRequest.Headers.Add("Authorization", "Bearer " + token);
+
+                var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
+                {
+                    var result = sr.ReadToEnd();
+
+                    isAuthenticated = (result.Equals("true") ? true : false);
+                };
+            }
+            catch
+            {
+            }
 
             return isAuthenticated;
         }

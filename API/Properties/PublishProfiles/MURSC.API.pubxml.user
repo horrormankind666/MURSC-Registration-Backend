@@ -10,13 +10,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/API.dll">
-      <publishTime>06/17/2020 13:21:48</publishTime>
+      <publishTime>06/26/2020 14:56:30</publishTime>
     </File>
     <File Include="bin/API.pdb">
-      <publishTime>06/17/2020 13:21:48</publishTime>
+      <publishTime>06/26/2020 14:56:30</publishTime>
     </File>
     <File Include="bin/API.XmlSerializers.dll">
-      <publishTime>06/17/2020 13:21:57</publishTime>
+      <publishTime>06/26/2020 14:56:37</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/05/2018 16:10:50</publishTime>

@@ -3,7 +3,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๑๗/๐๖/๒๕๖๓>
+Modify date : <๒๖/๐๖/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -31,7 +31,7 @@ namespace API.Controllers
         {
             List<object> list = new List<object>();
 
-            if (Util.GetIsAuthenticated())
+            if (Util.GetIsAuthenticatedByAuthenADFS())
             {
                 DataSet ds = TransRegistered.Get(transRegisteredID, personID, transProjectID);
                 DataTable dt1 = ds.Tables[0];
@@ -113,7 +113,7 @@ namespace API.Controllers
         {
             string jsonData = String.Empty;
                 
-            if (Util.GetIsAuthenticated())
+            if (Util.GetIsAuthenticatedByAuthenADFS())
                 jsonData = Request.Content.ReadAsStringAsync().Result;
 
             DataTable dt = TransRegistered.Set("POST", jsonData).Tables[0];
