@@ -78,3 +78,5 @@ D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.JsonWebTokens.xml
 D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.Logging.xml
 D:\Programming\MURSC\Server\API\bin\Microsoft.IdentityModel.Tokens.xml
 D:\Programming\MURSC\Server\API\bin\System.IdentityModel.Tokens.Jwt.xml
+D:\Programming\MURSC\Server\API\bin\RestSharp.dll
+D:\Programming\MURSC\Server\API\bin\RestSharp.xml

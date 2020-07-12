@@ -14,41 +14,41 @@ using System.Web.Mvc;
 
 namespace AuthorizationServer.Controllers
 {
-    public class HomeController : Controller
-    {       
-        public ActionResult Index()
-        {
-            string token = String.Empty;
+	public class HomeController : Controller
+	{       
+		public ActionResult Index()
+		{
+			string token = String.Empty;
 
-            if (!Request.IsAuthenticated)
-                Response.Redirect(Url.Action("SignIn", "Authen"));
-            else
-            {           
-                Claims c = new Claims();
-                dynamic u = c.UserInfo();
+			if (!Request.IsAuthenticated)
+				Response.Redirect(Url.Action("SignIn", "Authen"));
+			else
+			{           
+				Claims c = new Claims();
+				dynamic u = c.UserInfo();
 
-                token = u.openID.id_token;
+				token = u.openID.id_token;
                 
-                char[] tokenArray = token.ToCharArray();
-                Array.Reverse(tokenArray);
-                token = new string(tokenArray);
+				char[] tokenArray = token.ToCharArray();
+				Array.Reverse(tokenArray);
+				token = new string(tokenArray);
 
-                string dt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss", new CultureInfo("th-TH"));
-                byte[] encDataByte = new byte[dt.Length];
-                encDataByte = Encoding.UTF8.GetBytes(dt);
-                token = (Convert.ToBase64String(encDataByte) + token);
+				string dt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss", new CultureInfo("th-TH"));
+				byte[] encDataByte = new byte[dt.Length];
+				encDataByte = Encoding.UTF8.GetBytes(dt);
+				token = (Convert.ToBase64String(encDataByte) + token);
 
-                /*
-                byte[] encDataByte = new byte[token.Length];
-                encDataByte = Encoding.UTF8.GetBytes(token);
-                token = Convert.ToBase64String(encDataByte);
-                */
-            }
+				/*
+				byte[] encDataByte = new byte[token.Length];
+				encDataByte = Encoding.UTF8.GetBytes(token);
+				token = Convert.ToBase64String(encDataByte);
+				*/
+			}
             
-            ViewBag.Title = "Mahidol University Authorization Server";
-            ViewBag.Token = token;
+			ViewBag.Title = "Mahidol University Authorization Server";
+			ViewBag.Token = token;
 
-            return View();
-        }
-    }
+			return View();
+		}
+	}
 }

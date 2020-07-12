@@ -10,13 +10,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/API.dll">
-      <publishTime>06/26/2020 14:56:30</publishTime>
+      <publishTime>07/12/2020 15:50:57</publishTime>
     </File>
     <File Include="bin/API.pdb">
-      <publishTime>06/26/2020 14:56:30</publishTime>
+      <publishTime>07/12/2020 15:50:57</publishTime>
     </File>
     <File Include="bin/API.XmlSerializers.dll">
-      <publishTime>06/26/2020 14:56:37</publishTime>
+      <publishTime>07/12/2020 15:50:58</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/05/2018 16:10:50</publishTime>
@@ -32,6 +32,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>11/09/2019 00:56:44</publishTime>
+    </File>
+    <File Include="bin/RestSharp.dll">
+      <publishTime>05/18/2020 11:55:38</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>08/08/2018 05:38:48</publishTime>
@@ -208,7 +211,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/14/2020 20:59:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/11/2020 13:44:23</publishTime>
+      <publishTime>07/12/2020 15:50:59</publishTime>
     </File>
   </ItemGroup>
 </Project>

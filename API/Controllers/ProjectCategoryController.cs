@@ -15,16 +15,16 @@ using API.Models;
 
 namespace API.Controllers
 {
-    [RoutePrefix("ProjectCategory")]
-    public class ProjectCategoryController : ApiController
-    {
-        [Route("GetList")]
-        [HttpGet]
-        public HttpResponseMessage GetList()
-        {
-            DataTable dt = ProjectCategory.GetList().Tables[0];
+	[RoutePrefix("ProjectCategory")]
+	public class ProjectCategoryController : ApiController
+	{
+		[Route("GetList")]
+		[HttpGet]
+		public HttpResponseMessage GetList()
+		{
+			DataTable dt = ProjectCategory.GetList().Tables[0];
 
-            return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
-        }
-    }
+			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+		}
+	}
 }

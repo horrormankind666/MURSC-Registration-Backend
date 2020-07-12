@@ -12,32 +12,32 @@ using System.Data.SqlClient;
 
 namespace API.Models
 {
-    public class TransRegistered
-    {
-        public static DataSet Get(
-            string transRegisteredID,
-	        string personID,
-            string transProjectID
-        )
-        {
-            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetTransRegistered",
-                new SqlParameter("@transRegisteredID",  transRegisteredID),
-                new SqlParameter("@personID",           personID),
-                new SqlParameter("@transProjectID",     transProjectID));
+	public class TransRegistered
+	{
+		public static DataSet Get(
+			string transRegisteredID,
+			string personID,
+			string transProjectID
+		)
+		{
+			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetTransRegistered",
+				new SqlParameter("@transRegisteredID", transRegisteredID),
+				new SqlParameter("@personID", personID),
+				new SqlParameter("@transProjectID", transProjectID));
 
-            return ds;
-        }
+			return ds;
+		}
 
-        public static DataSet Set(
-            string method,
-            string jsonData
-        )
-        {
-            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetTransRegistered",
-                new SqlParameter("@method",     method),
-                new SqlParameter("@jsonData",   jsonData));
+		public static DataSet Set(
+			string method,
+			string jsonData
+		)
+		{
+			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetTransRegistered",
+				new SqlParameter("@method", method),
+				new SqlParameter("@jsonData", jsonData));
 
-            return ds;
-        }
-    }
+			return ds;
+		}
+	}
 }

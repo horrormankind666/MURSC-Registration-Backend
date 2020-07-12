@@ -11,14 +11,13 @@ using System.Data;
 
 namespace API.Models
 {
-    public class ProjectCategory
-    {
-        public static DataSet GetList()
-        {
-            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetListProjectCategory", null);
+	public class ProjectCategory
+	{
+		public static DataSet GetList()
+		{
+			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetListProjectCategory", null);
 
-            return ds;
-        }
-
-    }
+			return ds;
+		}
+	}
 }
