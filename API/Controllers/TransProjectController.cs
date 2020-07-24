@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๐๓/๐๗/๒๕๖๓>
+Modify date : <๑๗/๐๗/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -31,8 +31,23 @@ namespace API.Controllers
 
 		[Route("Get")]
 		[HttpGet]
-		public HttpResponseMessage Get(string transProjectID = null)
+		public HttpResponseMessage Get(string cuid = null)
 		{
+			string transProjectID = string.Empty;
+			string[] cuidArray = Util.CUID2Array(cuid);
+			
+			if (cuidArray != null)
+			{
+				int i = 1;
+
+				foreach (var data in cuidArray)
+				{
+					if (i.Equals(1)) transProjectID = data;
+
+					i++;
+				}
+			}
+
 			DataSet ds = TransProject.Get(transProjectID);
 			DataTable dt1 = ds.Tables[0];
 			DataTable dt2 = ds.Tables[1];
@@ -58,7 +73,10 @@ namespace API.Controllers
 					logo = dr["logo"],
 					projectNameTH = dr["projectNameTH"],
 					projectNameEN = dr["projectNameEN"],
-					about = dr["about"],
+					descriptionTH = dr["descriptionTH"],
+					descriptionEN = dr["descriptionEN"],
+					aboutTH = dr["aboutTH"],
+					aboutEN = dr["aboutEN"],
 					examStartDate = dr["examStartDate"],
 					examStartDates = dr["examStartDates"],
 					examEndDate = dr["examEndDate"],
@@ -72,6 +90,7 @@ namespace API.Controllers
 					maximumSeat = dr["maximumSeat"],
 					seatAvailable = (dt3.Rows.Count > 0 ? (!string.IsNullOrEmpty(dt3.Rows[0]["seatAvailable"].ToString()) ? dt3.Rows[0]["seatAvailable"] : dr["maximumSeat"]) : dr["maximumSeat"]),
 					minimumFee = dr["minimumFee"],
+					contactID = dr["contactID"],
 					contactNameTH = dr["contactNameTH"],
 					contactNameEN = dr["contactNameEN"],
 					contactEmail = dr["contactEmail"],

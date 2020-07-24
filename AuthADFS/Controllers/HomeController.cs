@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๒/๑๒/๒๕๖๒>
-Modify date : <๐๑/๐๕/๒๕๖๓>
+Modify date : <๒๒/๐๗/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -20,9 +20,10 @@ namespace AuthorizationServer.Controllers
 		{
 			string token = String.Empty;
 
-			if (!Request.IsAuthenticated)
-				Response.Redirect(Url.Action("SignIn", "Authen"));
-			else
+			//if (!Request.IsAuthenticated)
+			//	Response.Redirect(Url.Action("SignIn", "Authen"));
+			//else
+			if (Request.IsAuthenticated)
 			{           
 				Claims c = new Claims();
 				dynamic u = c.UserInfo();

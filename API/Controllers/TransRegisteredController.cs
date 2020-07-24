@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๑๒/๐๗/๒๕๖๓>
+Modify date : <๒๑/๐๗/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -14,6 +14,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using API.Models;
 
 namespace API.Controllers
@@ -23,18 +25,36 @@ namespace API.Controllers
 	{
 		[Route("Get")]
 		[HttpGet]
-		public HttpResponseMessage Get(
-			string transRegisteredID = null,
-			string personID = null,
-			string transProjectID = null)
+		public HttpResponseMessage Get(string cuid = null)
 		{
+			string transRegisteredID = String.Empty;
+			string transProjectID = String.Empty;
+			string[] cuidArray = Util.CUID2Array(cuid);
+
+			if (cuidArray != null)
+			{
+				int i = 1;
+
+				foreach (var data in cuidArray)
+				{
+					if (i.Equals(1)) transRegisteredID = data;
+					if (i.Equals(2)) transProjectID = data;
+
+					i++;
+				}
+			}
+
 			List<object> list = new List<object>();
 
 			if (Util.GetIsAuthenticatedByAuthenADFS())
 			{
-				DataSet ds = TransRegistered.Get(transRegisteredID, personID, transProjectID);
+				object obj = Util.GetPPIDByAuthenADFS();
+				string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
+				string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+
+				DataSet ds = TransRegistered.Get(transRegisteredID, (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName), transProjectID);
 				DataTable dt1 = ds.Tables[0];
-				DataTable dt2 = ds.Tables[1];               
+				DataTable dt2 = ds.Tables[1];
 
 				if (dt1.Rows.Count > 0)
 				{
@@ -58,7 +78,10 @@ namespace API.Controllers
 						logo = dr["logo"],
 						projectNameTH = dr["projectNameTH"],
 						projectNameEN = dr["projectNameEN"],
-						about = dr["about"],
+						descriptionTH = dr["descriptionTH"],
+						descriptionEN = dr["descriptionEN"],
+						aboutTH = dr["aboutTH"],
+						aboutEN = dr["aboutEN"],
 						examStartDate = dr["examStartDate"],
 						examStartDates = dr["examStartDates"],
 						examEndDate = dr["examEndDate"],
@@ -89,9 +112,12 @@ namespace API.Controllers
 						invoiceNameEN = dr["invoiceNameEN"],
 						invoiceNamePrintReceipt = dr["invoiceNamePrintReceipt"],
 						billerID = dr["billerID"],
-						qrRef_1 = dr["qrRef_1"],
-						qrRef_2 = dr["qrRef_2"],
-						qrRef_3 = dr["qrRef_3"],
+						merchantName = dr["merchantName"],
+						qrRef1 = dr["qrRef_1"],
+						qrRef2 = dr["qrRef_2"],
+						qrRef3 = dr["qrRef_3"],
+						qrImage = dr["qrImage"],
+						qrNewRef1 = dr["qrNewRef_1"],
 						bankRequest = dr["bankRequest"],
 						bankTransID = dr["bankTransID"],
 						paidAmount = dr["paidAmount"],
@@ -100,7 +126,8 @@ namespace API.Controllers
 						paidDates = dr["paidDates"],
 						paidStatus = dr["paidStatus"],
 						fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
-						totalFeeAmount = dr["totalFeeAmount"]
+						totalFeeAmount = dr["totalFeeAmount"],
+						paymentConfirmDate = dr["paymentConfirmDates"]
 					});
 				}
 			}
@@ -116,6 +143,26 @@ namespace API.Controllers
                 
 			if (Util.GetIsAuthenticatedByAuthenADFS())
 				jsonData = Request.Content.ReadAsStringAsync().Result;
+
+			if (!String.IsNullOrEmpty(jsonData))
+			{
+				try
+				{
+					JObject jsonObject = new JObject(JsonConvert.DeserializeObject<dynamic>(jsonData));
+					object obj = Util.GetPPIDByAuthenADFS();
+					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
+					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+
+					jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
+					jsonObject.Add("createdBy", winaccountName);
+
+					jsonData = JsonConvert.SerializeObject(jsonObject);
+				}
+				catch
+				{
+					jsonData = String.Empty;
+				}
+			}
 
 			DataTable dt = TransRegistered.Set("POST", jsonData).Tables[0];
 

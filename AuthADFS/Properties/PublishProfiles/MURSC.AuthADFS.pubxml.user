@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/AuthorizationServer.dll">
-      <publishTime>06/11/2020 14:31:02</publishTime>
+      <publishTime>07/22/2020 11:16:33</publishTime>
     </File>
     <File Include="bin/AuthorizationServer.pdb">
-      <publishTime>06/11/2020 14:31:02</publishTime>
+      <publishTime>07/22/2020 11:16:33</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/05/2018 16:10:50</publishTime>
@@ -286,16 +286,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2019 15:31:15</publishTime>
     </File>
     <File Include="Content/Style/Font.scss">
-      <publishTime>12/12/2019 15:31:15</publishTime>
+      <publishTime>07/04/2020 14:00:57</publishTime>
     </File>
     <File Include="Content/Style/Site.css">
-      <publishTime>02/18/2020 11:41:03</publishTime>
+      <publishTime>07/22/2020 12:23:14</publishTime>
     </File>
     <File Include="Content/Style/Site.min.css">
-      <publishTime>02/18/2020 11:41:03</publishTime>
+      <publishTime>07/22/2020 12:23:14</publishTime>
     </File>
     <File Include="Content/Style/Site.scss">
-      <publishTime>02/18/2020 11:41:02</publishTime>
+      <publishTime>07/22/2020 12:23:12</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>11/20/2019 09:03:30</publishTime>
@@ -322,22 +322,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2019 10:45:58</publishTime>
     </File>
     <File Include="Views/Home/index.cshtml">
-      <publishTime>05/01/2020 22:15:47</publishTime>
+      <publishTime>07/22/2020 12:24:04</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>04/23/2020 11:59:56</publishTime>
+      <publishTime>07/04/2020 14:10:49</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>04/23/2020 14:05:43</publishTime>
+      <publishTime>07/21/2020 20:38:03</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>04/23/2020 14:10:25</publishTime>
+      <publishTime>07/21/2020 20:19:27</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>12/12/2019 10:45:58</publishTime>
+      <publishTime>07/04/2020 14:11:01</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/01/2020 20:31:59</publishTime>
+      <publishTime>07/22/2020 11:32:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

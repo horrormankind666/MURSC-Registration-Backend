@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๐๔/๐๗/๒๕๖๓>
-Modify date : <๑๒/๐๗/๒๕๖๓>
+Modify date : <๒๑/๐๗/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -18,6 +18,7 @@ using System.Web.Http;
 using RestSharp;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using API.Models;
 
 namespace API.Controllers
@@ -25,134 +26,190 @@ namespace API.Controllers
 	[RoutePrefix("QRCodePayment")]
 	public class QRCodePaymentController : ApiController
 	{
-		[Route("{projectCategory}/Get")]
-		[HttpPost]
+		[Route("{projectCategory}/Put")]
+		[HttpPut]
 		public HttpResponseMessage Get(string projectCategory)
 		{
+			string jsonData = String.Empty;
+		
+			if (Util.GetIsAuthenticatedByAuthenADFS())
+				jsonData = Request.Content.ReadAsStringAsync().Result;
+
 			List<object> list = new List<object>();
 
-			if (Util.GetIsAuthenticatedByAuthenADFS())
+			if (!String.IsNullOrEmpty(jsonData))
 			{
-				string jsonData = Request.Content.ReadAsStringAsync().Result;
-				string transRegisteredID = String.Empty;
-				string personID = String.Empty;
-				string transProjectID = String.Empty;
+				int errorCode = 0;				
+				string invoiceID = String.Empty;
+				string totalFeeAmount = String.Empty;
+				string lastPaymentDate = String.Empty;
 				string taxNo = String.Empty;
 				string suffix = String.Empty;
 				string billerID = String.Empty;
+				string ref1 = String.Empty;
+				string ref2 = String.Empty;
+				string ref3 = String.Empty;
 				string campus = String.Empty;
 				string profitCenter = String.Empty;
 				string branchNo = String.Empty;
 				string subBranch = String.Empty;
 				string merchantName = String.Empty;
-				bool isError = false;
-				object scbReq = null;
+				string paidAmount = String.Empty;
+				string paidStatus = String.Empty;
+				string actionDate = String.Empty;
+				dynamic qrCodeObj = null;			
 
-				if (!String.IsNullOrEmpty(jsonData))
+				try
 				{
-					try
+					JObject jsonObject = new JObject(JsonConvert.DeserializeObject<dynamic>(jsonData));
+					string transRegisteredID = jsonObject["transRegisteredID"].ToString();
+					string transProjectID = jsonObject["transProjectID"].ToString();
+
+					object obj = Util.GetPPIDByAuthenADFS();
+					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
+					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+
+					string personID = (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName);
+					object scbReq = null;
+
+					if (projectCategory.Equals("CBE"))
 					{
-						dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(jsonData);
-
-						transRegisteredID = jsonObject["transRegisteredID"];
-						personID = jsonObject["personID"];
-						transProjectID = jsonObject["transProjectID"];
-					}
-					catch
-					{
-					}
-				}
-
-				if (projectCategory.Equals("CBE"))
-				{
-					if (!String.IsNullOrEmpty(transRegisteredID) && !String.IsNullOrEmpty(personID) && !String.IsNullOrEmpty(transProjectID))
-					{
-						string invoiceID = String.Empty;
-						string totalFeeAmount = String.Empty;
-						string lastPaymentDate = String.Empty;
-
-						DataSet ds1 = Util.ExecuteCommandStoredProcedure(Util.infinityConnectionString, "sp_rscGetFinPayBankQRCode",
-							new SqlParameter("@systemRef", "MU_MURSC-CBX"),
-							new SqlParameter("@profitCenter", "003"),
-							new SqlParameter("@branchNo", "001"),
-							new SqlParameter("@subBranch", "001"));
-
+						DataSet ds1 = TransRegistered.Get(transRegisteredID, personID, transProjectID);
 						DataTable dt1 = ds1.Tables[0];
-
+							
 						if (dt1.Rows.Count > 0)
 						{
 							DataRow dr1 = dt1.Rows[0];
+							personID = dr1["personID"].ToString();
+							invoiceID = dr1["invoiceID"].ToString();
+							totalFeeAmount = String.Format("{0:0.00}", dr1["totalFeeAmount"]);
+							lastPaymentDate = dr1["lastPaymentDateForQRCode"].ToString();
 
-							taxNo = dr1["taxNo"].ToString();
-							suffix = dr1["suffix"].ToString();
-							billerID = (taxNo + suffix);
-							campus = dr1["campus"].ToString();
-							profitCenter = dr1["profitCenter"].ToString();
-							branchNo = dr1["branchNo"].ToString();
-							subBranch = dr1["subBranch"].ToString();
-							merchantName = dr1["systemRef"].ToString();
+							DataSet ds2 = Util.ExecuteCommandStoredProcedure(Util.infinityConnectionString, "sp_rscGetFinPayBankQRCode",
+								new SqlParameter("@systemRef", "MU_MURSC-CBX"),
+								new SqlParameter("@profitCenter", "003"),
+								new SqlParameter("@branchNo", "001"),
+								new SqlParameter("@subBranch", "001"));
 
-							DataSet ds2 = TransRegistered.Get(transRegisteredID, personID, transProjectID);
 							DataTable dt2 = ds2.Tables[0];
-							DataRow[] dr2 = dt2.Select("(transRegisteredID = '" + transRegisteredID + "') and (personID = '" + personID + "') and (transProjectID = '" + transProjectID + "')");
 
-							personID = dr2.Length.ToString();
-
-							if (dr2.Length > 0)
+							if (dt2.Rows.Count > 0)
 							{
-								personID = dr2[0]["personID"].ToString();
-								invoiceID = dr2[0]["invoiceID"].ToString();
-								totalFeeAmount = String.Format("{0:0.00}", dr2[0]["totalFeeAmount"]);
-								lastPaymentDate = dr2[0]["lastPaymentDateForQRCode"].ToString();
+								DataRow dr2 = dt2.Rows[0];
+
+								taxNo = dr2["taxNo"].ToString();
+								suffix = dr2["suffix"].ToString();
+								billerID = (taxNo + suffix);
+								campus = dr2["campus"].ToString();
+								profitCenter = dr2["profitCenter"].ToString();
+								branchNo = dr2["branchNo"].ToString();
+								subBranch = dr2["subBranch"].ToString();
+								merchantName = dr2["systemRef"].ToString();
 							}
-							else
-								isError = true;
 						}
 						else
-							isError = true;
+							errorCode = 2;
+					}
 
-						if (isError.Equals(false))
+					if (errorCode.Equals(0))
+					{
+						ref1 = (campus + profitCenter + branchNo + subBranch + invoiceID.Substring(3));
+						ref2 = (personID.Substring(0, 14) + lastPaymentDate);
+						ref3 = personID;
+						
+						scbReq = new
 						{
-							scbReq = new
+							biller_id = billerID,
+							merchant_name = merchantName,
+							amount = totalFeeAmount,
+							ref_1 = ref1,
+							ref_2 = ref2,
+							ref_3 = ref3
+						};
+
+						string username = "mursc";
+						string password = "MURSC#2020#";
+						string tokenBasicEncoded = String.Format("{0}{1}", "Basic ", Convert.ToBase64String(Encoding.GetEncoding("UTF-8").GetBytes(username + ":" + password)));
+
+						var client = new RestClient("https://smartedu.mahidol.ac.th/scbapi/muBarcode/muQrCodeGen");
+						var request = new RestRequest(Method.POST);
+
+						request.AddHeader("Authorization", tokenBasicEncoded);
+						request.AddHeader("cache-control", "no-cache");
+						request.AddHeader("content-type", "application/json");
+						request.AddParameter("application/json", JsonConvert.SerializeObject(scbReq), ParameterType.RequestBody);
+
+						IRestResponse response = client.Execute(request);
+						qrCodeObj = JsonConvert.DeserializeObject(response.Content);
+
+						errorCode = (qrCodeObj.qr_code == "00" ? 0 : 1);
+
+						if (errorCode.Equals(0))
+						{
+							jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
+							jsonObject.Add("transInvoiceID", invoiceID);
+							jsonObject.Add("billerID", billerID);
+							jsonObject.Add("merchantName", merchantName);
+							jsonObject.Add("qrRef_1", ref1);
+							jsonObject.Add("qrRef_2", ref2);
+							jsonObject.Add("qrRef_3", ref3);
+							jsonObject.Add("qrImage", (qrCodeObj != null ? qrCodeObj.qr_image64 : null));
+							jsonObject.Add("qrNewRef_1", (qrCodeObj != null ? qrCodeObj.qr_new_ref_1 : null));							
+							jsonObject.Add("paidAmount", totalFeeAmount);						
+							jsonObject.Add("createdBy", winaccountName);
+
+							jsonData = JsonConvert.SerializeObject(jsonObject);
+
+							DataSet ds3 = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetTransInvoiceRef",							
+								new SqlParameter("@jsonData", jsonData));
+
+							DataTable dt3 = ds3.Tables[0];
+
+							if (dt3.Rows.Count > 0)
 							{
-								biller_id = billerID,
-								merchant_name = merchantName,
-								amount = totalFeeAmount,
-								ref_1 = (campus + profitCenter + branchNo + subBranch + invoiceID.Substring(3)),
-								ref_2 = (personID.Substring(0, 14) + lastPaymentDate),
-								ref_3 = personID
-							};
+								DataRow dr3 = dt3.Rows[0];
+
+								merchantName	= dr3["merchantName"].ToString();
+								paidAmount		= dr3["paidAmount"].ToString();
+								paidStatus		= dr3["paidStatus"].ToString();
+								errorCode			= int.Parse(dr3["errorCode"].ToString());
+								actionDate		= dr3["actionDate"].ToString();
+							}
+							else
+							{
+								errorCode = 1;
+								qrCodeObj = null;
+							}
 						}
 					}
+					else
+						errorCode = 2;
 				}
-
-				string username = "mursc";
-				string password = "MURSC#2020#";
-				string tokenBasicEncoded = String.Format("{0}{1}", "Basic ", Convert.ToBase64String(Encoding.GetEncoding("UTF-8").GetBytes(username + ":" + password)));
-
-				var client = new RestClient("https://smartedu.mahidol.ac.th/scbapi/muBarcode/muQrCodeGen");
-				var request = new RestRequest(Method.POST);
-
-				request.AddHeader("Authorization", tokenBasicEncoded);
-				request.AddHeader("cache-control", "no-cache");
-				request.AddHeader("content-type", "application/json");
-				request.AddParameter("application/json", JsonConvert.SerializeObject(scbReq), ParameterType.RequestBody);
-
-				IRestResponse response = client.Execute(request);				
-				dynamic qrCodeObj = JsonConvert.DeserializeObject(response.Content);
+				catch
+				{
+					errorCode = 1;
+				}
 
 				list.Add(new
 				{
-					qrCode = qrCodeObj.qr_code,
-					qrMessage = qrCodeObj.qr_message,
-					qrFormat = qrCodeObj.qr_format,
-					qrImage64 = qrCodeObj.qr_image64,
-					qrResponse = qrCodeObj.qr_response,
-					qrNewRef1 = qrCodeObj.qr_new_ref_1
+					errorCode = errorCode,
+					qrCode = (qrCodeObj != null ? qrCodeObj.qr_code : null),
+					qrMessage = (qrCodeObj != null ? qrCodeObj.qr_message : null),
+					qrFormat = (qrCodeObj != null ? qrCodeObj.qr_format : null),
+					qrImage64 = (qrCodeObj != null ? qrCodeObj.qr_image64 : null),
+					qrResponse = (qrCodeObj != null ? qrCodeObj.qr_response : null),
+					qrRef1 = (!String.IsNullOrEmpty(ref1) ? ref1 : null),
+					qrRef2 = (!String.IsNullOrEmpty(ref2) ? ref2 : null),
+					qrRef3 = (!String.IsNullOrEmpty(ref3) ? ref3 : null),
+					qrNewRef1 = (qrCodeObj != null ? qrCodeObj.qr_new_ref_1 : null),
+					merchantName = (!String.IsNullOrEmpty(merchantName) ? merchantName : null),
+					paidAmount = (!String.IsNullOrEmpty(paidAmount) ? paidAmount : null),
+					paidStatus = (!String.IsNullOrEmpty(paidStatus) ? paidStatus : null),
+					actionDate = (!String.IsNullOrEmpty(actionDate) ? actionDate : null),
 				});
 			}
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list.ToList()));
+			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list.ToList()));			
 		}
 	}
 }

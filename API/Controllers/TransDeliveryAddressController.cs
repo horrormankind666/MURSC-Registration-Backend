@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๓๐/๐๖/๒๕๖๓>
-Modify date : <๑๒/๐๗/๒๕๖๓>
+Modify date : <๑๕/๐๗/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using API.Models;
 
 namespace API.Controllers
@@ -38,11 +39,14 @@ namespace API.Controllers
 				try
 				{
 					dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(jsonData);
+					object obj = Util.GetPPIDByAuthenADFS();
+					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
+					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
 
 					transDeliAddressID = jsonObject["transDeliAddressID"];
 					transRegisteredID = jsonObject["transRegisteredID"];
 					address = JsonConvert.SerializeObject(jsonObject["deliAddress"]);
-					createdBy = jsonObject["createdBy"];
+					createdBy = winaccountName;
 				}
 				catch
 				{

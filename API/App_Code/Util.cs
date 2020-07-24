@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๒๖/๐๖/๒๕๖๓>
+Modify date : <๑๗/๐๗/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -11,8 +11,11 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -182,6 +185,125 @@ namespace API
 			}
 
 			return isAuthenticated;
+		}
+
+		public static dynamic GetPPIDByAuthenADFS()
+		{
+			object result = null;
+			string ppid = String.Empty;
+			string winaccountName = String.Empty;
+
+			try
+			{
+				string authorization = HttpContext.Current.Request.Headers["Authorization"];
+				string token = String.Empty;
+
+				if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+				{
+					token = authorization.Substring("Bearer ".Length).Trim();
+				}
+
+				char[] tokenArray = (token.Substring(28)).ToCharArray();
+				Array.Reverse(tokenArray);
+				token = new string (tokenArray);
+
+				var handler = new JwtSecurityTokenHandler();
+				var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+
+				foreach (Claim c in tokenS.Claims)
+				{
+					if (c.Type.Equals("ppid"))						ppid = c.Value;
+					if (c.Type.Equals("winaccountname"))	winaccountName = c.Value;
+				}
+			}
+			catch
+			{
+			}
+
+			result = new
+			{
+				ppid = ppid,
+				winaccountName = winaccountName
+			};
+
+			return result;
+		}
+
+		public static dynamic CUID2Array(string cuid)
+		{			
+			string[] result = null;
+
+			if (!string.IsNullOrEmpty(cuid))
+			{
+				try
+				{
+					byte[] decDataByte = Convert.FromBase64String(cuid);
+					cuid = Encoding.UTF8.GetString(decDataByte);
+					
+					string[] cuidArray = null;
+					string uid = String.Empty;
+					string uidChk = String.Empty;
+					string data = String.Empty;
+
+					if (!string.IsNullOrEmpty(cuid))
+						cuidArray = cuid.Split('.');
+
+					if (cuidArray.Length.Equals(3))
+					{
+						uid			= cuidArray[0];
+						uidChk	= cuidArray[1];
+						data		= cuidArray[2];
+
+						uid			= StringReverseConvertBase64(uid);
+						uidChk	= StringReverse(uidChk);
+						data		= StringReverseConvertBase64(data);
+
+						if (uid.Equals(uidChk))
+							result = data.Split('.');
+					}
+				}
+				catch
+				{
+				}
+			}
+
+			return result;
+		}
+
+		public static string StringReverse(string str)
+		{
+			string result = String.Empty;
+
+			try
+			{
+				char[] charArray = str.ToCharArray();
+				Array.Reverse(charArray);
+				result = new string(charArray);
+			}
+			catch
+			{
+			}
+
+			return result;
+		}
+
+		public static string StringReverseConvertBase64(string str)
+		{
+			string result = String.Empty;
+
+			try
+			{
+				char[] charArray = str.ToCharArray();
+				Array.Reverse(charArray);
+				str = new string(charArray);
+
+				result = Encoding.UTF8.GetString(Convert.FromBase64String(str));
+			}
+			catch
+			{
+			}
+
+			return result;
 		}
 	}
 }
