@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๑๗/๐๗/๒๕๖๓>
+Modify date : <๓๐/๐๗/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -31,7 +31,10 @@ namespace API.Controllers
 
 		[Route("Get")]
 		[HttpGet]
-		public HttpResponseMessage Get(string cuid = null)
+		public HttpResponseMessage Get(
+			string projectCategory = null,
+			string cuid = null
+		)
 		{
 			string transProjectID = string.Empty;
 			string[] cuidArray = Util.CUID2Array(cuid);
@@ -48,7 +51,7 @@ namespace API.Controllers
 				}
 			}
 
-			DataSet ds = TransProject.Get(transProjectID);
+			DataSet ds = TransProject.Get(projectCategory, transProjectID);
 			DataTable dt1 = ds.Tables[0];
 			DataTable dt2 = ds.Tables[1];
 			DataTable dt3 = ds.Tables[2];

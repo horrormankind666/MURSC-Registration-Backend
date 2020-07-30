@@ -71,45 +71,48 @@ namespace API.Controllers
 
 					string personID = (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName);
 					object scbReq = null;
-
-					if (projectCategory.Equals("CBE"))
-					{
-						DataSet ds1 = TransRegistered.Get(transRegisteredID, personID, transProjectID);
-						DataTable dt1 = ds1.Tables[0];
+				
+					DataSet ds1 = TransRegistered.Get(transRegisteredID, personID, transProjectID);
+					DataTable dt1 = ds1.Tables[0];
 							
-						if (dt1.Rows.Count > 0)
+					if (dt1.Rows.Count > 0)
+					{
+						DataRow dr1 = dt1.Rows[0];
+						personID = dr1["personID"].ToString();
+						invoiceID = dr1["invoiceID"].ToString();
+						totalFeeAmount = String.Format("{0:0.00}", dr1["totalFeeAmount"]);
+						lastPaymentDate = dr1["lastPaymentDateForQRCode"].ToString();
+
+						DataSet ds2 = ProjectCategory.Get(projectCategory);
+						DataTable dt2 = ds2.Tables[0];
+
+						if (dt2.Rows.Count > 0)
 						{
-							DataRow dr1 = dt1.Rows[0];
-							personID = dr1["personID"].ToString();
-							invoiceID = dr1["invoiceID"].ToString();
-							totalFeeAmount = String.Format("{0:0.00}", dr1["totalFeeAmount"]);
-							lastPaymentDate = dr1["lastPaymentDateForQRCode"].ToString();
+							DataRow dr2 = dt2.Rows[0];
+							string systemRef = dr2["systemRef"].ToString();
 
-							DataSet ds2 = Util.ExecuteCommandStoredProcedure(Util.infinityConnectionString, "sp_rscGetFinPayBankQRCode",
-								new SqlParameter("@systemRef", "MU_MURSC-CBX"),
-								new SqlParameter("@profitCenter", "003"),
-								new SqlParameter("@branchNo", "001"),
-								new SqlParameter("@subBranch", "001"));
+							DataSet ds3 = Util.ExecuteCommandStoredProcedure(Util.infinityConnectionString, "sp_rscGetFinPayBankQRCode",
+								new SqlParameter("@systemRef", systemRef));
 
-							DataTable dt2 = ds2.Tables[0];
+							DataTable dt3 = ds3.Tables[0];
 
-							if (dt2.Rows.Count > 0)
+							if (dt3.Rows.Count > 0)
 							{
-								DataRow dr2 = dt2.Rows[0];
+								DataRow dr3 = dt3.Rows[0];
 
-								taxNo = dr2["taxNo"].ToString();
-								suffix = dr2["suffix"].ToString();
+								taxNo = dr3["taxNo"].ToString();
+								suffix = dr3["suffix"].ToString();
 								billerID = (taxNo + suffix);
-								campus = dr2["campus"].ToString();
-								profitCenter = dr2["profitCenter"].ToString();
-								branchNo = dr2["branchNo"].ToString();
-								subBranch = dr2["subBranch"].ToString();
-								merchantName = dr2["systemRef"].ToString();
+								campus = dr3["campus"].ToString();
+								profitCenter = dr3["profitCenter"].ToString();
+								branchNo = dr3["branchNo"].ToString();
+								subBranch = dr3["subBranch"].ToString();
+								merchantName = dr3["systemRef"].ToString();
 							}
 						}
-						else
-							errorCode = 2;
 					}
+					else
+						errorCode = 2;
 
 					if (errorCode.Equals(0))
 					{
