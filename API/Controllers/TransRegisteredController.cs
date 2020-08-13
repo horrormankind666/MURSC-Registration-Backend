@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๒๑/๐๗/๒๕๖๓>
+Modify date : <๑๑/๐๘/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -23,6 +23,94 @@ namespace API.Controllers
 	[RoutePrefix("TransRegistered")]
 	public class TransRegisteredController : ApiController
 	{
+		[Route("GetList")]
+		[HttpGet]
+		public HttpResponseMessage GetList(string paymentStatus = null)
+		{
+			List<object> list = new List<object>();
+
+			if (Util.GetIsAuthenticatedByAuthenADFS())
+			{
+				object obj = Util.GetPPIDByAuthenADFS();
+				string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
+				string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+
+				DataSet ds = TransRegistered.GetList((!String.IsNullOrEmpty(ppid) ? ppid : winaccountName), paymentStatus);
+
+				foreach (DataRow dr in ds.Tables[0].Rows)
+				{
+					DataTable country = Country.Get(dr["countryID"].ToString());
+					DataTable province = Province.Get(dr["countryID"].ToString(), dr["provinceID"].ToString());
+					DataTable district = District.Get(dr["countryID"].ToString(), dr["provinceID"].ToString(), dr["districtID"].ToString());
+					DataTable subdistrict = Subdistrict.Get(dr["countryID"].ToString(), dr["provinceID"].ToString(), dr["districtID"].ToString(), dr["subdistrictID"].ToString());
+
+					list.Add(new
+					{
+						transRegisteredID = dr["transRegisteredID"],
+						registeredDate = dr["registeredDate"],
+						registeredDates = dr["registeredDates"],
+						transProjectID = dr["transProjectID"],
+						projectCategoryID = dr["projectCategoryID"],
+						projectCategoryNameTH = dr["projectCategoryNameTH"],
+						projectCategoryNameEN = dr["projectCategoryNameEN"],
+						projectCategoryInitial = dr["projectCategoryInitial"],
+						projectID = dr["projectID"],
+						logo = dr["logo"],
+						projectNameTH = dr["projectNameTH"],
+						projectNameEN = dr["projectNameEN"],
+						descriptionTH = dr["descriptionTH"],
+						descriptionEN = dr["descriptionEN"],
+						aboutTH = dr["aboutTH"],
+						aboutEN = dr["aboutEN"],
+						examStartDate = dr["examStartDate"],
+						examStartDates = dr["examStartDates"],
+						examEndDate = dr["examEndDate"],
+						examEndDates = dr["examEndDates"],
+						lastPaymentDate = dr["lastPaymentDate"],
+						lastPaymentDates = dr["lastPaymentDates"],
+						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
+						transLocationID = dr["transLocationID"],
+						locationID = dr["locationID"],
+						locationNameTH = dr["locationNameTH"],
+						locationNameEN = dr["locationNameEN"],
+						buildingID = dr["buildingID"],
+						buildingNameTH = dr["buildingNameTH"],
+						buildingNameEN = dr["buildingNameEN"],
+						transDeliAddressID = dr["transDeliAddressID"],
+						address = dr["address"],
+						country = (country.Rows.Count > 0 ? country.Rows[0].Table : null),
+						province = (province.Rows.Count > 0 ? province.Rows[0].Table : null),
+						district = (district.Rows.Count > 0 ? district.Rows[0].Table : null),
+						subdistrict = (subdistrict.Rows.Count > 0 ? subdistrict.Rows[0].Table : null),
+						postalCode = dr["postalCode"],
+						phoneNumber = dr["phoneNumber"],
+						invoiceID = dr["invoiceID"],
+						invoiceNameTH = dr["invoiceNameTH"],
+						invoiceNameEN = dr["invoiceNameEN"],
+						invoiceNamePrintReceipt = dr["invoiceNamePrintReceipt"],
+						billerID = dr["billerID"],
+						merchantName = dr["merchantName"],
+						qrRef1 = dr["qrRef_1"],
+						qrRef2 = dr["qrRef_2"],
+						qrRef3 = dr["qrRef_3"],
+						qrImage = dr["qrImage"],
+						qrNewRef1 = dr["qrNewRef_1"],
+						bankRequest = dr["bankRequest"],
+						bankTransID = dr["bankTransID"],
+						paidAmount = dr["paidAmount"],
+						paidBy = dr["paidBy"],
+						paidDate = dr["paidDate"],
+						paidDates = dr["paidDates"],
+						paidStatus = dr["paidStatus"],
+						totalFeeAmount = dr["totalFeeAmount"],
+						paymentConfirmDate = dr["paymentConfirmDates"]
+					});
+				}
+			}
+
+			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
+		}
+
 		[Route("Get")]
 		[HttpGet]
 		public HttpResponseMessage Get(string cuid = null)
@@ -88,10 +176,7 @@ namespace API.Controllers
 						examEndDates = dr["examEndDates"],
 						lastPaymentDate = dr["lastPaymentDate"],
 						lastPaymentDates = dr["lastPaymentDates"],
-						contactNameTH = dr["contactNameTH"],
-						contactNameEN = dr["contactNameEN"],
-						contactEmail = dr["contactEmail"],
-						contactPhone = dr["contactPhone"],
+						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 						transLocationID = dr["transLocationID"],
 						locationID = dr["locationID"],
 						locationNameTH = dr["locationNameTH"],

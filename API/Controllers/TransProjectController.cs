@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๓๐/๐๗/๒๕๖๓>
+Modify date : <๑๐/๐๘/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
 using API.Models;
 
 namespace API.Controllers
@@ -24,9 +25,45 @@ namespace API.Controllers
 		[HttpGet]
 		public HttpResponseMessage GetList(string projectCategory = null)
 		{
-			DataTable dt = TransProject.GetList(projectCategory).Tables[0];
+			DataSet ds = TransProject.GetList(projectCategory);
+			List<object> list = new List<object>();
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+			foreach (DataRow dr in ds.Tables[0].Rows)
+			{
+				list.Add(new
+				{
+					transProjectID = dr["transProjectID"],
+					projectCategoryID = dr["projectCategoryID"],
+					projectCategoryNameTH = dr["projectCategoryNameTH"],
+					projectCategoryNameEN = dr["projectCategoryNameEN"],
+					projectCategoryInitial = dr["projectCategoryInitial"],
+					projectID = dr["projectID"],
+					logo = dr["logo"],
+					projectNameTH = dr["projectNameTH"],
+					projectNameEN = dr["projectNameEN"],
+					descriptionTH = dr["descriptionTH"],
+					descriptionEN = dr["descriptionEN"],
+					aboutTH = dr["aboutTH"],
+					aboutEN = dr["aboutEN"],
+					examStartDate = dr["examStartDate"],
+					examStartDates = dr["examStartDates"],
+					examEndDate = dr["examEndDate"],
+					examEndDates = dr["examEndDates"],
+					regisStartDate = dr["regisStartDate"],
+					regisStartDates = dr["regisStartDates"],
+					regisEndDate = dr["regisEndDate"],
+					regisEndDates = dr["regisEndDates"],
+					lastPaymentDate = dr["lastPaymentDate"],
+					lastPaymentDates = dr["lastPaymentDates"],
+					maximumSeat = dr["maximumSeat"],
+					seatAvailable = dr["seatAvailable"],
+					minimumFee = dr["minimumFee"],
+					contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
+					registrationStatus = dr["registrationStatus"]
+				});
+			}
+
+			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 
 		[Route("Get")]
@@ -93,11 +130,7 @@ namespace API.Controllers
 					maximumSeat = dr["maximumSeat"],
 					seatAvailable = (dt3.Rows.Count > 0 ? (!string.IsNullOrEmpty(dt3.Rows[0]["seatAvailable"].ToString()) ? dt3.Rows[0]["seatAvailable"] : dr["maximumSeat"]) : dr["maximumSeat"]),
 					minimumFee = dr["minimumFee"],
-					contactID = dr["contactID"],
-					contactNameTH = dr["contactNameTH"],
-					contactNameEN = dr["contactNameEN"],
-					contactEmail = dr["contactEmail"],
-					contactPhone = dr["contactPhone"],
+					contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 					registrationStatus = dr["registrationStatus"],
 					location = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
 					feeType = (dt4.Rows.Count > 0 ? dt4.Rows[0].Table : null)
