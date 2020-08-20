@@ -1,14 +1,16 @@
 ﻿@if (Request.IsAuthenticated)
 {
 	<form id="prd_continue_frm" name="prd_continue_frm" action="https://mursc.mahidol.ac.th/silent-refresh.html" method="get">
-		<a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['prd_continue_frm'].submit()"><div>Continue as @User.Identity.Name <span class="size12">( pro )</span></div></a>
+		<a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['prd_continue_frm'].submit()"><div>Continue as @User.Identity.Name</div></a>
 		<input type="hidden" name="token" value="@ViewBag.Token" />
 	</form>
+	<!--
 	<br />
 	<form id="loc_continue_frm" name="loc_continue_frm" action="http://localhost:4200/silent-refresh.html" method="get">
 		<a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['loc_continue_frm'].submit()"><div>Continue as @User.Identity.Name <span class="size12">( dev )</span></div></a>
 		<input type="hidden" name="token" value="@ViewBag.Token" />
 	</form>
+	-->
 	/*
 	@ViewBag.Message
 	@Html.ActionLink("Sign out", "SignOut", "Authen")
