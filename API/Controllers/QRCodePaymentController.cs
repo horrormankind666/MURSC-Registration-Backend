@@ -116,8 +116,8 @@ namespace API.Controllers
 
 					if (errorCode.Equals(0))
 					{
-						ref1 = (campus + profitCenter + branchNo + subBranch + invoiceID.Substring(3));
-						ref2 = (personID.Substring(0, 14) + lastPaymentDate);
+						ref1 = (campus + profitCenter + branchNo + invoiceID.Substring(3));
+						ref2 = (invoiceID.Substring(3) + lastPaymentDate);
 						ref3 = personID;
 						
 						scbReq = new

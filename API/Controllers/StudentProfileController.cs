@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๐๑/๐๘/๒๕๖๓>
-Modify date : <๐๑/๐๘/๒๕๖๓>
+Modify date : <๒๓/๐๘/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -40,21 +40,26 @@ namespace API.Controllers
 
 					list.Add(new
 					{
-						studentCode = dr["studentCode"].ToString(),
-						title = dr["title"].ToString(),
-						firstNameTH = dr["firstName"].ToString(),
-						middleNameTH = dr["middleName"].ToString(),
-						lastNameTH = dr["lastName"].ToString(),
-						firstNameEN = dr["firstNameEN"].ToString(),
-						middleNameEN = dr["middleNameEN"].ToString(),
-						lastNameEN = dr["lastNameEN"].ToString(),
-						address = dr["address"].ToString(),
-						subdistrict = dr["subdistrict"].ToString(),
-						district = dr["district"].ToString(),
-						province = dr["province"].ToString(),
-						country = dr["country"].ToString(),
-						zipCode = dr["zipCode"].ToString(),
-						phoneNumber = dr["phoneNumber"].ToString()
+						studentCode		= dr["studentCode"].ToString(),
+						titleTH				= dr["titleTH"].ToString(),
+						titleEN				= dr["titleEN"].ToString(),
+						firstNameTH		= dr["firstName"].ToString(),
+						middleNameTH	= dr["middleName"].ToString(),
+						lastNameTH		= dr["lastName"].ToString(),
+						firstNameEN		= dr["firstNameEN"].ToString(),
+						middleNameEN	= dr["middleNameEN"].ToString(),
+						lastNameEN		= dr["lastNameEN"].ToString(),
+						facultyNameTH	= dr["facultyNameTH"].ToString(),
+						facultyNameEN = dr["facultyNameEN"].ToString(),
+						programNameTH = dr["programNameTH"].ToString(),
+						programNameEN = dr["programNameEN"].ToString(),
+						address				= dr["address"].ToString(),
+						subdistrict		= dr["subdistrict"].ToString(),
+						district			= dr["district"].ToString(),
+						province			= dr["province"].ToString(),
+						country				= dr["country"].ToString(),
+						zipCode				= dr["zipCode"].ToString(),
+						phoneNumber		= dr["phoneNumber"].ToString()
 					});
 				}
 			}

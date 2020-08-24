@@ -2,15 +2,13 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๐๑/๐๘/๒๕๖๓>
+Modify date : <๒๓/๐๘/๒๕๖๓>
 Description : <>
 =============================================
 */
 
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
@@ -94,7 +92,7 @@ namespace ResourceServer.Controllers
 						jwtPayload.Append("{");
 						foreach (Claim c in tokenS.Claims)
 						{
-							jwtPayload.AppendFormat("'{0}': '{1}',", c.Type, c.Value);
+							jwtPayload.AppendFormat("'{0}': '{1}',", c.Type, EncodeURI(c.Value.ToString()));
 
 							if (c.Type.Equals("email"))
 								email = c.Value;
@@ -105,7 +103,7 @@ namespace ResourceServer.Controllers
 						jwtPayload.Append("}");
 
 						userInfoList.Add(new {
-							header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
+							//header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
 							payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
 							personal = GetPersonal(email, ppid)
 						});
@@ -119,6 +117,49 @@ namespace ResourceServer.Controllers
 			object userInfoResult = new { data = userInfoList };
 
 			return userInfoResult;
+		}
+
+		private static string StringReverse(string plainText)
+		{
+			string result = null;
+
+			try
+			{
+				char[] charArray = plainText.ToCharArray();
+				Array.Reverse(charArray);
+				result = new string(charArray);
+			}
+			catch
+			{
+			}
+
+			return result;
+		}
+
+
+		private static string Base64Encode(string plainText)
+		{
+			string result = null;
+
+			try
+			{ 
+				var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+
+				result = Convert.ToBase64String(plainTextBytes);
+			}
+			catch
+			{
+
+			}
+
+			return result;
+		}
+
+		private static string EncodeURI(string plainText)
+		{
+			string result = StringReverse(Base64Encode(StringReverse(plainText)));
+
+			return (!String.IsNullOrEmpty(result) ? result : null);
 		}
 
 		private string GetTokenAccess()
@@ -197,21 +238,28 @@ namespace ResourceServer.Controllers
 					JObject dr = jsonObject["data"][0];
 
 					profileObj.Add("type",					"student");
-					profileObj.Add("personalID",		dr["studentCode"].ToString());
-					profileObj.Add("title",					dr["title"].ToString());
-					profileObj.Add("firstNameTH",		dr["firstNameTH"].ToString());
-					profileObj.Add("middleNameTH",	dr["middleNameTH"].ToString());
-					profileObj.Add("lastNameTH",		dr["lastNameTH"].ToString());
-					profileObj.Add("firstNameEN",		dr["firstNameEN"].ToString());
-					profileObj.Add("middleNameEN",	dr["middleNameEN"].ToString());
-					profileObj.Add("lastNameEN",		dr["lastNameEN"].ToString());
-					profileObj.Add("address",				dr["address"].ToString());
-					profileObj.Add("subdistrict",		dr["subdistrict"].ToString());
-					profileObj.Add("district",			dr["district"].ToString());
-					profileObj.Add("province",			dr["province"].ToString());
-					profileObj.Add("country",				dr["country"].ToString());
-					profileObj.Add("zipCode",				dr["zipCode"].ToString());
-					profileObj.Add("phoneNumber",		dr["phoneNumber"].ToString());
+					profileObj.Add("personalID",		EncodeURI(dr["studentCode"].ToString()));
+					profileObj.Add("titleTH",				EncodeURI(dr["titleTH"].ToString()));
+					profileObj.Add("titleEN",				EncodeURI(dr["titleEN"].ToString()));
+					profileObj.Add("firstNameTH",		EncodeURI(dr["firstNameTH"].ToString()));
+					profileObj.Add("middleNameTH",	EncodeURI(dr["middleNameTH"].ToString()));
+					profileObj.Add("lastNameTH",		EncodeURI(dr["lastNameTH"].ToString()));
+					profileObj.Add("firstNameEN",		EncodeURI(dr["firstNameEN"].ToString()));
+					profileObj.Add("middleNameEN",	EncodeURI(dr["middleNameEN"].ToString()));
+					profileObj.Add("lastNameEN",		EncodeURI(dr["lastNameEN"].ToString()));
+					profileObj.Add("fullNameTH",		EncodeURI((dr["firstNameTH"].ToString() + (!String.IsNullOrEmpty(dr["middleNameTH"].ToString()) ? (" " + dr["middleNameTH"].ToString()) : "") + " " + dr["lastNameTH"].ToString()).ToString()));
+					profileObj.Add("fullNameEN",		EncodeURI((dr["firstNameEN"].ToString() + (!String.IsNullOrEmpty(dr["middleNameEN"].ToString()) ? (" " + dr["middleNameEN"].ToString()) : "") + " " + dr["lastNameEN"].ToString()).ToString()));
+					profileObj.Add("facultyNameTH", EncodeURI(dr["facultyNameTH"].ToString()));
+					profileObj.Add("facultyNameEN", EncodeURI(dr["facultyNameEN"].ToString()));
+					profileObj.Add("programNameTH", EncodeURI(dr["programNameTH"].ToString()));
+					profileObj.Add("programNameEN", EncodeURI(dr["programNameEN"].ToString()));
+					profileObj.Add("address",				EncodeURI(dr["address"].ToString()));
+					profileObj.Add("subdistrict",		EncodeURI(dr["subdistrict"].ToString()));
+					profileObj.Add("district",			EncodeURI(dr["district"].ToString()));
+					profileObj.Add("province",			EncodeURI(dr["province"].ToString()));
+					profileObj.Add("country",				EncodeURI(dr["country"].ToString()));
+					profileObj.Add("zipCode",				EncodeURI(dr["zipCode"].ToString()));
+					profileObj.Add("phoneNumber",		EncodeURI(dr["phoneNumber"].ToString()));
 
 					personalInfoResult = profileObj;
 				}
@@ -248,26 +296,54 @@ namespace ResourceServer.Controllers
 					dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
 
 					personalInfo = (jsonObject.SelectToken("data.content") != null ? jsonObject.SelectToken("data.content.personal") : null);
-				};
+				};		
                 
 				if (personalInfo != null)
 				{
+					dynamic positionInfo = null;
+
+					if (personalInfo["positions"] != null)
+						positionInfo = personalInfo["positions"][0];
+
+					string phoneNumber = String.Empty;
+
+					if (personalInfo["addresses"] != null)
+					{
+						foreach (dynamic dr in personalInfo["addresses"])
+						{
+							if (String.IsNullOrEmpty(phoneNumber))
+							{
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["telephoneNumber"] != null) ? dr["telephoneNumber"] : phoneNumber);
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail1"] != null) ? dr["detail1"] : phoneNumber);
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail2"] != null) ? dr["detail2"] : phoneNumber);
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail3"] != null) ? dr["detail3"] : phoneNumber);
+							}
+						}
+					}
+
 					profileObj.Add("type",          "personnel");
-					profileObj.Add("personalID",    personalInfo["personalId"]);
-					profileObj.Add("title",         personalInfo["title"]);
-					profileObj.Add("firstNameTH",   personalInfo["firstName"]);
-					profileObj.Add("middleNameTH",  personalInfo["middleName"]);
-					profileObj.Add("lastNameTH",    personalInfo["lastName"]);
-					profileObj.Add("firstNameEN",   personalInfo["firstNameEn"]);
-					profileObj.Add("middleNameEN",  personalInfo["middleNameEn"]);
-					profileObj.Add("lastNameEN",    personalInfo["lastNameEn"]);
+					profileObj.Add("personalID",		EncodeURI(personalInfo["personalId"].ToString()));
+					profileObj.Add("titleTH",				EncodeURI(personalInfo["title"].ToString()));
+					profileObj.Add("titleEN",				EncodeURI(personalInfo["titleEn"].ToString()));
+					profileObj.Add("firstNameTH",		EncodeURI(personalInfo["firstName"].ToString()));
+					profileObj.Add("middleNameTH",	EncodeURI(personalInfo["middleName"].ToString()));
+					profileObj.Add("lastNameTH",		EncodeURI(personalInfo["lastName"].ToString()));
+					profileObj.Add("firstNameEN",		EncodeURI(personalInfo["firstNameEn"].ToString()));
+					profileObj.Add("middleNameEN",	EncodeURI(personalInfo["middleNameEn"].ToString()));
+					profileObj.Add("lastNameEN",		EncodeURI(personalInfo["lastNameEn"].ToString()));
+					profileObj.Add("fullNameTH",		EncodeURI((personalInfo["firstName"] + (!String.IsNullOrEmpty(personalInfo["middleName"].ToString()) ? (" " + personalInfo["middleName"]) : "") + " " + personalInfo["lastName"]).ToString()));
+					profileObj.Add("fullNameEN",		EncodeURI((personalInfo["firstNameEn"] + (!String.IsNullOrEmpty(personalInfo["middleNameEn"].ToString()) ? (" " + personalInfo["middleNameEn"]) : "") + " " + personalInfo["lastNameEn"]).ToString()));
+					profileObj.Add("facultyNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["name"] : null).ToString()));
+					profileObj.Add("facultyNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["fullname"] : null).ToString()));
+					profileObj.Add("programNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["name"] : null).ToString()));
+					profileObj.Add("programNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["fullname"] : null).ToString()));
 					profileObj.Add("address",				null);
 					profileObj.Add("subdistrict",		null);
 					profileObj.Add("district",			null);
 					profileObj.Add("province",			null);
 					profileObj.Add("country",				null);
 					profileObj.Add("zipCode",				null);
-					profileObj.Add("phoneNumber",		null);
+					profileObj.Add("phoneNumber",		EncodeURI((!String.IsNullOrEmpty(phoneNumber) ? phoneNumber : null).ToString()));
 
 					personalInfoResult = profileObj;
 				}

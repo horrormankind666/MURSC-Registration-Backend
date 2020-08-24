@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๑๗/๐๗/๒๕๖๓>
+Modify date : <๒๓/๐๘/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -304,6 +304,13 @@ namespace API
 			}
 
 			return result;
+		}
+
+		public static string Base64Encode(string plainText)
+		{
+			var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+
+			return Convert.ToBase64String(plainTextBytes);
 		}
 	}
 }
