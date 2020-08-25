@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="App_Code\Util.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BankQRCodeNotiController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\QRCodePaymentController.cs" />
