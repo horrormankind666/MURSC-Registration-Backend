@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๑๑/๐๘/๒๕๖๓>
+Modify date : <๓๑/๐๘/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -103,7 +103,9 @@ namespace API.Controllers
 						paidDates = dr["paidDates"],
 						paidStatus = dr["paidStatus"],
 						totalFeeAmount = dr["totalFeeAmount"],
-						paymentConfirmDate = dr["paymentConfirmDates"]
+						paymentConfirmDate = dr["paymentConfirmDates"],
+						seatNO = dr["seatNO"],
+						applicantNO = dr["applicantNO"]
 					});
 				}
 			}
@@ -176,6 +178,7 @@ namespace API.Controllers
 						examEndDates = dr["examEndDates"],
 						lastPaymentDate = dr["lastPaymentDate"],
 						lastPaymentDates = dr["lastPaymentDates"],
+						paymentExpire = dr["paymentExpire"],
 						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 						transLocationID = dr["transLocationID"],
 						locationID = dr["locationID"],
@@ -212,7 +215,9 @@ namespace API.Controllers
 						paidStatus = dr["paidStatus"],
 						fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
 						totalFeeAmount = dr["totalFeeAmount"],
-						paymentConfirmDate = dr["paymentConfirmDates"]
+						paymentConfirmDate = dr["paymentConfirmDates"],
+						seatNO = dr["seatNO"],
+						applicantNO = dr["applicantNO"]
 					});
 				}
 			}

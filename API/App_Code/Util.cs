@@ -258,8 +258,8 @@ namespace API
 						uidChk	= StringReverse(uidChk);
 						data		= StringReverseConvertBase64(data);
 
-						if (uid.Equals(uidChk))
-							result = data.Split('.');
+						//if (uid.Equals(uidChk))
+						result = data.Split('.');
 					}
 				}
 				catch
