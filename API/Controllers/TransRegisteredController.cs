@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๓๑/๐๘/๒๕๖๓>
+Modify date : <๑๔/๐๙/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -69,6 +69,7 @@ namespace API.Controllers
 						lastPaymentDate = dr["lastPaymentDate"],
 						lastPaymentDates = dr["lastPaymentDates"],
 						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
+						userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"]),
 						transLocationID = dr["transLocationID"],
 						locationID = dr["locationID"],
 						locationNameTH = dr["locationNameTH"],
@@ -180,6 +181,7 @@ namespace API.Controllers
 						lastPaymentDates = dr["lastPaymentDates"],
 						paymentExpire = dr["paymentExpire"],
 						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
+						userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"]),
 						transLocationID = dr["transLocationID"],
 						locationID = dr["locationID"],
 						locationNameTH = dr["locationNameTH"],

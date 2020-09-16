@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๒๓/๐๘/๒๕๖๓>
+Modify date : <๑๑/๐๙/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -14,6 +14,7 @@ using System.IO;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -46,6 +47,7 @@ namespace ResourceServer.Controllers
 		{
 			string authorization = Request.Headers["Authorization"];
 			string token = String.Empty;
+			string winaccountname = String.Empty;
 			string email = String.Empty;
 			string ppid = String.Empty;
 			StringBuilder jwtHeader = new StringBuilder();
@@ -94,6 +96,9 @@ namespace ResourceServer.Controllers
 						{
 							jwtPayload.AppendFormat("'{0}': '{1}',", c.Type, EncodeURI(c.Value.ToString()));
 
+							if (c.Type.Equals("winaccountname"))
+								winaccountname = c.Value;
+
 							if (c.Type.Equals("email"))
 								email = c.Value;
 
@@ -105,7 +110,7 @@ namespace ResourceServer.Controllers
 						userInfoList.Add(new {
 							//header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
 							payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
-							personal = GetPersonal(email, ppid)
+							personal = GetPersonal(winaccountname, email, ppid)
 						});
 					//}
 					//catch
@@ -190,7 +195,7 @@ namespace ResourceServer.Controllers
 			};
 		}
 
-		private object GetPersonal(string email, string ppid)
+		private object GetPersonal(string winaccountname, string email, string ppid)
 		{
 			string host = email.Split('@')[1];
 			string personType = host.Split('.')[0];
@@ -199,7 +204,9 @@ namespace ResourceServer.Controllers
 			if (personType.Equals("student"))
 			{
 				//ppid = "6301001";
-				personalInfoResult = GetStudent(ppid);
+				string type = (winaccountname.Substring(0, 1)).ToUpper();
+				
+				personalInfoResult = GetStudent((Regex.IsMatch(type, "^[a-zA-Z]*$") ? type : String.Empty), ppid);
 			}
 			else
 				personalInfoResult = GetHRi(ppid);
@@ -207,7 +214,7 @@ namespace ResourceServer.Controllers
 			return personalInfoResult;
 		}
 
-		private dynamic GetStudent(string studentCode)
+		private dynamic GetStudent(string type, string studentCode)
 		{
 			object personalInfoResult = null;
 			JObject profileObj = new JObject();
@@ -237,7 +244,7 @@ namespace ResourceServer.Controllers
 				{
 					JObject dr = jsonObject["data"][0];
 
-					profileObj.Add("type",					"student");
+					profileObj.Add("type",					("student" + type));
 					profileObj.Add("personalID",		EncodeURI(dr["studentCode"].ToString()));
 					profileObj.Add("titleTH",				EncodeURI(dr["titleTH"].ToString()));
 					profileObj.Add("titleEN",				EncodeURI(dr["titleEN"].ToString()));

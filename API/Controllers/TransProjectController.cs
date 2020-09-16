@@ -2,11 +2,12 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๒๑/๐๘/๒๕๖๓>
+Modify date : <๑๔/๐๙/๒๕๖๓>
 Description : <>
 =============================================
 */
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace API.Controllers
 					projectCategoryNameTH = dr["projectCategoryNameTH"],
 					projectCategoryNameEN = dr["projectCategoryNameEN"],
 					projectCategoryInitial = dr["projectCategoryInitial"],
-					projectID = dr["projectID"],
+					projectID = dr["projectID"],					
 					logo = dr["logo"],
 					projectNameTH = dr["projectNameTH"],
 					projectNameEN = dr["projectNameEN"],
@@ -59,7 +60,8 @@ namespace API.Controllers
 					seatReserved = dr["seatReserved"],
 					minimumFee = dr["minimumFee"],
 					contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
-					registrationStatus = dr["registrationStatus"]
+					registrationStatus = dr["registrationStatus"],
+					userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"])
 				});
 			}
 
@@ -108,7 +110,7 @@ namespace API.Controllers
 					projectCategoryNameTH = dr["projectCategoryNameTH"],
 					projectCategoryNameEN = dr["projectCategoryNameEN"],
 					projectCategoryInitial = dr["projectCategoryInitial"],
-					projectID = dr["projectID"],
+					projectID = dr["projectID"],					
 					logo = dr["logo"],
 					projectNameTH = dr["projectNameTH"],
 					projectNameEN = dr["projectNameEN"],
@@ -131,8 +133,9 @@ namespace API.Controllers
 					minimumFee = dr["minimumFee"],
 					contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 					registrationStatus = dr["registrationStatus"],
+					userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"]),
 					location = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
-					feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null)
+					feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null),					
 				});
 			}
 
