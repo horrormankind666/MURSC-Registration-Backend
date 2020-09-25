@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๑๔/๐๙/๒๕๖๓>
+Modify date : <๒๐/๐๙/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -61,7 +61,9 @@ namespace API.Controllers
 					minimumFee = dr["minimumFee"],
 					contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 					registrationStatus = dr["registrationStatus"],
-					userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"])
+					userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"]),
+					isExam = dr["isExam"],
+					isTeaching = dr["isTeaching"]
 				});
 			}
 
@@ -134,8 +136,10 @@ namespace API.Controllers
 					contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 					registrationStatus = dr["registrationStatus"],
 					userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"]),
+					isExam = dr["isExam"],
+					isTeaching = dr["isTeaching"],
 					location = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
-					feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null),					
+					feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null)
 				});
 			}
 

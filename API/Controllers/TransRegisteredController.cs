@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๑๔/๐๙/๒๕๖๓>
+Modify date : <๒๐/๐๙/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -58,16 +58,21 @@ namespace API.Controllers
 						logo = dr["logo"],
 						projectNameTH = dr["projectNameTH"],
 						projectNameEN = dr["projectNameEN"],
+						subject = dr["subject"],
 						descriptionTH = dr["descriptionTH"],
 						descriptionEN = dr["descriptionEN"],
 						aboutTH = dr["aboutTH"],
 						aboutEN = dr["aboutEN"],
+						isExam = dr["isExam"],
+						isTeaching = dr["isTeaching"],
 						examStartDate = dr["examStartDate"],
 						examStartDates = dr["examStartDates"],
 						examEndDate = dr["examEndDate"],
 						examEndDates = dr["examEndDates"],
 						lastPaymentDate = dr["lastPaymentDate"],
 						lastPaymentDates = dr["lastPaymentDates"],
+						announceDate = dr["announceDate"],
+						announceDates = dr["announceDates"],
 						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 						userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"]),
 						transLocationID = dr["transLocationID"],
@@ -106,7 +111,10 @@ namespace API.Controllers
 						totalFeeAmount = dr["totalFeeAmount"],
 						paymentConfirmDate = dr["paymentConfirmDates"],
 						seatNO = dr["seatNO"],
-						applicantNO = dr["applicantNO"]
+						applicantNO = dr["applicantNO"],
+						eventCode = dr["eventCode"],
+						totalScore = dr["totalScore"],
+						examResult = dr["examResult"]
 					});
 				}
 			}
@@ -169,10 +177,13 @@ namespace API.Controllers
 						logo = dr["logo"],
 						projectNameTH = dr["projectNameTH"],
 						projectNameEN = dr["projectNameEN"],
+						subject = dr["subject"],
 						descriptionTH = dr["descriptionTH"],
 						descriptionEN = dr["descriptionEN"],
 						aboutTH = dr["aboutTH"],
 						aboutEN = dr["aboutEN"],
+						isExam = dr["isExam"],
+						isTeaching = dr["isTeaching"],
 						examStartDate = dr["examStartDate"],
 						examStartDates = dr["examStartDates"],
 						examEndDate = dr["examEndDate"],
@@ -180,6 +191,8 @@ namespace API.Controllers
 						lastPaymentDate = dr["lastPaymentDate"],
 						lastPaymentDates = dr["lastPaymentDates"],
 						paymentExpire = dr["paymentExpire"],
+						announceDate = dr["announceDate"],
+						announceDates = dr["announceDates"],
 						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
 						userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? dr["userTypeSpecific"].ToString().Split(',') : dr["userTypeSpecific"]),
 						transLocationID = dr["transLocationID"],
@@ -219,7 +232,10 @@ namespace API.Controllers
 						totalFeeAmount = dr["totalFeeAmount"],
 						paymentConfirmDate = dr["paymentConfirmDates"],
 						seatNO = dr["seatNO"],
-						applicantNO = dr["applicantNO"]
+						applicantNO = dr["applicantNO"],
+						eventCode = dr["eventCode"],
+						totalScore = dr["totalScore"],
+						examResult = dr["examResult"]
 					});
 				}
 			}

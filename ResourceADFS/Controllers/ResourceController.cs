@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๑๑/๐๙/๒๕๖๓>
+Modify date : <๒๓/๐๙/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -195,6 +195,137 @@ namespace ResourceServer.Controllers
 			};
 		}
 
+		private class HRi
+		{
+			public static string GetTokenAccess(string hostname)
+			{
+				string hostnameLocalhost = "localhost"; //10.43.4.0/24
+				string hostnameQAS = "mursc-qas.mahidol.ac.th"; //10.41.18.146
+				string hostnamePRD = "mursc.mahidol.ac.th"; //10.41.207.79
+				string apiKey = String.Empty;
+
+				if (hostname.Equals(hostnameLocalhost))	apiKey = "7a56022ba61bf9c3a7723a06640eba1936451de4";
+				if (hostname.Equals(hostnameQAS))				apiKey = "fc0695f199b84ea29ecc1bc42af9a4aaddd422af";
+				if (hostname.Equals(hostnamePRD))				apiKey = "25a0b4f979c930286e480829726eb3edd32e245a";
+
+				var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://jwt.mahidol.ac.th/v1/access/" + apiKey);
+				httpWebRequest.ContentType = "application/json";
+				httpWebRequest.Method = "GET";
+				httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
+
+				var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+				using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
+				{
+					var result = sr.ReadToEnd();
+
+					dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
+
+					return jsonObject["tokenAccess"];
+				}
+			}
+
+			public static dynamic GetProfile(string tokenAccess, string personalId)
+			{
+				StringBuilder body = new StringBuilder();
+
+				body.AppendLine("personal(personalId: \"" + personalId + "\") { ");
+				body.AppendLine("	personalId, ");
+				body.AppendLine("	title, ");
+				body.AppendLine(" titleEn, ");
+				body.AppendLine(" firstName, ");
+				body.AppendLine(" middleName, ");
+				body.AppendLine(" lastName, ");
+				body.AppendLine(" firstNameEn, ");
+				body.AppendLine(" middleNameEn, ");
+				body.AppendLine(" lastNameEn, ");
+				body.AppendLine(" birthDate, ");
+				body.AppendLine(" birthCountry, ");
+				body.AppendLine(" birthPlace, ");
+				body.AppendLine(" nationality, ");
+				body.AppendLine(" nationalitySecond, ");
+				body.AppendLine(" nationalityThird, ");
+				body.AppendLine(" religious, ");
+				body.AppendLine(" marital");
+				body.AppendLine(" positions { ");
+				body.AppendLine("		id, ");
+				body.AppendLine("   name, ");
+				body.AppendLine("   fullname, ");
+				body.AppendLine("   startDate, ");
+				body.AppendLine("   type, ");
+				body.AppendLine("   organization { ");
+				body.AppendLine("			id, ");
+				body.AppendLine("     name, ");
+				body.AppendLine("     fullname, ");
+				body.AppendLine("     faculty { ");
+				body.AppendLine("				id, ");
+				body.AppendLine("       name,");
+				body.AppendLine("       fullname");
+				body.AppendLine("			}");
+				body.AppendLine("		}");
+				body.AppendLine("	}");
+				body.Append("}");
+
+				return Action("https://hr-i.mahidol.ac.th/titan/information/v1/personal_profile", tokenAccess, body.ToString());
+			}
+
+			public static dynamic GetAddress(string tokenAccess, string personalId)
+			{
+				StringBuilder body = new StringBuilder();
+
+				body.AppendLine("addresses(personalId: \"" + personalId + "\") { ");
+				body.AppendLine("	addressType, ");
+				body.AppendLine("	region, ");
+				body.AppendLine("	country, ");
+				body.AppendLine("	building, ");
+				body.AppendLine("	floor, ");
+				body.AppendLine("	doorNo, ");
+				body.AppendLine("	villageName, ");
+				body.AppendLine("	moo, ");
+				body.AppendLine("	addressNo, ");
+				body.AppendLine("	soi, ");
+				body.AppendLine("	streetRoad, ");
+				body.AppendLine("	tambol, ");
+				body.AppendLine(" district, ");
+				body.AppendLine(" province, ");
+				body.AppendLine(" postalCode, ");
+				body.AppendLine(" telephoneNumber, ");
+				body.AppendLine(" communicationType1, ");
+				body.AppendLine(" detail1, ");
+				body.AppendLine(" communicationType2, ");
+				body.AppendLine(" detail2, ");
+				body.AppendLine(" communicationType3, ");
+				body.AppendLine(" detail3");
+				body.Append("}");
+
+				return Action("https://hr-i.mahidol.ac.th/titan/information/v1/personal_address", tokenAccess, body.ToString());
+			}
+
+			public static dynamic Action(string url, string tokenAccess, string body)
+			{
+				var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+				httpWebRequest.ContentType = "application/json";
+				httpWebRequest.Method = "POST";
+				httpWebRequest.Headers["Authorization"] = tokenAccess;
+
+				using (var sw = new StreamWriter(httpWebRequest.GetRequestStream()))
+				{
+					sw.Write(body);
+				}
+
+				dynamic info;
+
+				var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+				using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
+				{
+					var result = sr.ReadToEnd();
+
+					info = JsonConvert.DeserializeObject<dynamic>(result);
+				};
+
+				return info;
+			}
+		}
+
 		private object GetPersonal(string winaccountname, string email, string ppid)
 		{
 			string host = email.Split('@')[1];
@@ -278,11 +409,72 @@ namespace ResourceServer.Controllers
 		private object GetHRi(string personalId)
 		{
 			object personalInfoResult = null;
-			dynamic personalInfo = null;
 			JObject profileObj = new JObject();
 
 			try
 			{
+				string tokenAccess = HRi.GetTokenAccess(Request.Host.Host);
+
+				dynamic profile = HRi.GetProfile(tokenAccess, personalId);
+				dynamic address = HRi.GetAddress(tokenAccess, personalId);
+
+				JObject jsonProfileObj = new JObject(profile);
+				JObject jsonAddressObj = new JObject(address);
+
+				dynamic profileInfo = (jsonProfileObj.SelectToken("content") != null ? jsonProfileObj.SelectToken("content.personal") : null);
+				dynamic addressInfo = (jsonAddressObj.SelectToken("content") != null ? jsonAddressObj.SelectToken("content.addresses") : null);
+
+				if (profileInfo != null)
+				{					
+					dynamic positionInfo = null;
+
+					if (profileInfo["positions"] != null)
+						positionInfo = profileInfo["positions"][0];
+
+					string phoneNumber = String.Empty;
+
+					if (addressInfo != null)
+					{
+						foreach (dynamic dr in addressInfo)
+						{
+							if (String.IsNullOrEmpty(phoneNumber))
+							{
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["telephoneNumber"] != null) ? dr["telephoneNumber"] : phoneNumber);
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail1"] != null) ? dr["detail1"] : phoneNumber);
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail2"] != null) ? dr["detail2"] : phoneNumber);
+								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail3"] != null) ? dr["detail3"] : phoneNumber);
+							}
+						}
+					}
+
+					profileObj.Add("type",					"personnel");
+					profileObj.Add("personalID",		EncodeURI(profileInfo["personalId"].ToString()));
+					profileObj.Add("titleTH",				EncodeURI(profileInfo["title"].ToString()));
+					profileObj.Add("titleEN",				EncodeURI(profileInfo["titleEn"].ToString()));
+					profileObj.Add("firstNameTH",		EncodeURI(profileInfo["firstName"].ToString()));
+					profileObj.Add("middleNameTH",	EncodeURI(profileInfo["middleName"].ToString()));
+					profileObj.Add("lastNameTH",		EncodeURI(profileInfo["lastName"].ToString()));
+					profileObj.Add("firstNameEN",		EncodeURI(profileInfo["firstNameEn"].ToString()));
+					profileObj.Add("middleNameEN",	EncodeURI(profileInfo["middleNameEn"].ToString()));
+					profileObj.Add("lastNameEN",		EncodeURI(profileInfo["lastNameEn"].ToString()));
+					profileObj.Add("fullNameTH",		EncodeURI((profileInfo["firstName"] + (!String.IsNullOrEmpty(profileInfo["middleName"].ToString()) ? (" " + profileInfo["middleName"]) : "") + " " + profileInfo["lastName"]).ToString()));
+					profileObj.Add("fullNameEN",		EncodeURI((profileInfo["firstNameEn"] + (!String.IsNullOrEmpty(profileInfo["middleNameEn"].ToString()) ? (" " + profileInfo["middleNameEn"]) : "") + " " + profileInfo["lastNameEn"]).ToString()));
+					profileObj.Add("facultyNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["name"] : null).ToString()));
+					profileObj.Add("facultyNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["fullname"] : null).ToString()));
+					profileObj.Add("programNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["name"] : null).ToString()));
+					profileObj.Add("programNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["fullname"] : null).ToString()));
+					profileObj.Add("address",				null);
+					profileObj.Add("subdistrict",		null);
+					profileObj.Add("district",			null);
+					profileObj.Add("province",			null);
+					profileObj.Add("country",				null);
+					profileObj.Add("zipCode",				null);
+					profileObj.Add("phoneNumber",		EncodeURI((!String.IsNullOrEmpty(phoneNumber) ? phoneNumber : null).ToString()));
+
+					personalInfoResult = profileObj;
+				}
+
+				/*
 				var httpWebRequest = ((HttpWebRequest)WebRequest.Create("https://smartedu.mahidol.ac.th/Infinity/AUNQA/API/HRi/GetData"));
 
 				httpWebRequest.Method = "POST";
@@ -304,7 +496,7 @@ namespace ResourceServer.Controllers
 
 					personalInfo = (jsonObject.SelectToken("data.content") != null ? jsonObject.SelectToken("data.content.personal") : null);
 				};		
-                
+
 				if (personalInfo != null)
 				{
 					dynamic positionInfo = null;
@@ -352,8 +544,9 @@ namespace ResourceServer.Controllers
 					profileObj.Add("zipCode",				null);
 					profileObj.Add("phoneNumber",		EncodeURI((!String.IsNullOrEmpty(phoneNumber) ? phoneNumber : null).ToString()));
 
-					personalInfoResult = profileObj;
+					personalInfoResult = profileObj;			
 				}
+				*/
 			}
 			catch
 			{
