@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๒๐/๐๙/๒๕๖๓>
+Modify date : <๐๒/๑๐/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -71,6 +71,7 @@ namespace API.Controllers
 						examEndDates = dr["examEndDates"],
 						lastPaymentDate = dr["lastPaymentDate"],
 						lastPaymentDates = dr["lastPaymentDates"],
+						paymentExpire = dr["paymentExpire"],
 						announceDate = dr["announceDate"],
 						announceDates = dr["announceDates"],
 						contactPerson = JsonConvert.DeserializeObject<dynamic>(dr["contactPerson"].ToString()),
@@ -154,6 +155,7 @@ namespace API.Controllers
 				DataSet ds = TransRegistered.Get(transRegisteredID, (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName), transProjectID);
 				DataTable dt1 = ds.Tables[0];
 				DataTable dt2 = ds.Tables[1];
+				DataTable dt3 = ds.Tables[2];
 
 				if (dt1.Rows.Count > 0)
 				{
@@ -230,6 +232,7 @@ namespace API.Controllers
 						paidStatus = dr["paidStatus"],
 						fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
 						totalFeeAmount = dr["totalFeeAmount"],
+						feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null),
 						paymentConfirmDate = dr["paymentConfirmDates"],
 						seatNO = dr["seatNO"],
 						applicantNO = dr["applicantNO"],
