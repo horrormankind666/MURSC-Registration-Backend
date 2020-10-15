@@ -1,7 +1,7 @@
 ﻿/*
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
-Create date : <๓๐/๐๖/๒๕๖๓>
+Create date : <๐๕/๑๐/๒๕๖๓>
 Modify date : <๐๕/๑๐/๒๕๖๓>
 Description : <>
 =============================================
@@ -17,21 +17,21 @@ using API.Models;
 
 namespace API.Controllers
 {
-	[RoutePrefix("TransDeliveryAddress")]
-	public class TransDeliveryAddressController : ApiController
-	{
-		[Route("Put")]
-		[HttpPut]
-		public dynamic Put()
-		{
+  [RoutePrefix("TransInvoice")]
+  public class TransInvoiceController : ApiController
+  {
+    [Route("Put")]
+    [HttpPut]
+    public HttpResponseMessage Put()
+    {
 			string jsonData = String.Empty;
-			string transDeliAddressID = String.Empty;
 			string transRegisteredID = String.Empty;
-			string address = String.Empty;
+			string fee = String.Empty;
 			string createdBy = String.Empty;
 
+
 			if (Util.GetIsAuthenticatedByAuthenADFS())
-					jsonData = Request.Content.ReadAsStringAsync().Result;
+				jsonData = Request.Content.ReadAsStringAsync().Result;
 
 			if (!String.IsNullOrEmpty(jsonData))
 			{
@@ -42,9 +42,8 @@ namespace API.Controllers
 					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
 					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
 
-					transDeliAddressID = jsonObject["transDeliAddressID"];
 					transRegisteredID = jsonObject["transRegisteredID"];
-					address = (jsonObject["deliAddress"] != null ? JsonConvert.SerializeObject(jsonObject["deliAddress"]) : jsonObject["deliAddress"]);
+					fee = (jsonObject["fee"] != null ? JsonConvert.SerializeObject(jsonObject["fee"]) : jsonObject["fee"]);
 					createdBy = winaccountName;
 				}
 				catch
@@ -52,7 +51,7 @@ namespace API.Controllers
 				}
 			}
 
-			DataTable dt = TransDeliveryAddress.Set(transDeliAddressID, transRegisteredID, address, createdBy).Tables[0];
+			DataTable dt = TransInvoice.Set(transRegisteredID, fee, createdBy).Tables[0];
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
 		}

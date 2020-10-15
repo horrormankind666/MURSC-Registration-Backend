@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/AuthorizationServer.dll">
-      <publishTime>08/20/2020 13:12:39</publishTime>
+      <publishTime>10/14/2020 13:25:41</publishTime>
     </File>
     <File Include="bin/AuthorizationServer.pdb">
-      <publishTime>08/20/2020 13:12:39</publishTime>
+      <publishTime>10/14/2020 13:25:41</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/05/2018 16:10:50</publishTime>
@@ -322,7 +322,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2019 10:45:58</publishTime>
     </File>
     <File Include="Views/Home/index.cshtml">
-      <publishTime>08/20/2020 13:09:07</publishTime>
+      <publishTime>10/14/2020 13:12:40</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>07/04/2020 14:10:49</publishTime>
@@ -337,7 +337,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/04/2020 14:11:01</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/22/2020 11:32:33</publishTime>
+      <publishTime>10/14/2020 13:11:44</publishTime>
     </File>
   </ItemGroup>
 </Project>

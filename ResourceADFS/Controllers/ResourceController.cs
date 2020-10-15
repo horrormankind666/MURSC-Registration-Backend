@@ -109,6 +109,7 @@ namespace ResourceServer.Controllers
 
 						userInfoList.Add(new {
 							//header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
+							//token = token,
 							payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
 							personal = GetPersonal(winaccountname, email, ppid)
 						});

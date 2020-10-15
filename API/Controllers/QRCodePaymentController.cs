@@ -1,4 +1,5 @@
-﻿/*
+﻿
+/*
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๐๔/๐๗/๒๕๖๓>
@@ -116,7 +117,7 @@ namespace API.Controllers
 
 					if (errorCode.Equals(0))
 					{
-						ref1 = (campus + profitCenter + branchNo + invoiceID.Substring(3));
+						ref1 = (campus + profitCenter + branchNo + subBranch + invoiceID.Substring(6));
 						ref2 = (invoiceID.Substring(3) + lastPaymentDate);
 						ref3 = personID;
 						

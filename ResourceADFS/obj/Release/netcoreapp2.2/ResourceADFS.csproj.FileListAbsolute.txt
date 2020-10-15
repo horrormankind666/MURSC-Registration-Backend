@@ -26,3 +26,7 @@ D:\Programming\MURSC\Server\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.
 D:\Programming\MURSC\Server\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.RazorTargetAssemblyInfo.cache
 D:\Programming\MURSC\Server\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.dll
 D:\Programming\MURSC\Server\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.pdb
+D:\Programming\MURSC\Server\ResourceADFS\bin\Release\netcoreapp2.2\appsettings.Development.json
+D:\Programming\MURSC\Server\ResourceADFS\bin\Release\netcoreapp2.2\appsettings.json
+D:\Programming\MURSC\Server\ResourceADFS\bin\Release\netcoreapp2.2\Properties\launchSettings.json
+D:\Programming\MURSC\Server\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.genruntimeconfig.cache
