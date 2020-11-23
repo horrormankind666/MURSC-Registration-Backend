@@ -67,8 +67,8 @@ namespace ResourceServer.Controllers
 
 				if (User.Identity.IsAuthenticated)
 				{ 
-					//try
-					//{
+					try
+					{
 						if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
 						{
 							token = authorization.Substring("Bearer ".Length).Trim();
@@ -113,10 +113,10 @@ namespace ResourceServer.Controllers
 							payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
 							personal = GetPersonal(winaccountname, email, ppid)
 						});
-					//}
-					//catch
-					//{
-					//}
+					}
+					catch
+					{
+					}
 				}
 			}
             
@@ -163,7 +163,7 @@ namespace ResourceServer.Controllers
 
 		private static string EncodeURI(string plainText)
 		{
-			string result = StringReverse(Base64Encode(StringReverse(plainText)));
+			string result = (!String.IsNullOrEmpty(plainText) ? StringReverse(Base64Encode(StringReverse(plainText))) : String.Empty);
 
 			return (!String.IsNullOrEmpty(result) ? result : null);
 		}
@@ -415,10 +415,10 @@ namespace ResourceServer.Controllers
 			try
 			{
 				string tokenAccess = HRi.GetTokenAccess(Request.Host.Host);
-
+				
 				dynamic profile = HRi.GetProfile(tokenAccess, personalId);
 				dynamic address = HRi.GetAddress(tokenAccess, personalId);
-
+				
 				JObject jsonProfileObj = new JObject(profile);
 				JObject jsonAddressObj = new JObject(address);
 
@@ -428,7 +428,7 @@ namespace ResourceServer.Controllers
 				if (profileInfo != null)
 				{					
 					dynamic positionInfo = null;
-
+					
 					if (profileInfo["positions"] != null)
 						positionInfo = profileInfo["positions"][0];
 
@@ -447,7 +447,7 @@ namespace ResourceServer.Controllers
 							}
 						}
 					}
-
+					
 					profileObj.Add("type",					"personnel");
 					profileObj.Add("personalID",		EncodeURI(profileInfo["personalId"].ToString()));
 					profileObj.Add("titleTH",				EncodeURI(profileInfo["title"].ToString()));
@@ -460,94 +460,20 @@ namespace ResourceServer.Controllers
 					profileObj.Add("lastNameEN",		EncodeURI(profileInfo["lastNameEn"].ToString()));
 					profileObj.Add("fullNameTH",		EncodeURI((profileInfo["firstName"] + (!String.IsNullOrEmpty(profileInfo["middleName"].ToString()) ? (" " + profileInfo["middleName"]) : "") + " " + profileInfo["lastName"]).ToString()));
 					profileObj.Add("fullNameEN",		EncodeURI((profileInfo["firstNameEn"] + (!String.IsNullOrEmpty(profileInfo["middleNameEn"].ToString()) ? (" " + profileInfo["middleNameEn"]) : "") + " " + profileInfo["lastNameEn"]).ToString()));
-					profileObj.Add("facultyNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["name"] : null).ToString()));
-					profileObj.Add("facultyNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["fullname"] : null).ToString()));
-					profileObj.Add("programNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["name"] : null).ToString()));
-					profileObj.Add("programNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["fullname"] : null).ToString()));
+					profileObj.Add("facultyNameTH", (positionInfo != null ? EncodeURI((positionInfo["organization"]["faculty"]["name"]).ToString()) : null));
+					profileObj.Add("facultyNameEN", (positionInfo != null ? EncodeURI((positionInfo["organization"]["faculty"]["fullname"]).ToString()) : null));
+					profileObj.Add("programNameTH", (positionInfo != null ? EncodeURI((positionInfo["organization"]["name"]).ToString()) : null));
+					profileObj.Add("programNameEN", (positionInfo != null ? EncodeURI((positionInfo["organization"]["fullname"]).ToString()) : null));
 					profileObj.Add("address",				null);
 					profileObj.Add("subdistrict",		null);
 					profileObj.Add("district",			null);
 					profileObj.Add("province",			null);
 					profileObj.Add("country",				null);
 					profileObj.Add("zipCode",				null);
-					profileObj.Add("phoneNumber",		EncodeURI((!String.IsNullOrEmpty(phoneNumber) ? phoneNumber : null).ToString()));
+					profileObj.Add("phoneNumber",		(!String.IsNullOrEmpty(phoneNumber) ? EncodeURI(phoneNumber.ToString()) : null));
 
 					personalInfoResult = profileObj;
 				}
-
-				/*
-				var httpWebRequest = ((HttpWebRequest)WebRequest.Create("https://smartedu.mahidol.ac.th/Infinity/AUNQA/API/HRi/GetData"));
-
-				httpWebRequest.Method = "POST";
-
-				using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-				{
-					string postData = ("{\"personalId\": \"" + personalId + "\"}");
-
-					streamWriter.Write(postData);
-				}
-
-				var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-				using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
-				{
-					var result = sr.ReadToEnd();
-
-					dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
-
-					personalInfo = (jsonObject.SelectToken("data.content") != null ? jsonObject.SelectToken("data.content.personal") : null);
-				};		
-
-				if (personalInfo != null)
-				{
-					dynamic positionInfo = null;
-
-					if (personalInfo["positions"] != null)
-						positionInfo = personalInfo["positions"][0];
-
-					string phoneNumber = String.Empty;
-
-					if (personalInfo["addresses"] != null)
-					{
-						foreach (dynamic dr in personalInfo["addresses"])
-						{
-							if (String.IsNullOrEmpty(phoneNumber))
-							{
-								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["telephoneNumber"] != null) ? dr["telephoneNumber"] : phoneNumber);
-								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail1"] != null) ? dr["detail1"] : phoneNumber);
-								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail2"] != null) ? dr["detail2"] : phoneNumber);
-								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail3"] != null) ? dr["detail3"] : phoneNumber);
-							}
-						}
-					}
-
-					profileObj.Add("type",          "personnel");
-					profileObj.Add("personalID",		EncodeURI(personalInfo["personalId"].ToString()));
-					profileObj.Add("titleTH",				EncodeURI(personalInfo["title"].ToString()));
-					profileObj.Add("titleEN",				EncodeURI(personalInfo["titleEn"].ToString()));
-					profileObj.Add("firstNameTH",		EncodeURI(personalInfo["firstName"].ToString()));
-					profileObj.Add("middleNameTH",	EncodeURI(personalInfo["middleName"].ToString()));
-					profileObj.Add("lastNameTH",		EncodeURI(personalInfo["lastName"].ToString()));
-					profileObj.Add("firstNameEN",		EncodeURI(personalInfo["firstNameEn"].ToString()));
-					profileObj.Add("middleNameEN",	EncodeURI(personalInfo["middleNameEn"].ToString()));
-					profileObj.Add("lastNameEN",		EncodeURI(personalInfo["lastNameEn"].ToString()));
-					profileObj.Add("fullNameTH",		EncodeURI((personalInfo["firstName"] + (!String.IsNullOrEmpty(personalInfo["middleName"].ToString()) ? (" " + personalInfo["middleName"]) : "") + " " + personalInfo["lastName"]).ToString()));
-					profileObj.Add("fullNameEN",		EncodeURI((personalInfo["firstNameEn"] + (!String.IsNullOrEmpty(personalInfo["middleNameEn"].ToString()) ? (" " + personalInfo["middleNameEn"]) : "") + " " + personalInfo["lastNameEn"]).ToString()));
-					profileObj.Add("facultyNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["name"] : null).ToString()));
-					profileObj.Add("facultyNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["faculty"]["fullname"] : null).ToString()));
-					profileObj.Add("programNameTH", EncodeURI((positionInfo != null ? positionInfo["organization"]["name"] : null).ToString()));
-					profileObj.Add("programNameEN", EncodeURI((positionInfo != null ? positionInfo["organization"]["fullname"] : null).ToString()));
-					profileObj.Add("address",				null);
-					profileObj.Add("subdistrict",		null);
-					profileObj.Add("district",			null);
-					profileObj.Add("province",			null);
-					profileObj.Add("country",				null);
-					profileObj.Add("zipCode",				null);
-					profileObj.Add("phoneNumber",		EncodeURI((!String.IsNullOrEmpty(phoneNumber) ? phoneNumber : null).ToString()));
-
-					personalInfoResult = profileObj;			
-				}
-				*/
 			}
 			catch
 			{

@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๐๒/๑๐/๒๕๖๓>
+Modify date : <๒๓/๑๑/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -110,6 +110,7 @@ namespace API.Controllers
 						paidDates = dr["paidDates"],
 						paidStatus = dr["paidStatus"],
 						totalFeeAmount = dr["totalFeeAmount"],
+						privilegeCode = dr["privilegeCode"],
 						paymentConfirmDate = dr["paymentConfirmDates"],
 						seatNO = dr["seatNO"],
 						applicantNO = dr["applicantNO"],
@@ -232,6 +233,7 @@ namespace API.Controllers
 						paidStatus = dr["paidStatus"],
 						fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
 						totalFeeAmount = dr["totalFeeAmount"],
+						privilegeCode = dr["privilegeCode"],
 						feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null),
 						paymentConfirmDate = dr["paymentConfirmDates"],
 						seatNO = dr["seatNO"],
