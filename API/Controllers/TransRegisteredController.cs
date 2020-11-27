@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๒๓/๑๑/๒๕๖๓>
+Modify date : <๒๗/๑๑/๒๕๖๓>
 Description : <>
 =============================================
 */
@@ -110,7 +110,16 @@ namespace API.Controllers
 						paidDates = dr["paidDates"],
 						paidStatus = dr["paidStatus"],
 						totalFeeAmount = dr["totalFeeAmount"],
+						privilegeID = dr["muPrivilegeID"],
 						privilegeCode = dr["privilegeCode"],
+						privilegeName = dr["privilegeName"],
+						privilegeDetail = dr["privilegeDetail"],
+						discount = dr["discount"],
+						privilegeExpired = dr["privilegeExpired"],
+						privilegeExpireds = dr["privilegeExpireds"],
+						privilegeUsagedDate = dr["usagedPrivilegeDate"],
+						privilegeUsagedDates = dr["usagedPrivilegeDates"],
+						privilegeStatus = dr["privilegeStatus"],
 						paymentConfirmDate = dr["paymentConfirmDates"],
 						seatNO = dr["seatNO"],
 						applicantNO = dr["applicantNO"],
@@ -233,7 +242,16 @@ namespace API.Controllers
 						paidStatus = dr["paidStatus"],
 						fee = (dt2.Rows.Count > 0 ? dt2.Rows[0].Table : null),
 						totalFeeAmount = dr["totalFeeAmount"],
+						privilegeID = dr["muPrivilegeID"],
 						privilegeCode = dr["privilegeCode"],
+						privilegeName = dr["privilegeName"],
+						privilegeDetail = dr["privilegeDetail"],
+						discount = dr["discount"],
+						privilegeExpired = dr["privilegeExpired"],
+						privilegeExpireds = dr["privilegeExpireds"],
+						privilegeUsagedDate = dr["usagedPrivilegeDate"],
+						privilegeUsagedDates = dr["usagedPrivilegeDates"],
+						privilegeStatus = dr["privilegeStatus"],
 						feeType = (dt3.Rows.Count > 0 ? dt3.Rows[0].Table : null),
 						paymentConfirmDate = dr["paymentConfirmDates"],
 						seatNO = dr["seatNO"],
