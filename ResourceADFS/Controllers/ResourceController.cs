@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๒๓/๐๙/๒๕๖๓>
+Modify date : <๑๐/๐๒/๒๕๖๔>
 Description : <>
 =============================================
 */
@@ -230,43 +230,37 @@ namespace ResourceServer.Controllers
 				StringBuilder body = new StringBuilder();
 
 				body.AppendLine("personal(personalId: \"" + personalId + "\") { ");
-				body.AppendLine("	personalId, ");
-				body.AppendLine("	title, ");
-				body.AppendLine(" titleEn, ");
-				body.AppendLine(" firstName, ");
-				body.AppendLine(" middleName, ");
-				body.AppendLine(" lastName, ");
-				body.AppendLine(" firstNameEn, ");
-				body.AppendLine(" middleNameEn, ");
-				body.AppendLine(" lastNameEn, ");
-				body.AppendLine(" birthDate, ");
-				body.AppendLine(" birthCountry, ");
-				body.AppendLine(" birthPlace, ");
-				body.AppendLine(" nationality, ");
-				body.AppendLine(" nationalitySecond, ");
-				body.AppendLine(" nationalityThird, ");
-				body.AppendLine(" religious, ");
-				body.AppendLine(" marital");
+				body.AppendLine("	personalId ");
+				body.AppendLine("	titleZ ");
+				body.AppendLine("	titleS ");
+				body.AppendLine("	titleV ");
+				body.AppendLine("	titleT ");
+				body.AppendLine("	title ");
+				body.AppendLine(" titleEn ");
+				body.AppendLine(" firstName ");
+				body.AppendLine(" middleName ");
+				body.AppendLine(" lastName ");
+				body.AppendLine(" firstNameEn ");
+				body.AppendLine(" middleNameEn ");
+				body.AppendLine(" lastNameEn ");
 				body.AppendLine(" positions { ");
-				body.AppendLine("		id, ");
-				body.AppendLine("   name, ");
-				body.AppendLine("   fullname, ");
-				body.AppendLine("   startDate, ");
-				body.AppendLine("   type, ");
+				body.AppendLine("		key ");
+				body.AppendLine("   name ");
+				body.AppendLine("   fullnameTH ");
+				body.AppendLine("   fullnameEN ");
+				body.AppendLine("   type ");
+				body.AppendLine("   category ");
 				body.AppendLine("   organization { ");
-				body.AppendLine("			id, ");
-				body.AppendLine("     name, ");
-				body.AppendLine("     fullname, ");
-				body.AppendLine("     faculty { ");
-				body.AppendLine("				id, ");
-				body.AppendLine("       name,");
-				body.AppendLine("       fullname");
-				body.AppendLine("			}");
+				body.AppendLine("			key ");
+				body.AppendLine("			keycode ");
+				body.AppendLine("     name ");
+				body.AppendLine("     fullnameTH ");
+				body.AppendLine("     fullnameEN ");
 				body.AppendLine("		}");
 				body.AppendLine("	}");
 				body.Append("}");
 
-				return Action("https://hr-i.mahidol.ac.th/titan/information/v1/personal_profile", tokenAccess, body.ToString());
+				return Action("https://hr-i.mahidol.ac.th/titan/information/v2/personal_profile", tokenAccess, body.ToString());
 			}
 
 			public static dynamic GetAddress(string tokenAccess, string personalId)
@@ -274,28 +268,28 @@ namespace ResourceServer.Controllers
 				StringBuilder body = new StringBuilder();
 
 				body.AppendLine("addresses(personalId: \"" + personalId + "\") { ");
-				body.AppendLine("	addressType, ");
-				body.AppendLine("	region, ");
-				body.AppendLine("	country, ");
-				body.AppendLine("	building, ");
-				body.AppendLine("	floor, ");
-				body.AppendLine("	doorNo, ");
-				body.AppendLine("	villageName, ");
-				body.AppendLine("	moo, ");
-				body.AppendLine("	addressNo, ");
-				body.AppendLine("	soi, ");
-				body.AppendLine("	streetRoad, ");
-				body.AppendLine("	tambol, ");
-				body.AppendLine(" district, ");
-				body.AppendLine(" province, ");
-				body.AppendLine(" postalCode, ");
-				body.AppendLine(" telephoneNumber, ");
-				body.AppendLine(" communicationType1, ");
-				body.AppendLine(" detail1, ");
-				body.AppendLine(" communicationType2, ");
-				body.AppendLine(" detail2, ");
-				body.AppendLine(" communicationType3, ");
-				body.AppendLine(" detail3");
+				body.AppendLine("	addressType ");
+				body.AppendLine("	region ");
+				body.AppendLine("	country ");
+				body.AppendLine("	building ");
+				body.AppendLine("	floor ");
+				body.AppendLine("	doorNo ");
+				body.AppendLine("	villageName ");
+				body.AppendLine("	moo ");
+				body.AppendLine("	addressNo ");
+				body.AppendLine("	soi ");
+				body.AppendLine("	streetRoad ");
+				body.AppendLine("	tambol ");
+				body.AppendLine(" district ");
+				body.AppendLine(" province ");
+				body.AppendLine(" postalCode ");
+				body.AppendLine(" telephoneNumber ");
+				body.AppendLine(" communicationType1 ");
+				body.AppendLine(" detail1 ");
+				body.AppendLine(" communicationType2 ");
+				body.AppendLine(" detail2 ");
+				body.AppendLine(" communicationType3 ");
+				body.AppendLine(" detail3 ");
 				body.Append("}");
 
 				return Action("https://hr-i.mahidol.ac.th/titan/information/v1/personal_address", tokenAccess, body.ToString());
@@ -460,10 +454,10 @@ namespace ResourceServer.Controllers
 					profileObj.Add("lastNameEN",		EncodeURI(profileInfo["lastNameEn"].ToString()));
 					profileObj.Add("fullNameTH",		EncodeURI((profileInfo["firstName"] + (!String.IsNullOrEmpty(profileInfo["middleName"].ToString()) ? (" " + profileInfo["middleName"]) : "") + " " + profileInfo["lastName"]).ToString()));
 					profileObj.Add("fullNameEN",		EncodeURI((profileInfo["firstNameEn"] + (!String.IsNullOrEmpty(profileInfo["middleNameEn"].ToString()) ? (" " + profileInfo["middleNameEn"]) : "") + " " + profileInfo["lastNameEn"]).ToString()));
-					profileObj.Add("facultyNameTH", (positionInfo != null ? EncodeURI((positionInfo["organization"]["faculty"]["name"]).ToString()) : null));
-					profileObj.Add("facultyNameEN", (positionInfo != null ? EncodeURI((positionInfo["organization"]["faculty"]["fullname"]).ToString()) : null));
-					profileObj.Add("programNameTH", (positionInfo != null ? EncodeURI((positionInfo["organization"]["name"]).ToString()) : null));
-					profileObj.Add("programNameEN", (positionInfo != null ? EncodeURI((positionInfo["organization"]["fullname"]).ToString()) : null));
+					profileObj.Add("facultyNameTH", (positionInfo != null ? EncodeURI((positionInfo["organization"]["name"]).ToString()) : null));
+					profileObj.Add("facultyNameEN", (positionInfo != null ? EncodeURI((positionInfo["organization"]["fullnameEN"]).ToString()) : null));
+					profileObj.Add("programNameTH", null);
+					profileObj.Add("programNameEN", null);
 					profileObj.Add("address",				null);
 					profileObj.Add("subdistrict",		null);
 					profileObj.Add("district",			null);

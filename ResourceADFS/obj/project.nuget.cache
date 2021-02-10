@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4FAIMuBZlK75clWI5pJ4Z/oBJFuH83P0rydGQzwfAUXElJNu9T6rVLmpbmXb4243Sili2OxSO+49gaaMdAYQ2Q==",
+  "dgSpecHash": "GHVYb3Ing0jgPQNAHLeOTgLMPb3jjlogZwAViX3onrhpDnPQwXUO072w4k3Pz1QAT9IyRvSfvrz4chaFDJk/Cw==",
   "success": true,
-  "projectFilePath": "D:\\Programming\\MURSC\\Server\\ResourceADFS\\ResourceADFS.csproj",
+  "projectFilePath": "D:\\Programming\\MURSC\\Backend\\Registration\\ResourceADFS\\ResourceADFS.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.aspnetcore\\2.2.0\\microsoft.aspnetcore.2.2.0.nupkg.sha512",
