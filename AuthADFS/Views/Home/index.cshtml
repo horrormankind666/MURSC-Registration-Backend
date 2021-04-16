@@ -1,32 +1,31 @@
 ﻿@if (Request.IsAuthenticated)
 {
-  //qas
-  <form id="prd_continue_frm" name="prd_continue_frm" action="https://mursc-qas.mahidol.ac.th/silent-refresh.html" method="get">
-    <a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['prd_continue_frm'].submit()"><div>Continue as @ViewBag.Email</div></a>
-    <input type="hidden" name="token" value="@ViewBag.Token" />
-  </form>
+    //qas
+    <form id="prd_continue_frm" name="prd_continue_frm" action="https://mursc-qas.mahidol.ac.th/silent-refresh.html" method="get">
+        <a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['prd_continue_frm'].submit()"><div>Continue as @ViewBag.Email</div></a>
+        <input type="hidden" name="token" value="@ViewBag.Token" />
+    </form>
 
-  /*  
-  //prd
-  <form id="prd_continue_frm" name="prd_continue_frm" action="https://mursc.mahidol.ac.th/silent-refresh.html" method="get">
-    <a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['prd_continue_frm'].submit()"><div>Continue as @ViewBag.Email</div></a>
-    <input type="hidden" name="token" value="@ViewBag.Token" />
-  </form>
-  */
-  /*
-  @ViewBag.Message
-  @Html.ActionLink("Sign out", "SignOut", "Authen")
-  */
+    /*  
+    //prd
+    <form id="prd_continue_frm" name="prd_continue_frm" action="https://mursc.mahidol.ac.th/silent-refresh.html" method="get">
+        <a class="font bold white size18 btn btn-primary text-center" href="javascript:void(0)" onclick="document.forms['prd_continue_frm'].submit()"><div>Continue as @ViewBag.Email</div></a>
+        <input type="hidden" name="token" value="@ViewBag.Token" />
+    </form>
+
+    @ViewBag.Message
+    @Html.ActionLink("Sign out", "SignOut", "Authen")
+    */
 }
 @if (!Request.IsAuthenticated)
 {
-  //qas
-  <a class="font bold white size18 btn btn-primary text-center" href="https://mursc-qas.mahidol.ac.th/"><div>Back to Registration</div></a>
+    //qas
+    <a class="font bold white size18 btn btn-primary text-center" href="https://mursc-qas.mahidol.ac.th/"><div>Back to Registration</div></a>
 
-  /*  
-  //prd
-  <a class="font bold white size18 btn btn-primary text-center" href="https://mursc.mahidol.ac.th/"><div>Back to Registration</div></a>
-  */
-  <br />
-  <a class="font bold white size18 btn btn-dark text-center" href="/AuthADFS/Authen/SignIn"><div>Sign in with your Mahidol University Accounts</div></a>
+    /*  
+    //prd
+    <a class="font bold white size18 btn btn-primary text-center" href="https://mursc.mahidol.ac.th/"><div>Back to Registration</div></a>
+    */
+    <br />
+    <a class="font bold white size18 btn btn-dark text-center" href="/AuthADFS/Authen/SignIn"><div>Sign in with your Mahidol University Accounts</div></a>
 }

@@ -31,7 +31,7 @@ namespace AuthorizationServer
 		{
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 			app.UseCookieAuthentication(new CookieAuthenticationOptions {
-					CookieManager = new SystemWebCookieManager()
+				CookieManager = new SystemWebCookieManager()
 			});
 			app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
 			{

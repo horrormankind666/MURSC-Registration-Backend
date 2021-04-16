@@ -17,9 +17,9 @@ using API.Models;
 
 namespace API.Controllers
 {
-  [RoutePrefix("TransSchedule")]
-  public class TransScheduleController : ApiController
-  {
+	[RoutePrefix("TransSchedule")]
+	public class TransScheduleController : ApiController
+	{
 		[Route("Get")]
 		[HttpGet]
 		public HttpResponseMessage Get(

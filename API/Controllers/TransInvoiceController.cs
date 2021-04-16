@@ -17,13 +17,13 @@ using API.Models;
 
 namespace API.Controllers
 {
-  [RoutePrefix("TransInvoice")]
-  public class TransInvoiceController : ApiController
-  {
-    [Route("Put")]
-    [HttpPut]
-    public HttpResponseMessage Put()
-    {
+	[RoutePrefix("TransInvoice")]
+	public class TransInvoiceController : ApiController
+	{
+		[Route("Put")]
+		[HttpPut]
+		public HttpResponseMessage Put()
+		{
 			string jsonData = String.Empty;
 			string transRegisteredID = String.Empty;
 			string fee = String.Empty;

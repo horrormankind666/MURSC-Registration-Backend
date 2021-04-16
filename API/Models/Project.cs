@@ -17,7 +17,7 @@ namespace API.Models
 		public static DataSet GetList(string projectCategory)
 		{
 			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetListTransProject",
-					new SqlParameter("@projectCategory", projectCategory));
+				new SqlParameter("@projectCategory", projectCategory));
 
 			return ds;
 		}
@@ -25,8 +25,8 @@ namespace API.Models
 		public static DataSet Get(string projectCategory, string transProjectID)
 		{
 			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetTransProject",
-					new SqlParameter("@projectCategory",	projectCategory),
-					new SqlParameter("@transProjectID",		transProjectID));
+				new SqlParameter("@projectCategory", projectCategory),
+				new SqlParameter("@transProjectID", transProjectID));
 
 			return ds;
 		}

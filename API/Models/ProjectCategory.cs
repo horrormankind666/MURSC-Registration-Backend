@@ -24,7 +24,7 @@ namespace API.Models
 		public static DataSet Get(string projectCategory)
 		{
 			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetProjectCategory",
-					new SqlParameter("@projectCategory", projectCategory));
+				new SqlParameter("@projectCategory", projectCategory));
 
 			return ds;
 		}

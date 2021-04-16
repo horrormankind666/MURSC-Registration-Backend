@@ -20,8 +20,8 @@ namespace API.Models
 		)
 		{
 			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetListTransRegistered",
-					new SqlParameter("@personID", personID),
-					new SqlParameter("@paymentStatus", paymentStatus));
+				new SqlParameter("@personID", personID),
+				new SqlParameter("@paymentStatus", paymentStatus));
 
 			return ds;
 		}

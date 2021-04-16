@@ -212,8 +212,8 @@ namespace API
 
 				foreach (Claim c in tokenS.Claims)
 				{
-					if (c.Type.Equals("ppid"))						ppid = c.Value;
-					if (c.Type.Equals("winaccountname"))	winaccountName = c.Value;
+					if (c.Type.Equals("ppid")) ppid = c.Value;
+					if (c.Type.Equals("winaccountname")) winaccountName = c.Value;
 				}
 			}
 			catch
@@ -250,13 +250,13 @@ namespace API
 
 					if (cuidArray.Length.Equals(3))
 					{
-						uid			= cuidArray[0];
+						uid		= cuidArray[0];
 						uidChk	= cuidArray[1];
-						data		= cuidArray[2];
+						data	= cuidArray[2];
 
-						uid			= StringReverseConvertBase64(uid);
+						uid		= StringReverseConvertBase64(uid);
 						uidChk	= StringReverse(uidChk);
-						data		= StringReverseConvertBase64(data);
+						data	= StringReverseConvertBase64(data);
 
 						//if (uid.Equals(uidChk))
 						result = data.Split('.');

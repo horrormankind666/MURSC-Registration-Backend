@@ -24,9 +24,11 @@ namespace AuthorizationServer.Controllers
 			string winaccountname = String.Empty;
 			string email = String.Empty;
 
-			//if (!Request.IsAuthenticated)
-			//	Response.Redirect(Url.Action("SignIn", "Authen"));
-			//else
+			/*
+			if (!Request.IsAuthenticated)
+				Response.Redirect(Url.Action("SignIn", "Authen"));
+			else
+			*/
 			if (Request.IsAuthenticated)
 			{           
 				Claims c = new Claims();

@@ -173,11 +173,11 @@ namespace API.Controllers
 							{
 								DataRow dr3 = dt3.Rows[0];
 
-								merchantName	= dr3["merchantName"].ToString();
-								paidAmount		= dr3["paidAmount"].ToString();
-								paidStatus		= dr3["paidStatus"].ToString();
-								errorCode			= int.Parse(dr3["errorCode"].ToString());
-								actionDate		= dr3["actionDate"].ToString();
+								merchantName = dr3["merchantName"].ToString();
+								paidAmount = dr3["paidAmount"].ToString();
+								paidStatus = dr3["paidStatus"].ToString();
+								errorCode = int.Parse(dr3["errorCode"].ToString());
+								actionDate = dr3["actionDate"].ToString();
 							}
 							else
 							{

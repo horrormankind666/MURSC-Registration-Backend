@@ -34,7 +34,8 @@ namespace API.Controllers
 					Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetBankQRCodeNoti",
 						new SqlParameter("@jsonData", jsonData));				
 
-					result = new {
+					result = new
+					{
 						res_code = "00",
 						res_desc = "success",
 						transactionId = jsonObject["transactionId"],

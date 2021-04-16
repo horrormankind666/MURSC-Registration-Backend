@@ -89,9 +89,9 @@ namespace AuthorizationServer.Classes
 				string.Empty,
 				new CookieOptions
 				{
-						Path = options.Path,
-						Domain = options.Domain,
-						Expires = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+					Path = options.Path,
+					Domain = options.Domain,
+					Expires = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 				}
 			);
 		}
