@@ -101,6 +101,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="index.aspx" />
+    <None Include="Properties\PublishProfiles\MURSC.Registration.API.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -145,6 +146,7 @@
     <Compile Include="Models\Province.cs" />
     <Compile Include="Models\Subdistrict.cs" />
     <Compile Include="Models\TransDeliveryAddress.cs" />
+    <Compile Include="Models\TransHistory.cs" />
     <Compile Include="Models\TransInvoice.cs" />
     <Compile Include="Models\TransRegistered.cs" />
     <Compile Include="Models\TransSchedule.cs" />
@@ -162,7 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\MURSC.API.pubxml" />
     <None Include="Web References\UtilService\UtilService.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
