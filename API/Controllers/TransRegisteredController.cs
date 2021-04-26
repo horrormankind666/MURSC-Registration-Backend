@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๑๘/๐๔/๒๕๖๔>
+Modify date : <๒๖/๐๔/๒๕๖๔>
 Description : <>
 =============================================
 */
@@ -297,6 +297,40 @@ namespace API.Controllers
 			}
 
 			DataTable dt = TransRegistered.Set("POST", jsonData).Tables[0];
+
+			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+		}
+
+		[Route("Put")]
+		[HttpPut]
+		public HttpResponseMessage Put()
+		{
+			string jsonData = String.Empty;
+
+			if (Util.GetIsAuthenticatedByAuthenADFS())
+				jsonData = Request.Content.ReadAsStringAsync().Result;
+
+			if (!String.IsNullOrEmpty(jsonData))
+			{
+				try
+				{
+					JObject jsonObject = new JObject(JsonConvert.DeserializeObject<dynamic>(jsonData));
+					object obj = Util.GetPPIDByAuthenADFS();
+					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
+					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+
+					jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
+					jsonObject.Add("createdBy", winaccountName);
+
+					jsonData = JsonConvert.SerializeObject(jsonObject);
+				}
+				catch
+				{
+					jsonData = String.Empty;
+				}
+			}
+
+			DataTable dt = TransRegistered.Set("PUT", jsonData).Tables[0];
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
 		}

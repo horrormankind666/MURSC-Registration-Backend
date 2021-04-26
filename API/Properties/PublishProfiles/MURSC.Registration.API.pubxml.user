@@ -7,17 +7,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\Programming\MURSC\Backend\Registration\API\Publish</_PublishTargetUrl>
-    <History>True|2021-04-18T11:11:56.0548910Z;True|2021-04-18T17:58:57.1356292+07:00;True|2021-04-18T17:04:14.9248169+07:00;True|2021-04-18T16:27:51.2392284+07:00;True|2021-04-18T15:04:18.3432289+07:00;True|2021-04-18T13:42:22.1893449+07:00;True|2021-04-17T01:53:23.6245442+07:00;True|2021-04-17T01:40:07.3786614+07:00;False|2021-04-17T01:39:14.2437103+07:00;True|2021-04-17T01:33:33.7056895+07:00;</History>
+    <History>True|2021-04-26T16:16:18.1205345Z;True|2021-04-26T23:06:22.2828096+07:00;True|2021-04-18T18:11:56.0548910+07:00;True|2021-04-18T17:58:57.1356292+07:00;True|2021-04-18T17:04:14.9248169+07:00;True|2021-04-18T16:27:51.2392284+07:00;True|2021-04-18T15:04:18.3432289+07:00;True|2021-04-18T13:42:22.1893449+07:00;True|2021-04-17T01:53:23.6245442+07:00;True|2021-04-17T01:40:07.3786614+07:00;False|2021-04-17T01:39:14.2437103+07:00;True|2021-04-17T01:33:33.7056895+07:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/API.dll">
-      <publishTime>04/18/2021 18:11:54</publishTime>
+      <publishTime>04/26/2021 23:16:14</publishTime>
     </File>
     <File Include="bin/API.pdb">
-      <publishTime>04/18/2021 18:11:54</publishTime>
+      <publishTime>04/26/2021 23:16:14</publishTime>
     </File>
     <File Include="bin/API.XmlSerializers.dll">
-      <publishTime>04/18/2021 18:11:54</publishTime>
+      <publishTime>04/26/2021 23:16:15</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>04/15/2021 16:13:09</publishTime>
