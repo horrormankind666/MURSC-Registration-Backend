@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๐๔/๒๕๖๔>
-Modify date : <๑๘/๐๔/๒๕๖๔>
+Modify date : <๒๑/๐๕/๒๕๖๔>
 Description : <>
 =============================================
 */
@@ -16,22 +16,23 @@ using Newtonsoft.Json.Linq;
 
 namespace API.Models
 {
-    public class TransHistory
+    public class VisitProject
     {
 		public static DataSet Set(
 			string personID,
 			string transProjectID)
 		{
-			string contents = HttpContext.Current.Request.Headers["Contents"];
+			string forContent = HttpContext.Current.Request.Headers["ForContent"];
 			string deviceInfo = HttpContext.Current.Request.Headers["DeviceInfo"];
 			JObject jsonObject = new JObject();
 
 			jsonObject.Add("personID", personID);
 			jsonObject.Add("transProjectID", transProjectID);
-			jsonObject.Add("contents", (!String.IsNullOrEmpty(contents) ? ("for " + contents) : string.Empty));
+			jsonObject.Add("forContent", (!String.IsNullOrEmpty(forContent) ? ("for " + forContent) : string.Empty));
 			jsonObject.Add("deviceInfo", deviceInfo);
+			jsonObject.Add("actionIP", Util.GetIP());
 
-			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetTransHistory",
+			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetVisitProject",
 				new SqlParameter("@jsonData", JsonConvert.SerializeObject(jsonObject)));
 
 			return ds;

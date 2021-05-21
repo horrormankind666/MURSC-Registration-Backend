@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๒๓/๐๘/๒๕๖๓>
+Modify date : <๒๑/๐๕/๒๕๖๔>
 Description : <>
 =============================================
 */
@@ -110,6 +110,22 @@ namespace API
 			return cookieObj;
 		}
 
+		public static string GetIP()
+		{
+			string _ip = String.Empty;
+
+			if (HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
+				_ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
+			else
+				if (!String.IsNullOrWhiteSpace(HttpContext.Current.Request.UserHostAddress))
+				_ip = HttpContext.Current.Request.UserHostAddress;
+
+			if (_ip == "::1")
+				_ip = "127.0.0.1";
+
+			return _ip;
+		}
+
 		public static bool CookieExist(string cookieName)
 		{
 			HttpCookie cookieObj = GetCookie(cookieName);
@@ -124,7 +140,7 @@ namespace API
 			try
 			{
 				string authorization = HttpContext.Current.Request.Headers["Authorization"];
-				string token = String.Empty;                
+				string token = String.Empty;
 
 				if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
 				{
@@ -212,8 +228,11 @@ namespace API
 
 				foreach (Claim c in tokenS.Claims)
 				{
-					if (c.Type.Equals("ppid")) ppid = c.Value;
-					if (c.Type.Equals("winaccountname")) winaccountName = c.Value;
+					if (c.Type.Equals("ppid"))
+						ppid = c.Value;
+
+					if (c.Type.Equals("winaccountname"))
+						winaccountName = c.Value;
 				}
 			}
 			catch
@@ -250,13 +269,13 @@ namespace API
 
 					if (cuidArray.Length.Equals(3))
 					{
-						uid		= cuidArray[0];
-						uidChk	= cuidArray[1];
-						data	= cuidArray[2];
+						uid = cuidArray[0];
+						uidChk = cuidArray[1];
+						data = cuidArray[2];
 
-						uid		= StringReverseConvertBase64(uid);
-						uidChk	= StringReverse(uidChk);
-						data	= StringReverseConvertBase64(data);
+						uid = StringReverseConvertBase64(uid);
+						uidChk = StringReverse(uidChk);
+						data = StringReverseConvertBase64(data);
 
 						//if (uid.Equals(uidChk))
 						result = data.Split('.');
