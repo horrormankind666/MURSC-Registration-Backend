@@ -127,6 +127,7 @@
     <Compile Include="Controllers\TransDeliveryAddressController.cs" />
     <Compile Include="Controllers\TransInvoiceController.cs" />
     <Compile Include="Controllers\TransProjectController.cs" />
+    <Compile Include="Controllers\SysEventController.cs" />
     <Compile Include="Controllers\TransRegisteredController.cs" />
     <Compile Include="Controllers\TransScheduleController.cs" />
     <Compile Include="Global.asax.cs">
@@ -146,7 +147,7 @@
     <Compile Include="Models\Province.cs" />
     <Compile Include="Models\Subdistrict.cs" />
     <Compile Include="Models\TransDeliveryAddress.cs" />
-    <Compile Include="Models\VisitProject.cs" />
+    <Compile Include="Models\SysEvent.cs" />
     <Compile Include="Models\TransInvoice.cs" />
     <Compile Include="Models\TransRegistered.cs" />
     <Compile Include="Models\TransSchedule.cs" />

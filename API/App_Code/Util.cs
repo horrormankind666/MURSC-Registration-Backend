@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๒๑/๐๕/๒๕๖๔>
+Modify date : <๒๔/๐๕/๒๕๖๔>
 Description : <>
 =============================================
 */
@@ -62,6 +62,7 @@ namespace API
 
 		public static string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 		public static string infinityConnectionString = ConfigurationManager.ConnectionStrings["infinityConnectionString"].ConnectionString;
+		public static string cookieName = "MURSC.Cookies";
 
 		public static SqlConnection ConnectDB(string connString)
 		{

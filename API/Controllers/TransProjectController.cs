@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๒๑/๐๕/๒๕๖๔>
+Modify date : <๒๔/๐๕/๒๕๖๔>
 Description : <>
 =============================================
 */
@@ -15,6 +15,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using API.Models;
 
 namespace API.Controllers
@@ -153,7 +154,12 @@ namespace API.Controllers
 					personID = (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName);
 				}
 
-				DataTable dt = VisitProject.Set(personID, transProjectID).Tables[0];
+				JObject parameters = new JObject();
+
+				parameters.Add("projectCategory", projectCategory);
+				parameters.Add("transProjectID", transProjectID);
+
+				DataTable dt = SysEvent.Set(Request.RequestUri.ToString(), JsonConvert.SerializeObject(parameters), personID).Tables[0];
 			}
 						
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list1.Union(list2).Union(list3).ToList()));
