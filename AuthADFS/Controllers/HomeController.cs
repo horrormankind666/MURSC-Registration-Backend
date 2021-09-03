@@ -63,7 +63,7 @@ namespace AuthorizationServer.Controllers
 						email = claim.Value;
 				}
 			}
-            
+
 			ViewBag.Title = "Mahidol University Authorization Server";
 			ViewBag.Token = token;
 			ViewBag.Email = (!String.IsNullOrEmpty(email) ? email.Split('@')[0] : winaccountname);
