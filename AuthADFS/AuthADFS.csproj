@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\label.png" />
+    <Content Include="Content\Images\mu-favicon.png" />
     <Content Include="Content\Style\Font.css">
       <DependentUpon>Font.scss</DependentUpon>
     </Content>
