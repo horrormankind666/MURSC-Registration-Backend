@@ -15,15 +15,12 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("TransInvoice")]
-	public class TransInvoiceController : ApiController
-	{
+	public class TransInvoiceController: ApiController {
 		[Route("Put")]
 		[HttpPut]
-		public HttpResponseMessage Put()
-		{
+		public HttpResponseMessage Put() {
 			string jsonData = String.Empty;
 			string transRegisteredID = String.Empty;
 			string fee = String.Empty;
@@ -33,10 +30,8 @@ namespace API.Controllers
 			if (Util.GetIsAuthenticatedByAuthenADFS())
 				jsonData = Request.Content.ReadAsStringAsync().Result;
 
-			if (!String.IsNullOrEmpty(jsonData))
-			{
-				try
-				{
+			if (!String.IsNullOrEmpty(jsonData)) {
+				try {
 					dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(jsonData);
 					object obj = Util.GetPPIDByAuthenADFS();
 					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
@@ -46,8 +41,7 @@ namespace API.Controllers
 					fee = (jsonObject["fee"] != null ? JsonConvert.SerializeObject(jsonObject["fee"]) : jsonObject["fee"]);
 					createdBy = winaccountName;
 				}
-				catch
-				{
+				catch {
 				}
 			}
 

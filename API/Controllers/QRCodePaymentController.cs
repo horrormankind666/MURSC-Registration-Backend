@@ -22,15 +22,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("QRCodePayment")]
-	public class QRCodePaymentController : ApiController
-	{
+	public class QRCodePaymentController: ApiController {
 		[Route("{projectCategory}/Put")]
 		[HttpPut]
-		public HttpResponseMessage Get(string projectCategory)
-		{
+		public HttpResponseMessage Get(string projectCategory) {
 			string jsonData = String.Empty;
 		
 			if (Util.GetIsAuthenticatedByAuthenADFS())
@@ -38,8 +35,7 @@ namespace API.Controllers
 
 			List<object> list = new List<object>();
 
-			if (!String.IsNullOrEmpty(jsonData))
-			{
+			if (!String.IsNullOrEmpty(jsonData)) {
 				int errorCode = 0;				
 				string invoiceID = String.Empty;
 				string totalFeeAmount = String.Empty;
@@ -60,8 +56,7 @@ namespace API.Controllers
 				string actionDate = String.Empty;
 				dynamic qrCodeObj = null;			
 
-				try
-				{
+				try {
 					JObject jsonObject = new JObject(JsonConvert.DeserializeObject<dynamic>(jsonData));
 					string transRegisteredID = jsonObject["transRegisteredID"].ToString();
 					string transProjectID = jsonObject["transProjectID"].ToString();
@@ -76,8 +71,7 @@ namespace API.Controllers
 					DataSet ds1 = TransRegistered.Get(transRegisteredID, personID, transProjectID);
 					DataTable dt1 = ds1.Tables[0];
 							
-					if (dt1.Rows.Count > 0)
-					{
+					if (dt1.Rows.Count > 0) {
 						DataRow dr1 = dt1.Rows[0];
 						personID = dr1["personID"].ToString();
 						invoiceID = dr1["invoiceID"].ToString();
@@ -87,8 +81,7 @@ namespace API.Controllers
 						DataSet ds2 = ProjectCategory.Get(projectCategory);
 						DataTable dt2 = ds2.Tables[0];
 
-						if (dt2.Rows.Count > 0)
-						{
+						if (dt2.Rows.Count > 0) {
 							DataRow dr2 = dt2.Rows[0];
 							string systemRef = dr2["systemRef"].ToString();
 
@@ -97,8 +90,7 @@ namespace API.Controllers
 
 							DataTable dt3 = ds3.Tables[0];
 
-							if (dt3.Rows.Count > 0)
-							{
+							if (dt3.Rows.Count > 0) {
 								DataRow dr3 = dt3.Rows[0];
 
 								taxNo = dr3["taxNo"].ToString();
@@ -115,14 +107,12 @@ namespace API.Controllers
 					else
 						errorCode = 2;
 
-					if (errorCode.Equals(0))
-					{
+					if (errorCode.Equals(0)) {
 						ref1 = (campus + profitCenter + branchNo + subBranch + invoiceID.Substring(6));
 						ref2 = (invoiceID.Substring(3) + lastPaymentDate);
 						ref3 = personID;
 						
-						scbReq = new
-						{
+						scbReq = new {
 							biller_id = billerID,
 							merchant_name = merchantName,
 							amount = totalFeeAmount,
@@ -148,8 +138,7 @@ namespace API.Controllers
 
 						errorCode = (qrCodeObj.qr_code == "00" ? 0 : 1);
 
-						if (errorCode.Equals(0))
-						{
+						if (errorCode.Equals(0)) {
 							jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
 							jsonObject.Add("transInvoiceID", invoiceID);
 							jsonObject.Add("billerID", billerID);
@@ -169,8 +158,7 @@ namespace API.Controllers
 
 							DataTable dt3 = ds3.Tables[0];
 
-							if (dt3.Rows.Count > 0)
-							{
+							if (dt3.Rows.Count > 0) {
 								DataRow dr3 = dt3.Rows[0];
 
 								merchantName = dr3["merchantName"].ToString();
@@ -179,8 +167,7 @@ namespace API.Controllers
 								errorCode = int.Parse(dr3["errorCode"].ToString());
 								actionDate = dr3["actionDate"].ToString();
 							}
-							else
-							{
+							else {
 								errorCode = 1;
 								qrCodeObj = null;
 							}
@@ -189,13 +176,11 @@ namespace API.Controllers
 					else
 						errorCode = 2;
 				}
-				catch
-				{
+				catch {
 					errorCode = 1;
 				}
 
-				list.Add(new
-				{
+				list.Add(new {
 					errorCode = errorCode,
 					qrCode = (qrCodeObj != null ? qrCodeObj.qr_code : null),
 					qrMessage = (qrCodeObj != null ? qrCodeObj.qr_message : null),

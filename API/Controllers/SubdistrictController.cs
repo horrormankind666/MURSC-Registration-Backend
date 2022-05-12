@@ -13,11 +13,9 @@ using System.Net.Http;
 using System.Web.Http;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("Subdistrict")]
-	public class SubdistrictController : ApiController
-	{
+	public class SubdistrictController: ApiController {
 		[Route("GetList")]
 		[HttpGet]
 		public HttpResponseMessage GetList(
@@ -28,8 +26,7 @@ namespace API.Controllers
 			string cancelledStatus = "",
 			string sortOrderBy = "",
 			string sortExpression = ""
-		)
-		{
+		) {
 			DataTable dt = Subdistrict.GetList(keyword, country, province, district, cancelledStatus, sortOrderBy, sortExpression).Tables[0];
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
@@ -42,8 +39,7 @@ namespace API.Controllers
 			string province = "",
 			string district = "",
 			string subdistrict = ""
-		)
-		{
+		) {
 			DataTable dt = Subdistrict.Get(country, province, district, subdistrict);
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));

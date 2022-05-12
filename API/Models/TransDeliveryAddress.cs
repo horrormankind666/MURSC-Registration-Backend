@@ -10,17 +10,14 @@ Description : <>
 using System.Data;
 using System.Data.SqlClient;
 
-namespace API.Models
-{
-    public class TransDeliveryAddress
-    {
+namespace API.Models {
+    public class TransDeliveryAddress {
         public static DataSet Set(
 	        string transDeliAddressID,
 		    string transRegisteredID,
             string address,
 	        string createdBy
-        )
-        {
+        ) {
             DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetTransDeliveryAddress",
 	            new SqlParameter("@transDeliAddressID", transDeliAddressID),
 		        new SqlParameter("@transRegisteredID", transRegisteredID),

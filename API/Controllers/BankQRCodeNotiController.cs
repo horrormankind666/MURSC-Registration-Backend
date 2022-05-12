@@ -12,46 +12,37 @@ using System.Data.SqlClient;
 using System.Web.Http;
 using Newtonsoft.Json;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("BankQRCodeNoti")]
-	public class BankQRCodeNotiController : ApiController
-	{
+	public class BankQRCodeNotiController: ApiController {
 		[Route("Post")]
 		[HttpPost]
-		public dynamic Post()
-		{
+		public dynamic Post() {
 			string jsonData =  Request.Content.ReadAsStringAsync().Result;
 			dynamic jsonObject = null;
 			object result = null;
 
-			if (!String.IsNullOrEmpty(jsonData))
-			{
-				try
-				{
+			if (!String.IsNullOrEmpty(jsonData)) {
+				try {
 					jsonObject = JsonConvert.DeserializeObject<dynamic>(jsonData);
 					
 					Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetBankQRCodeNoti",
 						new SqlParameter("@jsonData", jsonData));				
 
-					result = new
-					{
+					result = new {
 						res_code = "00",
 						res_desc = "success",
 						transactionId = jsonObject["transactionId"],
 						confirmId = jsonObject["confirmId"]
 					};
 				}
-				catch (Exception ex)
-				{
-					result = new
-					{
+				catch (Exception ex) {
+					result = new {
 						res_code = "88",
 						res_desc = ("error BankQRCodeNoti : " + jsonData)
 					};
 
-					try
-					{
+					try {
 						Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscSetSysErrorLog",
 							new SqlParameter("@systemName", "BankQRCodeNoti"),
 							new SqlParameter("@errorNumber", "88"),
@@ -59,8 +50,7 @@ namespace API.Controllers
 							new SqlParameter("@hint", jsonData),
 							new SqlParameter("@url", ""));
 					}
-					catch (Exception)
-					{
+					catch (Exception) {
 					}
 				}
 			}

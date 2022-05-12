@@ -18,34 +18,28 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("TransRegistered")]
-	public class TransRegisteredController : ApiController
-	{
+	public class TransRegisteredController: ApiController {
 		[Route("GetList")]
 		[HttpGet]
-		public HttpResponseMessage GetList(string paymentStatus = null)
-		{
+		public HttpResponseMessage GetList(string paymentStatus = null) {
 			List<object> list = new List<object>();
 
-			if (Util.GetIsAuthenticatedByAuthenADFS())
-			{
+			if (Util.GetIsAuthenticatedByAuthenADFS()) {
 				object obj = Util.GetPPIDByAuthenADFS();
 				string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
 				string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
 
 				DataSet ds = TransRegistered.GetList((!String.IsNullOrEmpty(ppid) ? ppid : winaccountName), paymentStatus);
 
-				foreach (DataRow dr in ds.Tables[0].Rows)
-				{
+				foreach (DataRow dr in ds.Tables[0].Rows) {
 					DataTable country = Country.Get(dr["countryID"].ToString());
 					DataTable province = Province.Get(dr["countryID"].ToString(), dr["provinceID"].ToString());
 					DataTable district = District.Get(dr["countryID"].ToString(), dr["provinceID"].ToString(), dr["districtID"].ToString());
 					DataTable subdistrict = Subdistrict.Get(dr["countryID"].ToString(), dr["provinceID"].ToString(), dr["districtID"].ToString(), dr["subdistrictID"].ToString());
 
-					list.Add(new
-					{
+					list.Add(new {
 						transRegisteredID = dr["transRegisteredID"],
 						registeredDate = dr["registeredDate"],
 						registeredDates = dr["registeredDates"],
@@ -135,18 +129,15 @@ namespace API.Controllers
 
 		[Route("Get")]
 		[HttpGet]
-		public HttpResponseMessage Get(string cuid = null)
-		{
+		public HttpResponseMessage Get(string cuid = null) {
 			string transRegisteredID = String.Empty;
 			string transProjectID = String.Empty;
 			string[] cuidArray = Util.CUID2Array(cuid);
 
-			if (cuidArray != null)
-			{
+			if (cuidArray != null) {
 				int i = 1;
 
-				foreach (var data in cuidArray)
-				{
+				foreach (var data in cuidArray) {
 					if (i.Equals(1)) transRegisteredID = data;
 					if (i.Equals(2)) transProjectID = data;
 
@@ -156,8 +147,7 @@ namespace API.Controllers
 
 			List<object> list = new List<object>();
 
-			if (Util.GetIsAuthenticatedByAuthenADFS())
-			{
+			if (Util.GetIsAuthenticatedByAuthenADFS()) {
 				object obj = Util.GetPPIDByAuthenADFS();
 				string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
 				string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
@@ -167,16 +157,14 @@ namespace API.Controllers
 				DataTable dt2 = ds.Tables[1];
 				DataTable dt3 = ds.Tables[2];
 
-				if (dt1.Rows.Count > 0)
-				{
+				if (dt1.Rows.Count > 0) {
 					DataRow dr = dt1.Rows[0];
 					DataTable country = Country.Get(dr["countryID"].ToString());
 					DataTable province = Province.Get(dr["countryID"].ToString(), dr["provinceID"].ToString());
 					DataTable district = District.Get(dr["countryID"].ToString(), dr["provinceID"].ToString(), dr["districtID"].ToString());
 					DataTable subdistrict = Subdistrict.Get(dr["countryID"].ToString(), dr["provinceID"].ToString(), dr["districtID"].ToString(), dr["subdistrictID"].ToString());
 
-					list.Add(new
-					{
+					list.Add(new {
 						transRegisteredID = dr["transRegisteredID"],
 						registeredDate = dr["registeredDate"],
 						registeredDates = dr["registeredDates"],
@@ -268,17 +256,14 @@ namespace API.Controllers
 
 		[Route("Post")]
 		[HttpPost]
-		public HttpResponseMessage Post()
-		{
+		public HttpResponseMessage Post() {
 			string jsonData = String.Empty;
                 
 			if (Util.GetIsAuthenticatedByAuthenADFS())
 				jsonData = Request.Content.ReadAsStringAsync().Result;
 
-			if (!String.IsNullOrEmpty(jsonData))
-			{
-				try
-				{
+			if (!String.IsNullOrEmpty(jsonData)) {
+				try {
 					JObject jsonObject = new JObject(JsonConvert.DeserializeObject<dynamic>(jsonData));
 					object obj = Util.GetPPIDByAuthenADFS();
 					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
@@ -289,8 +274,7 @@ namespace API.Controllers
 
 					jsonData = JsonConvert.SerializeObject(jsonObject);
 				}
-				catch
-				{
+				catch {
 					jsonData = String.Empty;
 				}
 			}
@@ -302,17 +286,14 @@ namespace API.Controllers
 
 		[Route("Put")]
 		[HttpPut]
-		public HttpResponseMessage Put()
-		{
+		public HttpResponseMessage Put() {
 			string jsonData = String.Empty;
 
 			if (Util.GetIsAuthenticatedByAuthenADFS())
 				jsonData = Request.Content.ReadAsStringAsync().Result;
 
-			if (!String.IsNullOrEmpty(jsonData))
-			{
-				try
-				{
+			if (!String.IsNullOrEmpty(jsonData)) {
+				try {
 					JObject jsonObject = new JObject(JsonConvert.DeserializeObject<dynamic>(jsonData));
 					object obj = Util.GetPPIDByAuthenADFS();
 					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
@@ -323,8 +304,7 @@ namespace API.Controllers
 
 					jsonData = JsonConvert.SerializeObject(jsonObject);
 				}
-				catch
-				{
+				catch {
 					jsonData = String.Empty;
 				}
 			}

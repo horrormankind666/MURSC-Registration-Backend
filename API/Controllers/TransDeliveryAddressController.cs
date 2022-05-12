@@ -15,15 +15,12 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("TransDeliveryAddress")]
-	public class TransDeliveryAddressController : ApiController
-	{
+	public class TransDeliveryAddressController: ApiController {
 		[Route("Put")]
 		[HttpPut]
-		public dynamic Put()
-		{
+		public dynamic Put() {
 			string jsonData = String.Empty;
 			string transDeliAddressID = String.Empty;
 			string transRegisteredID = String.Empty;
@@ -31,12 +28,10 @@ namespace API.Controllers
 			string createdBy = String.Empty;
 
 			if (Util.GetIsAuthenticatedByAuthenADFS())
-					jsonData = Request.Content.ReadAsStringAsync().Result;
+				jsonData = Request.Content.ReadAsStringAsync().Result;
 
-			if (!String.IsNullOrEmpty(jsonData))
-			{
-				try
-				{
+			if (!String.IsNullOrEmpty(jsonData)) {
+				try {
 					dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(jsonData);
 					object obj = Util.GetPPIDByAuthenADFS();
 					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
@@ -47,8 +42,7 @@ namespace API.Controllers
 					address = (jsonObject["deliAddress"] != null ? JsonConvert.SerializeObject(jsonObject["deliAddress"]) : jsonObject["deliAddress"]);
 					createdBy = winaccountName;
 				}
-				catch
-				{
+				catch {
 				}
 			}
 

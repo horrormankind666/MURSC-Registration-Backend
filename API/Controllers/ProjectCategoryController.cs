@@ -13,15 +13,12 @@ using System.Net.Http;
 using System.Web.Http;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("ProjectCategory")]
-	public class ProjectCategoryController : ApiController
-	{
+	public class ProjectCategoryController: ApiController {
 		[Route("GetList")]
 		[HttpGet]
-		public HttpResponseMessage GetList()
-		{
+		public HttpResponseMessage GetList() {
 			DataTable dt = ProjectCategory.GetList().Tables[0];
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
@@ -29,8 +26,7 @@ namespace API.Controllers
 
 		[Route("Get")]
 		[HttpGet]
-		public HttpResponseMessage Get(string projectCategory = "")
-		{
+		public HttpResponseMessage Get(string projectCategory = "") {
 			DataTable dt = ProjectCategory.Get(projectCategory).Tables[0];
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));

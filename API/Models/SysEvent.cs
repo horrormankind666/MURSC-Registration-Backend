@@ -13,15 +13,13 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace API.Models
-{
-    public class SysEvent
-    {
+namespace API.Models {
+    public class SysEvent {
 		public static DataSet Set(
 			string url,
 			string parameters,
-			string personID)
-		{
+			string personID
+		) {
 			string authorization = HttpContext.Current.Request.Headers["Authorization"];
 			string cookie = HttpContext.Current.Request.Headers["Cookie"];
 			string deviceInfo = HttpContext.Current.Request.Headers["DeviceInfo"];

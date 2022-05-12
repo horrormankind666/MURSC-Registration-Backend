@@ -16,10 +16,8 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 
-namespace AuthorizationServer.Controllers
-{
-	public class ClaimTypes
-	{
+namespace AuthorizationServer.Controllers {
+	public class ClaimTypes {
 		public const string Actor = "http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor";
 		public const string Anonymous = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/anonymous";
 		public const string Authentication = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/authentication";
@@ -74,89 +72,341 @@ namespace AuthorizationServer.Controllers
 		public const string X500DistinguishedName = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/x500distinguishedname";
 	}
 
-	public class Claims
-	{
-		public object Request { get; private set; }
-
-		public class OpenID
-		{
-			public string id_token { get; set; }
-			public string appid { get; set; }
-			public string apptype { get; set; }
-			public string aud { get; set; }
-			public string auth_time { get; set; }
-			public string c_hash { get; set; }
-			public string exp { get; set; }
-			public string iat { get; set; }
-			public string iss { get; set; }
-			public string nonce { get; set; }
-			public string sid { get; set; }
-			public string ver { get; set; }
+	public class Claims {
+		public object Request {
+			get;
+			private set;
 		}
 
-		public class Profile
-		{
-			public string actor { get; set; }
-			public string anonymous { get; set; }
-			public string authentication { get; set; }
-			public string authenticationInstant { get; set; }
-			public string authenticationMethod { get; set; }
-			public string authorizationDecision { get; set; }
-			public string claimType2005Namespace { get; set; }
-			public string claimType2009Namespace { get; set; }
-			public string claimTypeNamespace { get; set; }
-			public string cookiePath { get; set; }
-			public string country { get; set; }
-			public string dateOfBirth { get; set; }
-			public string denyOnlyPrimaryGroupSid { get; set; }
-			public string denyOnlyPrimarySid { get; set; }
-			public string denyOnlySid { get; set; }
-			public string dns { get; set; }
-			public string dsa { get; set; }
-			public string email { get; set; }
-			public string expiration { get; set; }
-			public string expired { get; set; }
-			public string gender { get; set; }
-			public string givenName { get; set; }
-			public string groupSid { get; set; }
-			public string hash { get; set; }
-			public string homePhone { get; set; }
-			public string isPersistent { get; set; }
-			public string locality { get; set; }
-			public string mobilePhone { get; set; }
-			public string name { get; set; }
-			public string nameIdentifier { get; set; }
-			public string otherPhone { get; set; }
-			public string postalCode { get; set; }
-			public string ppid { get; set; }
-			public string primaryGroupSid { get; set; }
-			public string primarySid { get; set; }
-			public string role { get; set; }
-			public string rsa { get; set; }
-			public string serialNumber { get; set; }
-			public string sid { get; set; }
-			public string spn { get; set; }
-			public string stateOrProvince { get; set; }
-			public string streetAddress { get; set; }
-			public string surname { get; set; }
-			public string system { get; set; }
-			public string thumbprint { get; set; }
-			public string upn { get; set; }
-			public string uri { get; set; }
-			public string userData { get; set; }
-			public string version { get; set; }
-			public string webpage { get; set; }
-			public string windowsAccountName { get; set; }
-			public string x500DistinguishedName { get; set; }
+		public class OpenID {
+			public string id_token {
+				get;
+				set;
+			}
+
+			public string appid {
+				get;
+				set;
+			}
+
+			public string apptype {
+				get;
+				set;
+			}
+
+			public string aud {
+				get;
+				set;
+			}
+
+			public string auth_time {
+				get;
+				set;
+			}
+
+			public string c_hash {
+				get;
+				set;
+			}
+
+			public string exp {
+				get;
+				set;
+			}
+
+			public string iat {
+				get;
+				set;
+			}
+
+			public string iss {
+				get;
+				set;
+			}
+
+			public string nonce {
+				get;
+				set;
+			}
+
+			public string sid {
+				get;
+				set;
+			}
+
+			public string ver {
+				get;
+				set;
+			}
 		}
 
-		public object UserInfo()
-		{
+		public class Profile {
+			public string actor {
+				get;
+				set;
+			}
+
+			public string anonymous {
+				get;
+				set;
+			}
+
+			public string authentication {
+				get;
+				set;
+			}
+
+			public string authenticationInstant {
+				get;
+				set;
+			}
+
+			public string authenticationMethod {
+				get;
+				set;
+			}
+
+			public string authorizationDecision {
+				get;
+				set;
+			}
+
+			public string claimType2005Namespace {
+				get;
+				set;
+			}
+
+			public string claimType2009Namespace {
+				get;
+				set;
+			}
+
+			public string claimTypeNamespace {
+				get;
+				set;
+			}
+
+			public string cookiePath {
+				get;
+				set;
+			}
+
+			public string country {
+				get;
+				set;
+			}
+
+			public string dateOfBirth {
+				get;
+				set;
+			}
+
+			public string denyOnlyPrimaryGroupSid {
+				get;
+				set;
+			}
+
+			public string denyOnlyPrimarySid {
+				get;
+				set;
+			}
+
+			public string denyOnlySid {
+				get;
+				set;
+			}
+
+			public string dns {
+				get;
+				set;
+			}
+
+			public string dsa {
+				get;
+				set;
+			}
+
+			public string email {
+				get;
+				set;
+			}
+
+			public string expiration {
+				get;
+				set;
+			}
+
+			public string expired {
+				get;
+				set;
+			}
+
+			public string gender {
+				get;
+				set;
+			}
+
+			public string givenName {
+				get;
+				set;
+			}
+
+			public string groupSid {
+				get;
+				set;
+			}
+
+			public string hash {
+				get;
+				set;
+			}
+
+			public string homePhone {
+				get;
+				set;
+			}
+
+			public string isPersistent {
+				get;
+				set;
+			}
+
+			public string locality {
+				get;
+				set;
+			}
+
+			public string mobilePhone {
+				get;
+				set;
+			}
+
+			public string name {
+				get;
+				set;
+			}
+
+			public string nameIdentifier {
+				get;
+				set;
+			}
+
+			public string otherPhone {
+				get;
+				set;
+			}
+
+			public string postalCode {
+				get;
+				set;
+			}
+
+			public string ppid {
+				get;
+				set;
+			}
+
+			public string primaryGroupSid {
+				get;
+				set;
+			}
+
+			public string primarySid {
+				get;
+				set;
+			}
+
+			public string role {
+				get;
+				set;
+			}
+
+			public string rsa {
+				get;
+				set;
+			}
+
+			public string serialNumber {
+				get;
+				set;
+			}
+
+			public string sid {
+				get;
+				set;
+			}
+
+			public string spn {
+				get;
+				set;
+			}
+
+			public string stateOrProvince {
+				get;
+				set;
+			}
+
+			public string streetAddress {
+				get;
+				set;
+			}
+
+			public string surname {
+				get;
+				set;
+			}
+
+			public string system {
+				get;
+				set;
+			}
+
+			public string thumbprint {
+				get;
+				set;
+			}
+
+			public string upn {
+				get;
+				set;
+			}
+
+			public string uri {
+				get;
+				set;
+			}
+
+			public string userData {
+				get;
+				set;
+			}
+
+			public string version {
+				get;
+				set;
+			}
+
+			public string webpage {
+				get;
+				set;
+			}
+
+			public string windowsAccountName {
+				get;
+				set;
+			}
+
+			public string x500DistinguishedName {
+				get;
+				set;
+			}
+		}
+
+		public object UserInfo() {
 			/*
 			string aaa = String.Empty;
 
-			foreach (var claim in ((ClaimsPrincipal)User).Claims)
-			{
+			foreach (var claim in ((ClaimsPrincipal)User).Claims) {
 				aaa += (claim.Type + " " + claim.Value);
 			}
 
@@ -166,8 +416,7 @@ namespace AuthorizationServer.Controllers
 			var openIDObj = new Claims.OpenID();
 			var profileObj = new Claims.Profile();
 
-			try
-			{
+			try {
 				openIDObj.id_token = ClaimsPrincipal.Current.FindFirst("id_token")?.Value ?? String.Empty;
 				openIDObj.appid = ClaimsPrincipal.Current.FindFirst("appid")?.Value ?? String.Empty;
 				openIDObj.apptype = ClaimsPrincipal.Current.FindFirst("apptype")?.Value ?? String.Empty;
@@ -234,8 +483,7 @@ namespace AuthorizationServer.Controllers
 				profileObj.windowsAccountName = ClaimsPrincipal.Current.FindFirst(ClaimTypes.WindowsAccountName)?.Value ?? String.Empty;
 				profileObj.x500DistinguishedName = ClaimsPrincipal.Current.FindFirst(ClaimTypes.X500DistinguishedName)?.Value ?? String.Empty;
 			}
-			catch
-			{
+			catch {
 			}
 
 			object userInfoResult = new { openID = openIDObj, profile = profileObj };
@@ -244,34 +492,33 @@ namespace AuthorizationServer.Controllers
 		}
 	}
     
-	public class AuthenController : Controller
-	{
+	public class AuthenController: Controller {
 		[Route("UserInfo")]
 		[HttpGet]
-		public ActionResult UserInfo()
-		{
+		public ActionResult UserInfo() {
 			Claims c = new Claims();
 			List<object> userInfoList = new List<object>();
 			userInfoList.Add(c.UserInfo());
 
-			object userInfoResult = new { data = userInfoList };
+			object userInfoResult = new {
+				data = userInfoList
+			};
 
 			return Json(userInfoResult, JsonRequestBehavior.AllowGet);
 		}
 
-		public void SignIn()
-		{
-			HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/AuthADFS" }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+		public void SignIn() {
+			HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties {
+				RedirectUri = "/AuthADFS"
+			}, OpenIdConnectAuthenticationDefaults.AuthenticationType);
 		}
 
-		public void SignOut()
-		{
+		public void SignOut() {
 			this.EndSession();
 			HttpContext.GetOwinContext().Authentication.SignOut(OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
 		}
 
-		public void EndSession()
-		{
+		public void EndSession() {
 			HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
 		}
 	}

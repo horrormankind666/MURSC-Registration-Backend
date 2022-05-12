@@ -21,10 +21,8 @@ using AuthorizationServer.Controllers;
 
 [assembly: OwinStartup(typeof(AuthorizationServer.Startup))]
 
-namespace AuthorizationServer
-{
-	public partial class Startup
-	{
+namespace AuthorizationServer {
+	public partial class Startup {
 		/*
 		private static string clientId = "e43a62d7-381a-453d-841c-2ec769f9cc8e";
 		private static string clientSecret = "FT0bKrw90-B2dVYIzgmCuOR0vOFSdj1tJMI4I1Ri";
@@ -38,17 +36,14 @@ namespace AuthorizationServer
 		private static string metadataAddress = "https://idp.mahidol.ac.th/adfs/.well-known/openid-configuration";
 		private static string postLogoutRedirectUri = "https://mursc.mahidol.ac.th/AuthorizationServer";       
 		*/
-		public void Configuration(IAppBuilder app)
-		{
+		public void Configuration(IAppBuilder app) {
 			ConfigureAuth(app);
 			/*                
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
-			app.UseCookieAuthentication(new CookieAuthenticationOptions
-			{
+			app.UseCookieAuthentication(new CookieAuthenticationOptions {
 				CookieManager = new SystemWebCookieManager()
 			});
-			app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
-			{
+			app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions {
 				ClientId = clientId,
 				ClientSecret = clientSecret,
 				Resource = resource,
@@ -57,22 +52,17 @@ namespace AuthorizationServer
 				MetadataAddress = metadataAddress,
 				PostLogoutRedirectUri = postLogoutRedirectUri,
 				RedirectUri = postLogoutRedirectUri,
-				Notifications = new OpenIdConnectAuthenticationNotifications
-				{
-					SecurityTokenValidated = async notification =>
-					{
+				Notifications = new OpenIdConnectAuthenticationNotifications {
+					SecurityTokenValidated = async notification => {
 						notification.AuthenticationTicket.Identity.AddClaim(new Claim("id_token", notification.ProtocolMessage.IdToken));
 					},
-					RedirectToIdentityProvider = async n =>
-					{
-						if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
-						{
+					RedirectToIdentityProvider = async n => {
+						if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout) {
 							var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token").Value;
 							n.ProtocolMessage.IdTokenHint = idTokenHint;
 						}
 					},
-					AuthenticationFailed = context =>
-					{
+					AuthenticationFailed = context => {
 						context.HandleResponse();
 						context.Response.Redirect("/Error?message=" + context.Exception.Message);
 

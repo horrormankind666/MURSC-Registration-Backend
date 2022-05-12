@@ -1,10 +1,10 @@
 ﻿[
-  {
-    "outputFile": "Content/Style/Site.css",
-    "inputFile": "Content/Style/Site.scss"
-  },
-  {
-    "outputFile": "Content/Style/Font.css",
-    "inputFile": "Content/Style/Font.scss"
-  }
+    {
+        "outputFile": "Content/Style/Site.css",
+        "inputFile": "Content/Style/Site.scss"
+    },
+    {
+        "outputFile": "Content/Style/Font.css",
+        "inputFile": "Content/Style/Font.scss"
+    }
 ]

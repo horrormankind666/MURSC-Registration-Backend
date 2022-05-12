@@ -14,12 +14,9 @@ using System.Text;
 using System.Security.Claims;
 using System.Web.Mvc;
 
-namespace AuthorizationServer.Controllers
-{
-	public class HomeController : Controller
-	{       
-		public ActionResult Index()
-		{
+namespace AuthorizationServer.Controllers {
+	public class HomeController: Controller {
+		public ActionResult Index() {
 			string token = String.Empty;
 			string winaccountname = String.Empty;
 			string email = String.Empty;
@@ -29,8 +26,7 @@ namespace AuthorizationServer.Controllers
 				Response.Redirect(Url.Action("SignIn", "Authen"));
 			else
 			*/
-			if (Request.IsAuthenticated)
-			{           
+			if (Request.IsAuthenticated) {
 				Claims c = new Claims();
 				dynamic u = c.UserInfo();
 
@@ -54,8 +50,7 @@ namespace AuthorizationServer.Controllers
 				token = Convert.ToBase64String(encDataByte);
 				*/
 
-				foreach (Claim claim in tokenS.Claims)
-				{
+				foreach (Claim claim in tokenS.Claims) {
 					if (claim.Type.Equals("winaccountname"))
 						winaccountname = claim.Value;
 

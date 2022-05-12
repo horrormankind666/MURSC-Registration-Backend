@@ -19,16 +19,13 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ResourceServer.Controllers
-{
+namespace ResourceServer.Controllers {
 	[Route("API/AuthenResource")]
 	[ApiController]
-	public class ResourceController : ControllerBase
-	{
+	public class ResourceController: ControllerBase	{
 		[Route("IsAuthenticated")]
 		[HttpGet]
-		public ActionResult<dynamic> IsAuthenticated()
-		{
+		public ActionResult<dynamic> IsAuthenticated() {
 			string authorization = Request.Headers["Authorization"];
 			bool isAuthenticated = false;
 			List<object> userInfoList = new List<object>();
@@ -43,8 +40,7 @@ namespace ResourceServer.Controllers
 
 		[Route("UserInfo")]
 		[HttpGet]
-		public ActionResult<dynamic> UserInfo()
-		{
+		public ActionResult<dynamic> UserInfo() {
 			string authorization = Request.Headers["Authorization"];
 			string token = String.Empty;
 			string winaccountname = String.Empty;
@@ -54,28 +50,24 @@ namespace ResourceServer.Controllers
 			StringBuilder jwtPayload = new StringBuilder();
 			List<object> userInfoList = new List<object>();
             
-			if (String.IsNullOrEmpty(authorization))
-			{
+			if (String.IsNullOrEmpty(authorization)) {
 				userInfoList = null;
 			}
-			else
-			{
-				userInfoList.Add(new
-				{
+			else {
+				userInfoList.Add(new {
 					isAuthenticated = User.Identity.IsAuthenticated
 				});
 
-				if (User.Identity.IsAuthenticated)
-				{ 
-					try
-					{
-						if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-						{
+				if (User.Identity.IsAuthenticated) {
+					try {
+						if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)) {
 							token = authorization.Substring("Bearer ".Length).Trim();
 						}
 
-						//byte[] decDataByte = Convert.FromBase64String(token);
-						//token = Encoding.UTF8.GetString(decDataByte);
+						/*
+						byte[] decDataByte = Convert.FromBase64String(token);
+						token = Encoding.UTF8.GetString(decDataByte);
+						*/
 
 						char[] tokenArray = (token.Substring(28)).ToCharArray();
 						Array.Reverse(tokenArray);
@@ -85,15 +77,13 @@ namespace ResourceServer.Controllers
 						var tokenS = handler.ReadToken(token) as JwtSecurityToken;                        
 
 						jwtHeader.Append("{");
-						foreach (var h in tokenS.Header)
-						{
+						foreach (var h in tokenS.Header) {
 							jwtHeader.AppendFormat("'{0}': '{1}',", h.Key, h.Value);
 						}
 						jwtHeader.Append("}");
 
 						jwtPayload.Append("{");
-						foreach (Claim c in tokenS.Claims)
-						{
+						foreach (Claim c in tokenS.Claims) {
 							jwtPayload.AppendFormat("'{0}': '{1}',", c.Type, EncodeURI(c.Value.ToString()));
 
 							if (c.Type.Equals("winaccountname"))
@@ -108,14 +98,15 @@ namespace ResourceServer.Controllers
 						jwtPayload.Append("}");
 
 						userInfoList.Add(new {
-							//header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
-							//token = token,
+							/*
+							header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
+							token = token,
+							*/
 							payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
 							personal = GetPersonal(winaccountname, email, ppid)
 						});
 					}
-					catch
-					{
+					catch {
 					}
 				}
 			}
@@ -125,53 +116,46 @@ namespace ResourceServer.Controllers
 			return userInfoResult;
 		}
 
-		private static string StringReverse(string plainText)
-		{
+		private static string StringReverse(string plainText) {
 			string result = null;
 
-			try
-			{
+			try {
 				char[] charArray = plainText.ToCharArray();
 				Array.Reverse(charArray);
 				result = new string(charArray);
 			}
-			catch
-			{
+			catch {
 			}
 
 			return result;
 		}
 
 
-		private static string Base64Encode(string plainText)
-		{
+		private static string Base64Encode(string plainText) {
 			string result = null;
 
-			try
-			{ 
+			try {
 				var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
 				result = Convert.ToBase64String(plainTextBytes);
 			}
-			catch
-			{
-
+			catch {
 			}
 
 			return result;
 		}
 
-		private static string EncodeURI(string plainText)
-		{
+		private static string EncodeURI(string plainText) {
 			string result = (!String.IsNullOrEmpty(plainText) ? StringReverse(Base64Encode(StringReverse(plainText))) : String.Empty);
 
 			return (!String.IsNullOrEmpty(result) ? result : null);
 		}
 
-		private string GetTokenAccess()
-		{
-			//var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://devadfs.mahidol.ac.th/adfs/oauth2/token/");
-			//var postData = "grant_type=client_credentials&client_id=e43a62d7-381a-453d-841c-2ec769f9cc8e&client_secret=FT0bKrw90-B2dVYIzgmCuOR0vOFSdj1tJMI4I1Ri";
+		private string GetTokenAccess() {
+			/*
+			var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://devadfs.mahidol.ac.th/adfs/oauth2/token/");
+			var postData = "grant_type=client_credentials&client_id=e43a62d7-381a-453d-841c-2ec769f9cc8e&client_secret=FT0bKrw90-B2dVYIzgmCuOR0vOFSdj1tJMI4I1Ri";
+			*/
 			var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://idp.mahidol.ac.th/adfs/oauth2/token/");
 			var postData = "grant_type=client_credentials&client_id=ea4f5ba7-b59b-4673-84e5-429670b09081&client_secret=kHs3H51qio83jF-Fdm1y-2PTiBSOzD771i2UPaml";           
 			var data = Encoding.ASCII.GetBytes(postData);
@@ -180,14 +164,12 @@ namespace ResourceServer.Controllers
 			httpWebRequest.Method = "POST";
 			httpWebRequest.ContentLength = data.Length;
 
-			using (var stream = httpWebRequest.GetRequestStream())
-			{
+			using (var stream = httpWebRequest.GetRequestStream()) {
 				stream.Write(data, 0, data.Length);
 			}
 
 			var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-			using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
-			{
+			using (var sr = new StreamReader(httpWebResponse.GetResponseStream())) {
 				var result = sr.ReadToEnd();
 
 				dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
@@ -196,18 +178,21 @@ namespace ResourceServer.Controllers
 			};
 		}
 
-		private class HRi
-		{
-			public static string GetTokenAccess(string hostname)
-			{
+		private class HRi {
+			public static string GetTokenAccess(string hostname) {
 				string hostnameLocalhost = "localhost"; //10.43.4.0/24
 				string hostnameQAS = "mursc-qas.mahidol.ac.th"; //10.41.18.146
 				string hostnamePRD = "mursc.mahidol.ac.th"; //10.41.207.79
 				string apiKey = String.Empty;
 
-				if (hostname.Equals(hostnameLocalhost))	apiKey = "7a56022ba61bf9c3a7723a06640eba1936451de4";
-				if (hostname.Equals(hostnameQAS))		apiKey = "fc0695f199b84ea29ecc1bc42af9a4aaddd422af";
-				if (hostname.Equals(hostnamePRD))		apiKey = "25a0b4f979c930286e480829726eb3edd32e245a";
+				if (hostname.Equals(hostnameLocalhost))
+					apiKey = "7a56022ba61bf9c3a7723a06640eba1936451de4";
+
+				if (hostname.Equals(hostnameQAS))
+					apiKey = "fc0695f199b84ea29ecc1bc42af9a4aaddd422af";
+
+				if (hostname.Equals(hostnamePRD))
+					apiKey = "25a0b4f979c930286e480829726eb3edd32e245a";
 
 				var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://jwt.mahidol.ac.th/v1/access/" + apiKey);
 				httpWebRequest.ContentType = "application/json";
@@ -215,8 +200,7 @@ namespace ResourceServer.Controllers
 				httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
 
 				var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-				using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
-				{
+				using (var sr = new StreamReader(httpWebResponse.GetResponseStream())) {
 					var result = sr.ReadToEnd();
 
 					dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
@@ -225,8 +209,10 @@ namespace ResourceServer.Controllers
 				}
 			}
 
-			public static dynamic GetProfile(string tokenAccess, string personalId)
-			{
+			public static dynamic GetProfile(
+				string tokenAccess,
+				string personalId
+			) {
 				StringBuilder body = new StringBuilder();
 
 				body.AppendLine("personal(personalId: \"" + personalId + "\") { ");
@@ -263,8 +249,10 @@ namespace ResourceServer.Controllers
 				return Action("https://hr-i.mahidol.ac.th/titan/information/v2/personal_profile", tokenAccess, body.ToString());
 			}
 
-			public static dynamic GetAddress(string tokenAccess, string personalId)
-			{
+			public static dynamic GetAddress(
+				string tokenAccess,
+				string personalId
+			) {
 				StringBuilder body = new StringBuilder();
 
 				body.AppendLine("addresses(personalId: \"" + personalId + "\") { ");
@@ -295,23 +283,24 @@ namespace ResourceServer.Controllers
 				return Action("https://hr-i.mahidol.ac.th/titan/information/v1/personal_address", tokenAccess, body.ToString());
 			}
 
-			public static dynamic Action(string url, string tokenAccess, string body)
-			{
+			public static dynamic Action(
+				string url,
+				string tokenAccess,
+				string body
+			) {
 				var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 				httpWebRequest.ContentType = "application/json";
 				httpWebRequest.Method = "POST";
 				httpWebRequest.Headers["Authorization"] = tokenAccess;
 
-				using (var sw = new StreamWriter(httpWebRequest.GetRequestStream()))
-				{
+				using (var sw = new StreamWriter(httpWebRequest.GetRequestStream())) {
 					sw.Write(body);
 				}
 
 				dynamic info;
 
 				var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-				using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
-				{
+				using (var sr = new StreamReader(httpWebResponse.GetResponseStream())) {
 					var result = sr.ReadToEnd();
 
 					info = JsonConvert.DeserializeObject<dynamic>(result);
@@ -321,15 +310,19 @@ namespace ResourceServer.Controllers
 			}
 		}
 
-		private object GetPersonal(string winaccountname, string email, string ppid)
-		{
+		private object GetPersonal(
+			string winaccountname,
+			string email,
+			string ppid
+		) {
 			string host = email.Split('@')[1];
 			string personType = host.Split('.')[0];
 			object personalInfoResult = null;
 
-			if (personType.Equals("student"))
-			{
-				//ppid = "6301001";
+			if (personType.Equals("student")) {
+				/*
+				ppid = "6301001";
+				*/
 				string type = (winaccountname.Substring(0, 1)).ToUpper();
 				
 				personalInfoResult = GetStudent((Regex.IsMatch(type, "^[a-zA-Z]*$") ? type : String.Empty), ppid);
@@ -340,16 +333,17 @@ namespace ResourceServer.Controllers
 			return personalInfoResult;
 		}
 
-		private dynamic GetStudent(string type, string studentCode)
-		{
+		private dynamic GetStudent(
+			string type,
+			string studentCode
+		) {
 			object personalInfoResult = null;
 			JObject profileObj = new JObject();
 
 			string authorization = Request.Headers["Authorization"];
 			string token = String.Empty;
 
-			if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-			{
+			if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)) {
 				token = authorization.Substring("Bearer ".Length).Trim();
 			}
 
@@ -359,15 +353,13 @@ namespace ResourceServer.Controllers
 
 			var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 			
-			using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
-			{
+			using (var sr = new StreamReader(httpWebResponse.GetResponseStream())) {
 				var result = sr.ReadToEnd();
 
 				dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(result);
 				JArray data = jsonObject["data"];
 
-				if (data.Count > 0)
-				{
+				if (data.Count > 0) {
 					JObject dr = jsonObject["data"][0];
 
 					profileObj.Add("type", ("student" + type));
@@ -401,13 +393,11 @@ namespace ResourceServer.Controllers
 			return personalInfoResult;
 		}
 
-		private object GetHRi(string personalId)
-		{
+		private object GetHRi(string personalId) {
 			object personalInfoResult = null;
 			JObject profileObj = new JObject();
 
-			try
-			{
+			try {
 				string tokenAccess = HRi.GetTokenAccess(Request.Host.Host);
 				
 				dynamic profile = HRi.GetProfile(tokenAccess, personalId);
@@ -419,8 +409,7 @@ namespace ResourceServer.Controllers
 				dynamic profileInfo = (jsonProfileObj.SelectToken("content") != null ? jsonProfileObj.SelectToken("content.personal") : null);
 				dynamic addressInfo = (jsonAddressObj.SelectToken("content") != null ? jsonAddressObj.SelectToken("content.addresses") : null);
 
-				if (profileInfo != null)
-				{					
+				if (profileInfo != null) {
 					dynamic positionInfo = null;
 					
 					if (profileInfo["positions"] != null)
@@ -428,12 +417,9 @@ namespace ResourceServer.Controllers
 
 					string phoneNumber = String.Empty;
 
-					if (addressInfo != null)
-					{
-						foreach (dynamic dr in addressInfo)
-						{
-							if (String.IsNullOrEmpty(phoneNumber))
-							{
+					if (addressInfo != null) {
+						foreach (dynamic dr in addressInfo) {
+							if (String.IsNullOrEmpty(phoneNumber)) {
 								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["telephoneNumber"] != null) ? dr["telephoneNumber"] : phoneNumber);
 								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail1"] != null) ? dr["detail1"] : phoneNumber);
 								phoneNumber = ((String.IsNullOrEmpty(phoneNumber) && dr["detail2"] != null) ? dr["detail2"] : phoneNumber);
@@ -469,8 +455,7 @@ namespace ResourceServer.Controllers
 					personalInfoResult = profileObj;
 				}
 			}
-			catch
-			{
+			catch {
 			}
 
 			return personalInfoResult;

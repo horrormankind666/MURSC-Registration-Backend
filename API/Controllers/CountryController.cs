@@ -13,11 +13,9 @@ using System.Net.Http;
 using System.Web.Http;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("Country")]
-	public class CountryController : ApiController
-	{
+	public class CountryController: ApiController {
 		[Route("GetList")]
 		[HttpGet]
 		public HttpResponseMessage GetList(
@@ -25,8 +23,7 @@ namespace API.Controllers
 			string cancelledStatus = "",
 			string sortOrderBy = "",
 			string sortExpression = ""
-		)
-		{
+		) {
 			DataTable dt = Country.GetList(keyword, cancelledStatus, sortOrderBy, sortExpression).Tables[0];
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
@@ -34,8 +31,7 @@ namespace API.Controllers
 
 		[Route("Get")]
 		[HttpGet]
-		public HttpResponseMessage Get(string country = "")
-		{
+		public HttpResponseMessage Get(string country = "") {
 			DataTable dt = Country.Get(country);
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));

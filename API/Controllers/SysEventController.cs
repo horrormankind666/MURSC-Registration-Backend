@@ -16,35 +16,28 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using API.Models;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("SysEvent")]
-	public class SysEventController : ApiController
-	{
+	public class SysEventController: ApiController {
 		[Route("Post")]
 		[HttpPost]
-		public HttpResponseMessage Post()
-		{
+		public HttpResponseMessage Post() {
 			string jsonData = Request.Content.ReadAsStringAsync().Result;
 			string url = String.Empty;
 
-			if (!String.IsNullOrEmpty(jsonData))
-			{
-				try
-				{
+			if (!String.IsNullOrEmpty(jsonData)) {
+				try {
 					JObject jsonObject = new JObject(JsonConvert.DeserializeObject<dynamic>(jsonData));
 					url = jsonObject["url"].ToString();
 				}
-				catch
-				{
+				catch {
 					url = String.Empty;
 				}
 			}
 
 			string personID = String.Empty;
 
-			if (Util.GetIsAuthenticatedByAuthenADFS())
-			{
+			if (Util.GetIsAuthenticatedByAuthenADFS()) {
 				object obj = Util.GetPPIDByAuthenADFS();
 				string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
 				string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();

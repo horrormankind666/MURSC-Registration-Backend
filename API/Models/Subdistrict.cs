@@ -9,10 +9,8 @@ Description : <>
 
 using System.Data;
 
-namespace API.Models
-{
-	public class Subdistrict
-	{
+namespace API.Models {
+	public class Subdistrict {
 		public static DataSet GetList(
 			string keyword,
 			string country,
@@ -21,8 +19,7 @@ namespace API.Models
 			string cancelledStatus,
 			string sortOrderBy,
 			string sortExpression
-		)
-		{
+		) {
 			UtilService.iUtil iUtilService = new UtilService.iUtil();
 			DataSet ds = iUtilService.GetListSubdistrict(Util.infinityConnectionString, keyword, country, province, district, cancelledStatus, sortOrderBy, sortExpression);
 
@@ -34,8 +31,7 @@ namespace API.Models
 			string province,
 			string district,
 			string subdistrict
-		)
-		{
+		) {
 			DataTable dt = GetList("", country, province, district, "", "", "").Tables[0];
 			DataRow[] dr = dt.Select("(plcCountryId = '" + country + "') and (plcProvinceId = '" + province + "') and (plcDistrictId = '" + district + "') and (id = '" + subdistrict + "')");
 

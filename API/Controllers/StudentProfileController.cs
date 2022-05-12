@@ -15,30 +15,24 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[RoutePrefix("StudentProfile")]
-	public class StudentProfileController : ApiController
-	{
+	public class StudentProfileController: ApiController {
 		[Route("Get")]
 		[HttpGet]
-		public HttpResponseMessage Get(string studentCode = null)
-		{
+		public HttpResponseMessage Get(string studentCode = null) {
 			List<object> list = new List<object>();
 
-			if (Util.GetIsAuthenticatedByAuthenADFS())
-			{
+			if (Util.GetIsAuthenticatedByAuthenADFS()) {
 				DataSet ds = Util.ExecuteCommandStoredProcedure(Util.infinityConnectionString, "sp_rscGetStudentProfile",
 					new SqlParameter("@studentCode", studentCode));
 
 				DataTable dt = ds.Tables[0];
 
-				if (dt.Rows.Count > 0)
-				{
+				if (dt.Rows.Count > 0) {
 					DataRow dr = dt.Rows[0];
 
-					list.Add(new
-					{
+					list.Add(new {
 						studentCode = dr["studentCode"].ToString(),
 						titleTH = dr["titleTH"].ToString(),
 						titleEN	= dr["titleEN"].ToString(),
