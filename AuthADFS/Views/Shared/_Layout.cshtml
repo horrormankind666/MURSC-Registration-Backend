@@ -15,41 +15,67 @@
 <body>
 	<main>
 		<header>
-			<div class="container">
-				<div class="navbar-header">
-					<div class="panel-table">
-						<div class="panel-row">
-							<div class="panel-col systeminfo"></div>
+			<div
+				class="container">
+				<div
+					class="navbar-header">
+					<div
+						class="panel-table">
+						<div
+							class="panel-row">
+							<div
+								class="panel-col systeminfo">
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</header>
 		<section>
-			<div class="container">
+			<div
+				class="container">
 				@RenderBody()
 			</div>
 		</section>
 		<footer>
-			<div class="container text-center">
+			<div
+				class="container text-center">
 				@if (Request.IsAuthenticated) {
-					<form id="loc_continue_frm" name="loc_continue_frm" action="http://localhost:4200/silent-refresh.html" method="get">
-						<span class="font regular gray size14">
+					<form
+						id="loc_continue_frm"
+						name="loc_continue_frm"
+						action="http://localhost:4200/silent-refresh.html"
+						method="get">
+						<span
+							class="font regular gray size14">
 							Copyright&nbsp;
-							<a class="font regular gray size16" href="javascript:void(0)" onclick="document.forms['loc_continue_frm'].submit()">
-								<i class="fa fa-copyright"></i>
+							<a
+								class="font regular gray size16"
+								href="javascript:void(0)"
+								onclick="document.forms['loc_continue_frm'].submit()">
+								<i
+									class="fa fa-copyright">
+								</i>
 							</a>
 							&nbsp;2019 @(DateTime.Now.Year > 2019 ? (" - " + DateTime.Now.Year) : "") Mahidol University. All rights reserved.
 						</span>
-						<input type="hidden" name="token" value="@ViewBag.Token" />
+						<input
+							type="hidden"
+							name="token"
+							value="@ViewBag.Token"
+						/>
 					</form>
 				}
 
 				@if (!Request.IsAuthenticated) {
-					<span class="font regular gray size14">
+					<span
+						class="font regular gray size14">
 						Copyright&nbsp;
-						<span class="font regular size16">
-							<i class="fa fa-copyright"></i>
+						<span
+							class="font regular size16">
+							<i
+								class="fa fa-copyright">
+							</i>
 						</span>
 						&nbsp;2019 @(DateTime.Now.Year > 2019 ? (" - " + DateTime.Now.Year) : "") Mahidol University. All rights reserved.
 					</span>
