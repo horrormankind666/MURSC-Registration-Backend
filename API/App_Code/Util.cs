@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๒๔/๐๕/๒๕๖๔>
+Modify date : <๓๑/๐๕/๒๕๖๕>
 Description : <>
 =============================================
 */
@@ -311,5 +311,68 @@ namespace API {
 
 			return Convert.ToBase64String(plainTextBytes);
 		}
-	}
+
+        public static string DoGeneratePasscode(
+            int _lenChars,
+            int _lenNonAlphaNumericChars
+        ) {
+            string _allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string _allowedNonAlphaNum = "!@#$%^&()_-+=[{]};";
+
+            Random _rd = new Random();
+
+            if (_lenNonAlphaNumericChars > _lenChars || _lenChars <= 0 || _lenNonAlphaNumericChars < 0)
+                throw new ArgumentOutOfRangeException();
+
+            char[] _pass = new char[_lenChars];
+            int[] _pos = new int[_lenChars];
+            int _i = 0, _j = 0, _temp = 0;
+            bool _flag = false;
+
+            while (_i < (_lenChars - 1)) {
+                _j = 0;
+                _flag = false;
+                _temp = _rd.Next(0, _lenChars);
+
+                for (_j = 0; _j < _lenChars; _j++) {
+                    if (_temp == _pos[_j]) {
+                        _flag = true;
+                        _j = _lenChars;
+                    }
+                }
+
+                if (!_flag) {
+                    _pos[_i] = _temp;
+                    _i++;
+                }
+            }
+
+            for (_i = 0; _i < (_lenChars - _lenNonAlphaNumericChars); _i++)
+                _pass[_i] = _allowedChars[_rd.Next(0, _allowedChars.Length)];
+
+            for (_i = (_lenChars - _lenNonAlphaNumericChars); _i < _lenChars; _i++)
+                _pass[_i] = _allowedNonAlphaNum[_rd.Next(0, _allowedNonAlphaNum.Length)];
+
+            char[] _sorted = new char[_lenChars];
+
+            for (_i = 0; _i < _lenChars; _i++)
+                _sorted[_i] = _pass[_pos[_i]];
+
+            string _resultPass = new String(_sorted);
+
+            return _resultPass;
+        }
+
+		public static string DoGetCUID(string[] data) {
+			string randAlphaNumStr = DoGeneratePasscode(20, 0);
+
+            return (
+				Base64Encode(
+					StringReverse(Base64Encode(randAlphaNumStr)) + "." + 
+					StringReverse(randAlphaNumStr) + "." +
+					StringReverse(Base64Encode(String.Join(".", data)))
+				)
+			);            
+        }
+    }
 }

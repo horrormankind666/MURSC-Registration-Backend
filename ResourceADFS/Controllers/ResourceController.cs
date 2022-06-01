@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๑๐/๐๒/๒๕๖๔>
+Modify date : <๐๑/๐๖/๒๕๖๕>
 Description : <>
 =============================================
 */
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
+using System.Net.Security;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -72,7 +73,7 @@ namespace ResourceServer.Controllers {
 						char[] tokenArray = (token.Substring(28)).ToCharArray();
 						Array.Reverse(tokenArray);
 						token = new string(tokenArray);
-                
+						
 						var handler = new JwtSecurityTokenHandler();
 						var tokenS = handler.ReadToken(token) as JwtSecurityToken;                        
 
@@ -81,7 +82,7 @@ namespace ResourceServer.Controllers {
 							jwtHeader.AppendFormat("'{0}': '{1}',", h.Key, h.Value);
 						}
 						jwtHeader.Append("}");
-
+						
 						jwtPayload.Append("{");
 						foreach (Claim c in tokenS.Claims) {
 							jwtPayload.AppendFormat("'{0}': '{1}',", c.Type, EncodeURI(c.Value.ToString()));
@@ -96,15 +97,15 @@ namespace ResourceServer.Controllers {
 								ppid = c.Value;
 						}
 						jwtPayload.Append("}");
-
+						
 						userInfoList.Add(new {
 							/*
 							header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
 							token = token,
 							*/
-							payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
-							personal = GetPersonal(winaccountname, email, ppid)
-						});
+                            payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
+                            personal = GetPersonal(winaccountname, email, ppid)
+                        });
 					}
 					catch {
 					}
@@ -347,9 +348,16 @@ namespace ResourceServer.Controllers {
 				token = authorization.Substring("Bearer ".Length).Trim();
 			}
 
-			var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://mursc.mahidol.ac.th/API/StudentProfile/Get?studentCode=" + studentCode);
+			string hostname = Request.Host.Host;
+            string hostnameLocalhost = "localhost";
+            string hostnameQAS = "mursc-qas.mahidol.ac.th";
+			string host = ("https://" + (hostname.Equals(hostnameLocalhost) ? hostnameQAS : hostname));
 
-			httpWebRequest.Headers.Add("Authorization", "Bearer " + token);
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
+
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(host + "/API/StudentProfile/Get?studentCode=" + studentCode);
+
+            httpWebRequest.Headers.Add("Authorization", "Bearer " + token);
 
 			var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 			
@@ -362,7 +370,6 @@ namespace ResourceServer.Controllers {
 				if (data.Count > 0) {
 					JObject dr = jsonObject["data"][0];
 
-					profileObj.Add("type", ("student" + type));
 					profileObj.Add("personalID", EncodeURI(dr["studentCode"].ToString()));
 					profileObj.Add("titleTH", EncodeURI(dr["titleTH"].ToString()));
 					profileObj.Add("titleEN", EncodeURI(dr["titleEN"].ToString()));
@@ -378,7 +385,8 @@ namespace ResourceServer.Controllers {
 					profileObj.Add("facultyNameEN", EncodeURI(dr["facultyNameEN"].ToString()));
 					profileObj.Add("programNameTH", EncodeURI(dr["programNameTH"].ToString()));
 					profileObj.Add("programNameEN", EncodeURI(dr["programNameEN"].ToString()));
-					profileObj.Add("address", EncodeURI(dr["address"].ToString()));
+                    profileObj.Add("admissionYear", EncodeURI(dr["admissionYear"].ToString()));
+                    profileObj.Add("address", EncodeURI(dr["address"].ToString()));
 					profileObj.Add("subdistrict", EncodeURI(dr["subdistrict"].ToString()));
 					profileObj.Add("district", EncodeURI(dr["district"].ToString()));
 					profileObj.Add("province", EncodeURI(dr["province"].ToString()));
@@ -386,11 +394,11 @@ namespace ResourceServer.Controllers {
 					profileObj.Add("zipCode", EncodeURI(dr["zipCode"].ToString()));
 					profileObj.Add("phoneNumber", EncodeURI(dr["phoneNumber"].ToString()));
 
-					personalInfoResult = profileObj;
+                    personalInfoResult = profileObj;
 				}
-			};
+            };
 			
-			return personalInfoResult;
+            return personalInfoResult;
 		}
 
 		private object GetHRi(string personalId) {
@@ -444,7 +452,8 @@ namespace ResourceServer.Controllers {
 					profileObj.Add("facultyNameEN", (positionInfo != null ? EncodeURI((positionInfo["organization"]["fullnameEN"]).ToString()) : null));
 					profileObj.Add("programNameTH", null);
 					profileObj.Add("programNameEN", null);
-					profileObj.Add("address", null);
+                    profileObj.Add("admissionYear", null);
+                    profileObj.Add("address", null);
 					profileObj.Add("subdistrict", null);
 					profileObj.Add("district", null);
 					profileObj.Add("province", null);

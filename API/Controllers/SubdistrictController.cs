@@ -2,11 +2,12 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๔/๐๕/๒๕๖๓>
-Modify date : <๐๑/๐๖/๒๕๖๓>
+Modify date : <๐๑/๐๖/๒๕๖๕>
 Description : <>
 =============================================
 */
 
+using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Net.Http;
@@ -16,7 +17,7 @@ using API.Models;
 namespace API.Controllers {
 	[RoutePrefix("Subdistrict")]
 	public class SubdistrictController: ApiController {
-		[Route("GetList")]
+        [Route("GetList")]
 		[HttpGet]
 		public HttpResponseMessage GetList(
 			string keyword = "",
@@ -27,9 +28,10 @@ namespace API.Controllers {
 			string sortOrderBy = "",
 			string sortExpression = ""
 		) {
-			DataTable dt = Subdistrict.GetList(keyword, country, province, district, cancelledStatus, sortOrderBy, sortExpression).Tables[0];
+			DataSet ds = Subdistrict.GetList(keyword, country, province, district, cancelledStatus, sortOrderBy, sortExpression);
+            List<object> list = Subdistrict.GetDataSource(ds.Tables[0]);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+            return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 
 		[Route("Get")]
@@ -41,8 +43,9 @@ namespace API.Controllers {
 			string subdistrict = ""
 		) {
 			DataTable dt = Subdistrict.Get(country, province, district, subdistrict);
+            List<object> list = Subdistrict.GetDataSource(dt);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+            return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 	}
 }

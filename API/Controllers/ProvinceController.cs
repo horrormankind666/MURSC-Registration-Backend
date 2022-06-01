@@ -2,11 +2,12 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๔/๐๕/๒๕๖๓>
-Modify date : <๐๑/๐๖/๒๕๖๓>
+Modify date : <๓๑/๐๕/๒๕๖๕>
 Description : <>
 =============================================
 */
 
+using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Net.Http;
@@ -16,7 +17,7 @@ using API.Models;
 namespace API.Controllers {
 	[RoutePrefix("Province")]
 	public class ProvinceController: ApiController {
-		[Route("GetList")]
+        [Route("GetList")]
 		[HttpGet]
 		public HttpResponseMessage GetList(
 			string keyword = "",
@@ -25,9 +26,10 @@ namespace API.Controllers {
 			string sortOrderBy = "",
 			string sortExpression = ""
 		) {
-			DataTable dt = Province.GetList(keyword, country, cancelledStatus, sortOrderBy, sortExpression).Tables[0];
+			DataSet ds = Province.GetList(keyword, country, cancelledStatus, sortOrderBy, sortExpression);
+            List<object> list = Province.GetDataSource(ds.Tables[0]);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+            return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 
 		[Route("Get")]
@@ -37,8 +39,9 @@ namespace API.Controllers {
 			string province = ""
 		) {
 			DataTable dt = Province.Get(country, province);
+            List<object> list = Province.GetDataSource(dt);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+            return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 	}
 }

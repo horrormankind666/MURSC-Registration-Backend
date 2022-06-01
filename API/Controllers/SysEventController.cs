@@ -36,7 +36,7 @@ namespace API.Controllers {
 			}
 
 			string personID = String.Empty;
-
+			
 			if (Util.GetIsAuthenticatedByAuthenADFS()) {
 				object obj = Util.GetPPIDByAuthenADFS();
 				string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
@@ -44,7 +44,7 @@ namespace API.Controllers {
 
 				personID = (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName);
 			}
-
+			
 			DataTable dt = SysEvent.Set(url, String.Empty, personID).Tables[0];
 
 			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));

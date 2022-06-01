@@ -156,9 +156,9 @@ D:\Programming\MURSC\Backend\Registration\API\bin\System.Net.Http.Formatting.xml
 D:\Programming\MURSC\Backend\Registration\API\bin\System.Web.Http.xml
 D:\Programming\MURSC\Backend\Registration\API\bin\System.Web.Http.Cors.xml
 D:\Programming\MURSC\Backend\Registration\API\bin\System.Web.Http.WebHost.xml
-D:\Programming\MURSC\Backend\Registration\API\obj\Release\API.csprojAssemblyReference.cache
 D:\Programming\MURSC\Backend\Registration\API\obj\Release\API.csproj.CoreCompileInputs.cache
 D:\Programming\MURSC\Backend\Registration\API\obj\Release\API.csproj.CopyComplete
 D:\Programming\MURSC\Backend\Registration\API\obj\Release\API.dll
 D:\Programming\MURSC\Backend\Registration\API\obj\Release\API.pdb
 D:\Programming\MURSC\Backend\Registration\API\obj\Release\API.XmlSerializers.dll
+D:\Programming\MURSC\Backend\Registration\API\obj\Release\API.csproj.AssemblyReference.cache

@@ -19,7 +19,6 @@ D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Debug\netcoreapp2.2\R
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Debug\netcoreapp2.2\ResourceADFS.runtimeconfig.dev.json
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Debug\netcoreapp2.2\ResourceADFS.dll
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Debug\netcoreapp2.2\ResourceADFS.pdb
-D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.csprojAssemblyReference.cache
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.AssemblyInfoInputs.cache
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.AssemblyInfo.cs
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.csproj.CoreCompileInputs.cache
@@ -29,3 +28,5 @@ D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\R
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.dll
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.pdb
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.genruntimeconfig.cache
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.csproj.AssemblyReference.cache
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Debug\netcoreapp2.2\ResourceADFS.GeneratedMSBuildEditorConfig.editorconfig

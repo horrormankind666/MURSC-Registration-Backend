@@ -2,11 +2,12 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๔/๐๕/๒๕๖๓>
-Modify date : <๑๔/๐๕/๒๕๖๓>
+Modify date : <๓๑/๐๕/๒๕๖๔>
 Description : <>
 =============================================
 */
 
+using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Net.Http;
@@ -16,7 +17,7 @@ using API.Models;
 namespace API.Controllers {
 	[RoutePrefix("Country")]
 	public class CountryController: ApiController {
-		[Route("GetList")]
+        [Route("GetList")]
 		[HttpGet]
 		public HttpResponseMessage GetList(
 			string keyword = "",
@@ -24,17 +25,19 @@ namespace API.Controllers {
 			string sortOrderBy = "",
 			string sortExpression = ""
 		) {
-			DataTable dt = Country.GetList(keyword, cancelledStatus, sortOrderBy, sortExpression).Tables[0];
+			DataSet ds = Country.GetList(keyword, cancelledStatus, sortOrderBy, sortExpression);
+			List<object> list = Country.GetDataSource(ds.Tables[0]);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 
 		[Route("Get")]
 		[HttpGet]
 		public HttpResponseMessage Get(string country = "") {
-			DataTable dt = Country.Get(country);
+            DataTable dt = Country.Get(country);
+            List<object> list = Country.GetDataSource(dt);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+            return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 	}
 }

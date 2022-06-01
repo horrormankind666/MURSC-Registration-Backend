@@ -2,11 +2,12 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๐๘/๐๖/๒๕๖๓>
-Modify date : <๒๙/๐๗/๒๕๖๓>
+Modify date : <๒๘/๐๕/๒๕๖๕>
 Description : <>
 =============================================
 */
 
+using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Net.Http;
@@ -16,20 +17,22 @@ using API.Models;
 namespace API.Controllers {
 	[RoutePrefix("ProjectCategory")]
 	public class ProjectCategoryController: ApiController {
-		[Route("GetList")]
+        [Route("GetList")]
 		[HttpGet]
 		public HttpResponseMessage GetList() {
-			DataTable dt = ProjectCategory.GetList().Tables[0];
+            DataSet ds = ProjectCategory.GetList();
+            List<object> list = ProjectCategory.GetDataSource(ds.Tables[0]);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
-		}
+            return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
+        }
 
 		[Route("Get")]
 		[HttpGet]
 		public HttpResponseMessage Get(string projectCategory = "") {
-			DataTable dt = ProjectCategory.Get(projectCategory).Tables[0];
+            DataSet ds = ProjectCategory.Get(projectCategory);
+            List<object> list = ProjectCategory.GetDataSource(ds.Tables[0]);
 
-			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(dt));
+			return Request.CreateResponse(HttpStatusCode.OK, Util.APIResponse.GetData(list));
 		}
 	}
 }
