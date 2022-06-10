@@ -119,6 +119,7 @@
     <Compile Include="Controllers\BankQRCodeNotiController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
+    <Compile Include="Controllers\PrivilegeController.cs" />
     <Compile Include="Controllers\QRCodePaymentController.cs" />
     <Compile Include="Controllers\ProjectCategoryController.cs" />
     <Compile Include="Controllers\ProvinceController.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Controllers\SubdistrictController.cs" />
     <Compile Include="Controllers\TransDeliveryAddressController.cs" />
     <Compile Include="Controllers\TransInvoiceController.cs" />
+    <Compile Include="Controllers\TransPrivilegeController.cs" />
     <Compile Include="Controllers\TransProjectController.cs" />
     <Compile Include="Controllers\SysEventController.cs" />
     <Compile Include="Controllers\TransRegisteredController.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Models\ContactPerson.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\District.cs" />
+    <Compile Include="Models\Privilege.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectCategory.cs" />
     <Compile Include="Models\Province.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="Models\TransDeliveryAddress.cs" />
     <Compile Include="Models\SysEvent.cs" />
     <Compile Include="Models\TransInvoice.cs" />
+    <Compile Include="Models\TransPrivilege.cs" />
     <Compile Include="Models\TransRegistered.cs" />
     <Compile Include="Models\TransSchedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

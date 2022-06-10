@@ -49,7 +49,17 @@ namespace API.Controllers {
 				}
 			}
 
-			DataSet ds = TransProject.Get(projectCategory, transProjectID);
+            string personID = String.Empty;
+
+            if (Util.GetIsAuthenticatedByAuthenADFS()) {
+                object obj = Util.GetPPIDByAuthenADFS();
+                string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
+                string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+
+                personID = (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName);
+            }
+
+            DataSet ds = TransProject.Get(projectCategory, transProjectID);
 			DataTable dtTransProject = ds.Tables[0];
 			DataTable dtTransLocation = ds.Tables[1];
 			DataTable dtTransFeeType = ds.Tables[2];
@@ -63,20 +73,20 @@ namespace API.Controllers {
 
                 JObject transProject = new JObject(JsonConvert.DeserializeObject<dynamic>(JsonConvert.SerializeObject(transProjects[0])));
 
+                DataSet dsTransRegistered = TransRegistered.Get("", personID, transProjectID);
+                DataTable dtTransRegistered = dsTransRegistered.Tables[0];
+                List<object> transRegistered = TransRegistered.GetDataSource("TransRegistered", dtTransRegistered);
+
+                DataSet dsTransRegisteredWithTransProjectIDs = TransRegistered.GetListWithTransProjectIDs(personID, transProject["sameProject"].ToString());
+                DataTable dtTransRegisteredWithTransProjectIDs = dsTransRegisteredWithTransProjectIDs.Tables[0];
+                List<object> transRegisteredWithTransProjectIDs = TransRegistered.GetDataSource("TransRegisteredWithTransProjectIDs", dtTransRegisteredWithTransProjectIDs);
+
                 transProject.Add("transLocation", JToken.FromObject(transLocations));
                 transProject.Add("transFeeType", JToken.FromObject(transFeeTypes));
+				transProject.Add("transRegistered", JToken.FromObject(transRegistered));
+                transProject.Add("transRegisteredWithTransProjectIDs", JToken.FromObject(transRegisteredWithTransProjectIDs));
 
                 list.Add(transProject);
-
-				string personID = String.Empty;
-
-				if (Util.GetIsAuthenticatedByAuthenADFS()) {
-					object obj = Util.GetPPIDByAuthenADFS();
-					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
-					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
-
-					personID = (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName);
-				}
 
 				JObject parameters = new JObject();
 

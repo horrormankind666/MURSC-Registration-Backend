@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๒/๒๕๖๓>
-Modify date : <๐๑/๐๖/๒๕๖๕>
+Modify date : <๐๒/๐๖/๒๕๖๕>
 Description : <>
 =============================================
 */
@@ -69,6 +69,7 @@ namespace API.Models {
                         registrationStatus = (!String.IsNullOrEmpty(dr["registrationStatus"].ToString()) ? dr["registrationStatus"] : String.Empty),
                         userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? JsonConvert.DeserializeObject<dynamic>(dr["userTypeSpecific"].ToString()) : String.Empty),
                         privilege = JsonConvert.DeserializeObject<dynamic>(dr["privilege"].ToString()),
+                        sameProject = (!String.IsNullOrEmpty(dr["sameProject"].ToString()) ? dr["sameProject"].ToString() : null)
                     });
                 }
             }
@@ -133,7 +134,7 @@ namespace API.Models {
 			string transProjectID
 		) {
 			DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetTransProject",
-				new SqlParameter("@projectCategory", projectCategory),
+                new SqlParameter("@projectCategory", projectCategory),
 				new SqlParameter("@transProjectID", transProjectID));
 
 			return ds;

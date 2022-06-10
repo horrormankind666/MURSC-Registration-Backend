@@ -370,7 +370,8 @@ namespace ResourceServer.Controllers {
 				if (data.Count > 0) {
 					JObject dr = jsonObject["data"][0];
 
-					profileObj.Add("personalID", EncodeURI(dr["studentCode"].ToString()));
+                    profileObj.Add("type", ("student" + type));
+                    profileObj.Add("personalID", EncodeURI(dr["studentCode"].ToString()));
 					profileObj.Add("titleTH", EncodeURI(dr["titleTH"].ToString()));
 					profileObj.Add("titleEN", EncodeURI(dr["titleEN"].ToString()));
 					profileObj.Add("firstNameTH", EncodeURI(dr["firstNameTH"].ToString()));

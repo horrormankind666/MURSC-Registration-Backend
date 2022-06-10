@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๒๗/๐๕/๒๕๖๓>
-Modify date : <๐๑/๐๖/๒๕๖๕>
+Modify date : <๐๘/๐๖/๒๕๖๕>
 Description : <>
 =============================================
 */
@@ -78,7 +78,8 @@ namespace API.Models {
 							contactPerson = ContactPerson.GetDataSource(dr["contactPerson"].ToString()),
 							userTypeSpecific = (!String.IsNullOrEmpty(dr["userTypeSpecific"].ToString()) ? JsonConvert.DeserializeObject<dynamic>(dr["userTypeSpecific"].ToString()) : String.Empty),
 							privilege = JsonConvert.DeserializeObject<dynamic>(dr["privilege"].ToString()),
-						},
+                            sameProject = (!String.IsNullOrEmpty(dr["sameProject"].ToString()) ? dr["sameProject"].ToString() : null)
+                        },
 						transLocation = new {
 							ID = (!String.IsNullOrEmpty(dr["transLocationID"].ToString()) ? dr["transLocationID"] : String.Empty),
 							location = new {
@@ -124,19 +125,25 @@ namespace API.Models {
 							bankTransID = (!String.IsNullOrEmpty(dr["bankTransID"].ToString()) ? dr["bankTransID"] : String.Empty),
 							payment = new {
 								amount = (!String.IsNullOrEmpty(dr["paidAmount"].ToString()) ? float.Parse(dr["paidAmount"].ToString()) : 0),
-								confirmDate = (!String.IsNullOrEmpty(dr["paymentConfirmDate"].ToString()) ? dr["paymentConfirmDate"] : String.Empty),
+								confirmDate = (!String.IsNullOrEmpty(dr["paymentConfirmDates"].ToString()) ? dr["paymentConfirmDates"] : String.Empty),
 								by = (!String.IsNullOrEmpty(dr["paidBy"].ToString()) ? dr["paidBy"] : String.Empty),
 								date = (!String.IsNullOrEmpty(dr["paidDates"].ToString()) ? dr["paidDates"] : String.Empty),
 								status = (!String.IsNullOrEmpty(dr["paidStatus"].ToString()) ? dr["paidStatus"] : "N")
                             },
                             privilege = new {
-								ID = (!String.IsNullOrEmpty(dr["muPrivilegeID"].ToString()) ? dr["muPrivilegeID"] : String.Empty),
-                                code = (!String.IsNullOrEmpty(dr["privilegeCode"].ToString()) ? dr["privilegeCode"] : String.Empty),
-                                name = (!String.IsNullOrEmpty(dr["privilegeName"].ToString()) ? dr["privilegeName"] : String.Empty),
-                                detail = (!String.IsNullOrEmpty(dr["privilegeDetail"].ToString()) ? dr["privilegeDetail"] : String.Empty),
+								ID = (!String.IsNullOrEmpty(dr["privilegeID"].ToString()) ? dr["privilegeID"] : String.Empty),
+                                promoCode = (!String.IsNullOrEmpty(dr["privilegePromoCode"].ToString()) ? dr["privilegePromoCode"] : String.Empty),
+                                name = new {
+                                    th = (!String.IsNullOrEmpty(dr["privilegeNameTH"].ToString()) ? dr["privilegeNameTH"] : dr["privilegeNameEN"]),
+                                    en = (!String.IsNullOrEmpty(dr["privilegeNameEN"].ToString()) ? dr["privilegeNameEN"] : dr["privilegeNameTH"])
+                                },
+                                detail = new {
+                                    th = (!String.IsNullOrEmpty(dr["privilegeDetailTH"].ToString()) ? dr["privilegeDetailTH"] : dr["privilegeDetailEN"]),
+                                    en = (!String.IsNullOrEmpty(dr["privilegeDetailEN"].ToString()) ? dr["privilegeDetailEN"] : dr["privilegeDetailTH"])
+                                },
                                 discount = (!String.IsNullOrEmpty(dr["discount"].ToString()) ? float.Parse(dr["discount"].ToString()) : 0),
-                                expiredDate = (!String.IsNullOrEmpty(dr["privilegeExpireds"].ToString()) ? dr["privilegeExpireds"] : String.Empty),
-                                usagedDate = (!String.IsNullOrEmpty(dr["usagedPrivilegeDates"].ToString()) ? dr["usagedPrivilegeDates"] : String.Empty),
+                                expiredDate = (!String.IsNullOrEmpty(dr["privilegeExpiredDates"].ToString()) ? dr["privilegeExpiredDates"] : String.Empty),
+                                usagedDate = (!String.IsNullOrEmpty(dr["privilegeUsagedDates"].ToString()) ? dr["privilegeUsagedDates"] : String.Empty),
                                 status = (!String.IsNullOrEmpty(dr["privilegeStatus"].ToString()) ? dr["privilegeStatus"] : String.Empty)
                             }
 						},
@@ -192,6 +199,24 @@ namespace API.Models {
                 }
             }
 
+            if (table.Equals("TransRegisteredWithTransProjectIDs")) {
+                foreach (DataRow dr in dt.Rows) {
+                    list.Add(new {
+                        ID = (!String.IsNullOrEmpty(dr["transRegisteredID"].ToString()) ? dr["transRegisteredID"] : String.Empty),
+                        registeredDate = (!String.IsNullOrEmpty(dr["registeredDates"].ToString()) ? dr["registeredDates"] : String.Empty),
+                        transProject = new {
+                            ID = (!String.IsNullOrEmpty(dr["transProjectID"].ToString()) ? dr["transProjectID"] : String.Empty),
+                            project = new {
+                                ID = (!String.IsNullOrEmpty(dr["projectID"].ToString()) ? dr["projectID"] : String.Empty),
+                                category = new {
+                                    ID = (!String.IsNullOrEmpty(dr["projectCategoryID"].ToString()) ? dr["projectCategoryID"] : String.Empty),
+								}
+							}
+						}
+                    });
+                }
+            }
+
             return list;
         }
 		public static DataSet GetList(
@@ -205,7 +230,18 @@ namespace API.Models {
 			return ds;
 		}
 
-		public static DataSet Get(
+        public static DataSet GetListWithTransProjectIDs(
+            string personID,
+            string transProjectIDs
+        ) {
+            DataSet ds = Util.ExecuteCommandStoredProcedure(Util.connectionString, "sp_rscGetListTransRegisteredWithTransProjectIDs",
+                new SqlParameter("@personID", personID),
+                new SqlParameter("@transProjectIDs", transProjectIDs));
+
+            return ds;
+        }
+
+        public static DataSet Get(
 			string transRegisteredID,
 			string personID,
 			string transProjectID
