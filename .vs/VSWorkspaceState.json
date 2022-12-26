@@ -4,8 +4,10 @@
     "\\API",
     "\\API\\App_Code",
     "\\API\\App_Start",
-    "\\API\\Controllers"
+    "\\API\\Controllers",
+    "\\AuthADFS",
+    "\\AuthADFS\\App_Start"
   ],
-  "SelectedNode": "\\API\\Controllers\\TransScheduleController.cs",
+  "SelectedNode": "\\AuthADFS\\Web.config",
   "PreviewInSolutionExplorer": false
 }
