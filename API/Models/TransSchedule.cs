@@ -38,12 +38,12 @@ namespace API.Models {
                             },
                             dateTime = new {
                                 start = new {
-                                    date = startDateTime.Substring(0, 10),
-                                    time = startDateTime.Substring(11)
+                                    date = (startDateTime.Length >= 10 ? startDateTime.Substring(0, 10) : String.Empty),
+                                    time = (startDateTime.Length > 10 ? startDateTime.Substring(11, 5) : String.Empty)
                                 },
                                 end = new {
-                                    date = endDateTime.Substring(0, 10),
-                                    time = endDateTime.Substring(11)
+                                    date = (endDateTime.Length >= 10 ? endDateTime.Substring(0, 10) : String.Empty),
+                                    time = (endDateTime.Length > 10 ? endDateTime.Substring(11, 5) : String.Empty)
                                 }
                             },
                             instructor = (!String.IsNullOrEmpty(data["instructor"].ToString()) ? data["instructor"] : String.Empty),
