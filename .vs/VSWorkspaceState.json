@@ -1,13 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\API",
-    "\\API\\App_Code",
-    "\\API\\App_Start",
-    "\\API\\Controllers",
-    "\\AuthADFS",
-    "\\AuthADFS\\App_Start"
+    ""
   ],
-  "SelectedNode": "\\AuthADFS\\Web.config",
+  "SelectedNode": "\\AuthADFS",
   "PreviewInSolutionExplorer": false
 }

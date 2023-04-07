@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๐๔/๐๗/๒๕๖๓>
@@ -36,8 +35,8 @@ namespace API.Controllers {
 			List<object> list = new List<object>();
 
 			if (!String.IsNullOrEmpty(jsonData)) {
-				int errorCode = 0;				
-				string invoiceID = String.Empty;
+				int errorCode = 0;
+                string invoiceID = String.Empty;
 				string invoiceTagID = String.Empty;
                 string referenceKey = String.Empty;
                 string totalFeeAmount = String.Empty;
@@ -216,7 +215,7 @@ namespace API.Controllers {
 				}
 
 				list.Add(new {
-					errorCode = errorCode,
+                    errorCode = errorCode,
 					qrCode = (qrCodeObj != null ? qrCodeObj.qr_code : null),
 					qrMessage = (qrCodeObj != null ? qrCodeObj.qr_message : null),
 					qrFormat = (qrCodeObj != null ? qrCodeObj.qr_format : null),
