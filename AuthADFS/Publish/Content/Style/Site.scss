@@ -18,16 +18,18 @@ body {
 	background-attachment: fixed;
 	background-position: center bottom;
 	background-size: cover;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	-ms-overflow-style: scrollbar;
 	overflow-x: hidden;
 	overflow-y: auto;
 	cursor: default;   
 }
+
 html, body {
 	height: 100%;
 }
+
 a,
 a:link,
 a:active,
@@ -36,92 +38,112 @@ a:focus {
 	text-decoration: none;
 	outline: none;
 }
+
 a:link.link,
 a:focus.link {
 	color: #000000;
 	text-decoration: underline;
 }
+
 a:hover.link {
 	color: #C51A1B;
 }
+
 .font {
 	font-family: $font-family;
 }
+
 .panel-table {
 	display: table;
 	width: 100%;
 }
+
 .panel-table .panel-row {
 	display: table-row;
 }
+
 .panel-table .panel-col {
 	display: table-cell;
 	vertical-align: top;
 }
+
 .btn {
 	display: block;
 	border-radius: 5rem;
 }
+
 .btn-primary {
 	background-color: #007BFF;
 	border-color: #007BFF;
 }
+
 .btn-primary:hover,
 .btn-primary:focus:hover {
 	color: #FFFFFF;
 	background-color: #0069D9;
 	border-color: #0062CC;
 }
+
 .btn-info {
 	background-color: #17A2B8;
 	border-color: #17A2B8;
 }
+
 .btn-info:hover,
 .btn-info:focus:hover {
 	color: #FFFFFF;
 	background-color: #138496;
 	border-color: #117A8B;
 }
+
 .btn-dark {
 	background-color: #343A40;
 	border-color: #343A40;
 }
+
 .btn-dark:hover,
 .btn-info:focus:hover {
 	color: #FFFFFF;
 	background-color: #23272B;
 	border-color: #1D2124;
 }
+
 main {
 	min-height: 100%;
 	position: relative;
 }
+
 main header,
 main section,
 main footer {
 	background: #FFFFFF;
 }
+
 main header {    
 	border-bottom: 1px solid #000000;
 	height: 122px;
 }
+
 main header .container,
 main section .container,
 main footer .container {
 	width: inherit;
 	max-width: 100%;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 }
+
 main header .container {
 	height: inherit;
 	padding-left: 1rem;
 	padding-right: 1rem;
 }
+
 main header .container .navbar-header {
 	width: inherit;
 	height: inherit;
 }
+
 main header .navbar-header .panel-table {
 	width: 239px;
 	height: inherit;
@@ -129,16 +151,19 @@ main header .navbar-header .panel-table {
 	margin-left: auto;
 	margin-right: auto;
 }
+
 main header .navbar-header .panel-table .panel-row,
 main header .navbar-header .panel-table .panel-col {
 	width: inherit;
 	height: inherit;
 	vertical-align: middle;
 }
+
 main header .navbar-header .panel-table .panel-col.systeminfo {
 	background-image: url($image-path + '/label.png');
 	background-position: -251px -80px;
 }
+
 main section .container,
 main footer .container {
 	max-width: 450px;
@@ -146,15 +171,18 @@ main footer .container {
 	margin-left: auto;
 	margin-right: auto;
 }
+
 main section .container {    
 	padding: 1rem;
 }
+
 main section .container a.btn {
 	display: table;
 	table-layout: auto;    
 	width: 100%;
 	height: 48px;
 }
+
 main section .container a.btn div {
 	display: table-cell;
 	vertical-align: middle;
@@ -164,9 +192,11 @@ main section .container a.btn div {
 	padding-left: 1rem;
 	line-height: 24px;
 }
+
 main footer {
 	border-top: 1px solid lightgrey;
 }
+
 main footer .container {
 	padding-top: 10px;
 	padding-right: 1rem;

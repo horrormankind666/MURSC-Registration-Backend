@@ -106,10 +106,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Web References\UtilService\Reference.map">
+    <None Include="Web References\UtilService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\UtilService\UtilService.disco" />
     <Content Include="Web.config" />
   </ItemGroup>

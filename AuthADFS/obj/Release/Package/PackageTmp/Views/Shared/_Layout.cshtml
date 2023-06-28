@@ -2,15 +2,15 @@
 
 <html lang="en">
 <head>
-	<title>@ViewBag.Title</title>
-	<base href="/">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="format-detection" content="telephone=no" />
-	<!--<link href="https://docs.google.com/uc?id=1YJMurDn2C-Y_z5S1p0mKVteXtVsxgD8q" rel="shortcut icon" type="image/x-icon" />-->
-	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-	<link href="~/Content/Style/Site.css" rel="stylesheet">
+    <title>@ViewBag.Title</title>
+    <base href="/">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
+	<link href="~/Content/Images/mu-favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="~/Content/Style/Site.css" rel="stylesheet">
 </head>
 <body>
 	<main>
@@ -33,17 +33,38 @@
 		</section>
 		<footer>
 			<div class="container text-center">
-				@if (Request.IsAuthenticated)
-				{
-					<form id="loc_continue_frm" name="loc_continue_frm" action="http://localhost:4200/silent-refresh.html" method="get">
-						<span class="font regular gray size14">Copyright <a class="font regular gray size16" href="javascript:void(0)" onclick="document.forms['loc_continue_frm'].submit()"><i class="fa fa-copyright"></i></a> 2019 @(DateTime.Now.Year > 2019 ? (" - " + DateTime.Now.Year) : "") Mahidol University. All rights reserved.</span>
-						<input type="hidden" name="token" value="@ViewBag.Token" />
+				@if (Request.IsAuthenticated) {
+					<form
+						id="loc_continue_frm"
+						name="loc_continue_frm"
+						action="http://localhost:4200/silent-refresh.html"
+						method="get">
+						<span class="font regular gray size14">
+							Copyright&nbsp;
+							<a
+								class="font regular gray size16"
+								href="javascript:void(0)"
+								onclick="document.forms['loc_continue_frm'].submit()">
+								<i class="fa fa-copyright"></i>
+							</a>
+							&nbsp;2019 @(DateTime.Now.Year > 2019 ? (" - " + DateTime.Now.Year) : "") Mahidol University. All rights reserved.
+						</span>
+						<input
+							type="hidden"
+							name="token"
+							value="@ViewBag.Token"
+						/>
 					</form>
 				}
 
-				@if (!Request.IsAuthenticated)
-				{
-					<span class="font regular gray size14">Copyright <span class="font regular size16"><i class="fa fa-copyright"></i></span> 2019 @(DateTime.Now.Year > 2019 ? (" - " + DateTime.Now.Year) : "") Mahidol University. All rights reserved.</span>
+				@if (!Request.IsAuthenticated) {
+					<span class="font regular gray size14">
+						Copyright&nbsp;
+						<span class="font regular size16">
+							<i class="fa fa-copyright"></i>
+						</span>
+						&nbsp;2019 @(DateTime.Now.Year > 2019 ? (" - " + DateTime.Now.Year) : "") Mahidol University. All rights reserved.
+					</span>
 				}
 			</div>
 		</footer>

@@ -230,7 +230,7 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\MURSC.AuthADFS.pubxml" />
+    <None Include="Properties\PublishProfiles\MURSC.Registration.AuthADFS.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

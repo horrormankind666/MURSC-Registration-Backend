@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๑๘/๑๒/๒๕๖๒>
-Modify date : <๐๑/๐๖/๒๕๖๕>
+Modify date : <๑๔/๐๖/๒๕๖๕>
 Description : <>
 =============================================
 */
@@ -41,7 +41,7 @@ namespace ResourceServer.Controllers {
 
 		[Route("UserInfo")]
 		[HttpGet]
-		public ActionResult<dynamic> UserInfo() {
+		public ActionResult <dynamic> UserInfo() {
 			string authorization = Request.Headers["Authorization"];
 			string token = String.Empty;
 			string winaccountname = String.Empty;
@@ -50,7 +50,7 @@ namespace ResourceServer.Controllers {
 			StringBuilder jwtHeader = new StringBuilder();
 			StringBuilder jwtPayload = new StringBuilder();
 			List<object> userInfoList = new List<object>();
-            
+
 			if (String.IsNullOrEmpty(authorization)) {
 				userInfoList = null;
 			}
@@ -60,16 +60,16 @@ namespace ResourceServer.Controllers {
 				});
 
 				if (User.Identity.IsAuthenticated) {
-					try {
+					//try {
 						if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)) {
 							token = authorization.Substring("Bearer ".Length).Trim();
 						}
-
+						
 						/*
 						byte[] decDataByte = Convert.FromBase64String(token);
 						token = Encoding.UTF8.GetString(decDataByte);
 						*/
-
+						
 						char[] tokenArray = (token.Substring(28)).ToCharArray();
 						Array.Reverse(tokenArray);
 						token = new string(tokenArray);
@@ -98,24 +98,24 @@ namespace ResourceServer.Controllers {
 						}
 						jwtPayload.Append("}");
 						
-						userInfoList.Add(new {
+						userInfoList.Add(new {						
 							/*
 							header = JsonConvert.DeserializeObject<dynamic>(jwtHeader.ToString()),
 							token = token,
 							*/
                             payload = JsonConvert.DeserializeObject<dynamic>(jwtPayload.ToString()),
                             personal = GetPersonal(winaccountname, email, ppid)
-                        });
-					}
-					catch {
-					}
+                        });						
+					//}
+					//catch {
+					//}
 				}
-			}
-            
-			object userInfoResult = new { data = userInfoList };
+            }
 
-			return userInfoResult;
-		}
+			object userInfoResult = new { data = userInfoList };
+			
+			return userInfoResult;			
+        }
 
 		private static string StringReverse(string plainText) {
 			string result = null;
@@ -158,7 +158,7 @@ namespace ResourceServer.Controllers {
 			var postData = "grant_type=client_credentials&client_id=e43a62d7-381a-453d-841c-2ec769f9cc8e&client_secret=FT0bKrw90-B2dVYIzgmCuOR0vOFSdj1tJMI4I1Ri";
 			*/
 			var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://idp.mahidol.ac.th/adfs/oauth2/token/");
-			var postData = "grant_type=client_credentials&client_id=ea4f5ba7-b59b-4673-84e5-429670b09081&client_secret=kHs3H51qio83jF-Fdm1y-2PTiBSOzD771i2UPaml";           
+			var postData = "grant_type=client_credentials&client_id=832ab602-62c0-44c7-a908-3c545e72509f&client_secret=c1mSWtErLJTIAQ5EgaJJzb3IS3Kg1ppS8k3DWtO5";           
 			var data = Encoding.ASCII.GetBytes(postData);
 
 			httpWebRequest.ContentType = "application/x-www-form-urlencoded";
@@ -351,7 +351,11 @@ namespace ResourceServer.Controllers {
 			string hostname = Request.Host.Host;
             string hostnameLocalhost = "localhost";
             string hostnameQAS = "mursc-qas.mahidol.ac.th";
-			string host = ("https://" + (hostname.Equals(hostnameLocalhost) ? hostnameQAS : hostname));
+            string hostnamePRD = "mursc.mahidol.ac.th";
+            /*
+            string host = ("https://" + (hostname.Equals(hostnameLocalhost) ? hostnameQAS : hostname));
+			*/
+            string host = ("https://" + hostname);
 
             ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
 
