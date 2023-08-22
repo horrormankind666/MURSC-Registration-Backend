@@ -203,6 +203,7 @@ namespace API {
 			object result = null;
 			string ppid = String.Empty;
 			string winaccountName = String.Empty;
+			string email = String.Empty;
 
 			try {
 				string authorization = HttpContext.Current.Request.Headers["Authorization"];
@@ -225,6 +226,9 @@ namespace API {
 
 					if (c.Type.Equals("winaccountname"))
 						winaccountName = c.Value;
+
+					if (c.Type.Equals("email"))
+						email = c.Value;
 				}
 			}
 			catch {
@@ -232,7 +236,8 @@ namespace API {
 
 			result = new {
 				ppid = ppid,
-				winaccountName = winaccountName
+				winaccountName = winaccountName,
+				email = email
 			};
 
 			return result;

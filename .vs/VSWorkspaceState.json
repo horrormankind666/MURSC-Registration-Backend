@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\API",
+    "\\API\\App_Code",
+    "\\API\\Controllers",
+    "\\API\\Models"
   ],
-  "SelectedNode": "\\AuthADFS",
   "PreviewInSolutionExplorer": false
 }

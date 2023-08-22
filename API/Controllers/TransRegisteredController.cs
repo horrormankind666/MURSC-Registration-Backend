@@ -128,9 +128,11 @@ namespace API.Controllers {
 					object obj = Util.GetPPIDByAuthenADFS();
 					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
 					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+					string email = obj.GetType().GetProperty("email").GetValue(obj, null).ToString();
 
-					jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
+                    jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
 					jsonObject.Add("createdBy", winaccountName);
+					jsonObject.Add("email", email);
 
 					jsonData = JsonConvert.SerializeObject(jsonObject);
 				}
@@ -158,11 +160,13 @@ namespace API.Controllers {
 					object obj = Util.GetPPIDByAuthenADFS();
 					string ppid = obj.GetType().GetProperty("ppid").GetValue(obj, null).ToString();
 					string winaccountName = obj.GetType().GetProperty("winaccountName").GetValue(obj, null).ToString();
+                    string email = obj.GetType().GetProperty("email").GetValue(obj, null).ToString();
 
-					jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
+                    jsonObject.Add("personID", (!String.IsNullOrEmpty(ppid) ? ppid : winaccountName));
 					jsonObject.Add("createdBy", winaccountName);
+                    jsonObject.Add("email", email);
 
-					jsonData = JsonConvert.SerializeObject(jsonObject);
+                    jsonData = JsonConvert.SerializeObject(jsonObject);
 				}
 				catch {
 					jsonData = String.Empty;
