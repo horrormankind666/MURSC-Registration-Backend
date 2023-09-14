@@ -48,3 +48,9 @@ D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Release\netcoreapp2.2
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.genruntimeconfig.cache
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.csproj.AssemblyReference.cache
 D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Release\netcoreapp2.2\Publish.Bak\web.config
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Release\netcoreapp2.2\Publish.Bak\appsettings.Development.json
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Release\netcoreapp2.2\Publish.Bak\appsettings.json
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Release\netcoreapp2.2\Publish.Bak\ResourceADFS.deps.json
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\bin\Release\netcoreapp2.2\Publish.Bak\ResourceADFS.runtimeconfig.json
+D:\Programming\MURSC\Backend\Registration\ResourceADFS\obj\Release\netcoreapp2.2\ResourceADFS.sourcelink.json

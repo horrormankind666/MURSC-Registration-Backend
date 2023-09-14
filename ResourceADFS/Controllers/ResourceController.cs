@@ -284,7 +284,40 @@ namespace ResourceServer.Controllers {
 				return Action("https://hr-i.mahidol.ac.th/titan/information/v1/personal_address", tokenAccess, body.ToString());
 			}
 
-			public static dynamic Action(
+            public static dynamic GetPersonID(
+                string tokenAccess,
+                string personalId
+            )
+            {
+                StringBuilder body = new StringBuilder();
+
+                body.AppendLine(
+					"{ " +
+                    "	idlist: [\"" + personalId + "\"] " +
+					"}"
+				);
+
+                return Action("https://hr-i.mahidol.ac.th/titan/extra/v1/personal_id_list", tokenAccess, body.ToString());
+            }
+
+			public static dynamic GetProfileSensitive(
+                string tokenAccess,
+                string personalId
+            )
+            {
+                StringBuilder body = new StringBuilder();
+
+                body.AppendLine(
+					"{ " +
+                    "	userId: \"" + personalId + "\", " +
+                    "	profileId: \"" + personalId + "\"" +
+                    "}"
+				);
+
+                return Action("https://hr-i.mahidol.ac.th/titan/information/v1/personal_profile_sensitive", tokenAccess, body.ToString());
+            }
+
+            public static dynamic Action(
 				string url,
 				string tokenAccess,
 				string body
@@ -391,6 +424,8 @@ namespace ResourceServer.Controllers {
 					profileObj.Add("programNameTH", EncodeURI(dr["programNameTH"].ToString()));
 					profileObj.Add("programNameEN", EncodeURI(dr["programNameEN"].ToString()));
                     profileObj.Add("admissionYear", EncodeURI(dr["admissionYear"].ToString()));
+					profileObj.Add("idCard", EncodeURI(dr["idCard"].ToString()));
+                    profileObj.Add("birthDate", EncodeURI(dr["birthDate"].ToString()));
                     profileObj.Add("address", EncodeURI(dr["address"].ToString()));
 					profileObj.Add("subdistrict", EncodeURI(dr["subdistrict"].ToString()));
 					profileObj.Add("district", EncodeURI(dr["district"].ToString()));
@@ -415,14 +450,20 @@ namespace ResourceServer.Controllers {
 				
 				dynamic profile = HRi.GetProfile(tokenAccess, personalId);
 				dynamic address = HRi.GetAddress(tokenAccess, personalId);
-				
-				JObject jsonProfileObj = new JObject(profile);
+				dynamic personalID = HRi.GetPersonID(tokenAccess, personalId);
+				dynamic profileSensitive = HRi.GetProfileSensitive(tokenAccess, personalId);
+
+                JObject jsonProfileObj = new JObject(profile);
 				JObject jsonAddressObj = new JObject(address);
+                JObject jsonPersonalIDObj = new JObject(personalID);
+                JObject jsonProfileSensitiveObj = new JObject(profileSensitive);
 
-				dynamic profileInfo = (jsonProfileObj.SelectToken("content") != null ? jsonProfileObj.SelectToken("content.personal") : null);
+                dynamic profileInfo = (jsonProfileObj.SelectToken("content") != null ? jsonProfileObj.SelectToken("content.personal") : null);
 				dynamic addressInfo = (jsonAddressObj.SelectToken("content") != null ? jsonAddressObj.SelectToken("content.addresses") : null);
+                dynamic personalIDInfo = jsonPersonalIDObj.SelectToken("content");
+                dynamic profileSensitiveInfo = jsonProfileSensitiveObj.SelectToken("content");
 
-				if (profileInfo != null) {
+                if (profileInfo != null) {
 					dynamic positionInfo = null;
 					
 					if (profileInfo["positions"] != null)
@@ -440,8 +481,21 @@ namespace ResourceServer.Controllers {
 							}
 						}
 					}
-					
-					profileObj.Add("type", "personnel");
+
+					string pid = string.Empty;
+
+					if (personalIDInfo != null) {
+                        foreach (dynamic dr in personalIDInfo) {
+							pid = dr["PId"].ToString();
+                        }
+					}
+
+					string birthDate = string.Empty;
+
+					if (profileSensitiveInfo != null)
+						birthDate = profileSensitiveInfo["birthDate"].ToString();
+
+                    profileObj.Add("type", "personnel");
 					profileObj.Add("personalID", EncodeURI(profileInfo["personalId"].ToString()));
 					profileObj.Add("titleTH", EncodeURI(profileInfo["title"].ToString()));
 					profileObj.Add("titleEN", EncodeURI(profileInfo["titleEn"].ToString()));
@@ -458,6 +512,8 @@ namespace ResourceServer.Controllers {
 					profileObj.Add("programNameTH", null);
 					profileObj.Add("programNameEN", null);
                     profileObj.Add("admissionYear", null);
+                    profileObj.Add("idCard", EncodeURI(pid.ToString()));
+                    profileObj.Add("birthDate", EncodeURI(birthDate.ToString()));
                     profileObj.Add("address", null);
 					profileObj.Add("subdistrict", null);
 					profileObj.Add("district", null);

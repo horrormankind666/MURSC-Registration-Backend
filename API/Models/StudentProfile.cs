@@ -2,7 +2,7 @@
 =============================================
 Author      : <ยุทธภูมิ ตวันนา>
 Create date : <๐๑/๐๖/๒๕๖๕>
-Modify date : <๐๑/๐๖/๒๕๖๕>
+Modify date : <๑๒/๐๙/๒๕๖๖>
 Description : <>
 =============================================
 */
@@ -34,6 +34,8 @@ namespace API.Models {
                     programNameTH = dr["programNameTH"].ToString(),
                     programNameEN = dr["programNameEN"].ToString(),
                     admissionYear = dr["admissionYear"].ToString(),
+                    idCard = dr["idCard"].ToString(),
+                    birthDate = dr["birthDate"].ToString(),
                     address = dr["address"].ToString(),
                     subdistrict = dr["subdistrict"].ToString(),
                     district = dr["district"].ToString(),
