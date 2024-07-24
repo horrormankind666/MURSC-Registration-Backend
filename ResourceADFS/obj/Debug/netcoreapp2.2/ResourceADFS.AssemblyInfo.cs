@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ResourceADFS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4fa3a8e53971e267a4f7988d38cea44d55bee02a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ResourceADFS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ResourceADFS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
